@@ -137,24 +137,24 @@ if 'PT5B_full' not in loadCellParams:
     ihMod2str = {'harnett': 1, 'kole': 2, 'migliore': 3}
 
     netParams.loadCellParams('PT5B_full', '../cells/Na12HH16HH_TF.json') #change here
-    netParams.renameCellParamsSec(label='PT5B_full', oldSec ='soma_0', newSec ='soma')
+    #netParams.renameCellParamsSec(label='PT5B_full', oldSec ='soma_0', newSec ='soma')
     cellRule = netParams.cellParams['PT5B_full']
 
-    cellRule['secs']['axon_0']['geom']['pt3d'] = [[1e30, 1e30, 1e30]]
-    cellRule['secs']['axon_1']['geom']['pt3d'] = [[1e30, 1e30, 1e30]]
+    #cellRule['secs']['axon_0']['geom']['pt3d'] = [[1e30, 1e30, 1e30]]
+    #cellRule['secs']['axon_1']['geom']['pt3d'] = [[1e30, 1e30, 1e30]]
 
-    nonSpiny = ['apic_0', 'apic_1']
-    netParams.addCellParamsSecList(label='PT5B_full', secListName='perisom', somaDist=[0, 50])  # sections within 50 um of soma
-    netParams.addCellParamsSecList(label='PT5B_full', secListName='below_soma', somaDistY=[-600, 0])  # sections within 0-300 um of soma
-    for sec in nonSpiny: # N.B. apic_1 not in `perisom` . `apic_0` and `apic_114` are
-        if sec in cellRule['secLists']['perisom']: # fixed logic
-            cellRule['secLists']['perisom'].remove(sec)
-    cellRule['secLists']['alldend'] = [sec for sec in cellRule.secs if ('dend' in sec or 'apic' in sec)] # basal+apical
-    cellRule['secLists']['apicdend'] = [sec for sec in cellRule.secs if ('apic' in sec)] # apical
-    cellRule['secLists']['spiny'] = [sec for sec in cellRule['secLists']['alldend'] if sec not in nonSpiny]
+   # nonSpiny = ['apic_0', 'apic_1']
+   # netParams.addCellParamsSecList(label='PT5B_full', secListName='perisom', somaDist=[0, 50])  # sections within 50 um of soma
+    #netParams.addCellParamsSecList(label='PT5B_full', secListName='below_soma', somaDistY=[-600, 0])  # sections within 0-300 um of soma
+   # for sec in nonSpiny: # N.B. apic_1 not in `perisom` . `apic_0` and `apic_114` are
+      #  if sec in cellRule['secLists']['perisom']: # fixed logic
+          #  cellRule['secLists']['perisom'].remove(sec)
+    #cellRule['secLists']['alldend'] = [sec for sec in cellRule.secs if ('dend' in sec or 'apic' in sec)] # basal+apical
+    #cellRule['secLists']['apicdend'] = [sec for sec in cellRule.secs if ('apic' in sec)] # apical
+    #cellRule['secLists']['spiny'] = [sec for sec in cellRule['secLists']['alldend'] if sec not in nonSpiny]
 
     netParams.addCellParamsWeightNorm('PT5B_full', 'conn/PT5B_full_weightNorm.pkl', threshold=cfg.weightNormThreshold)  # load weight norm
-    if saveCellParams: netParams.saveCellParamsRule(label='PT5B_full', fileName='cells/PT5B_full_cellParams.pkl')
+   # if saveCellParams: netParams.saveCellParamsRule(label='PT5B_full', fileName='cells/PT5B_full_cellParams.pkl')
 
 #------------------------------------------------------------------------------
 ## IT5A full cell model params (700+ comps)
