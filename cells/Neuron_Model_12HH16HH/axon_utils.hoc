@@ -1,0 +1,326 @@
+
+// Define the max function
+func max() {
+	if ($1 >= $2) {
+		return $1
+	} else {
+		return $2
+	}
+}
+
+// Define the min function
+func min() {
+	if ($1 <= $2) {
+		return $1
+	} else {
+		return $2
+	}
+}
+
+proc initial_values(){
+	dend_na12 =0.0001/2
+	dend_k = 0.004226
+	soma_na12 = 0.983955/2    
+	soma_K = 8.396194779331378477e-02
+	node_na = 2
+	axon_KP =0.973538
+	axon_KT = 1.7
+	axon_K = 1.021945
+	axon_LVA = 0.0014
+	axon_HVA = 0.00012
+	axon_KCA = 1.8
+	ais_na16      =      7 
+	ais_na12      =      7 
+	ais_ca = 0.000990
+	ais_KCa = 0.007104
+
+	soma_na16 = soma_na12
+	naked_axon_na = soma_na16/5
+	navshift = -10
+	dend_na16 =dend_na12
+	myelin_na = naked_axon_na
+	myelin_K = 0.303472
+	myelin_scale = 10
+	gpas_all = 3e-5
+	cm_all = 1
+}
+
+proc populate_axon(){
+	forsec cell.axonal{
+		gCa_HVAbar_Ca_HVA = axon_HVA
+		gCa_LVAstbar_Ca_LVAst = axon_LVA
+		gSK_E2bar_SK_E2 = axon_KCA
+		nseg=11
+		g_pas(0:0.1) = (gpas_all/myelin_scale):(gpas_all/myelin_scale)
+		g_pas(0.1:1) = gpas_all:gpas_all
+		cm(0:0.1) = (cm_all/myelin_scale):(cm_all/myelin_scale)
+		cm(0.1:1) = cm_all:cm_all
+		gbar_na16(0:0.1) = node_na/2:node_na/2
+		gbar_na16mut(0:0.1) = node_na/2:node_na/2
+		gbar_na16(0.1:1) = myelin_na/2:myelin_na/2
+		gbar_na16mut(0.1:1) = myelin_na/2:myelin_na/2
+		gSKv3_1bar_SKv3_1(0:0.1) = axon_K:axon_K
+		gSKv3_1bar_SKv3_1(0.1:1) = myelin_K:myelin_K
+		gK_Pstbar_K_Pst(0:0.1) = axon_KP:axon_KP
+		gK_Pstbar_K_Pst(0.1:1) = axon_KP/10:axon_KP/10
+		gK_Tstbar_K_Tst(0:0.1) = axon_KT:axon_KT
+		gK_Tstbar_K_Tst(0.1:1) = axon_KT/10:axon_KT/10    
+	}
+}
+
+proc create_ais(){
+    access cell.axon[0]
+    L = 90  // Total length of this section = 90um
+    if (L == 0) {
+        print "ERROR: Length of cell.axon[0] is zero. Cannot create AIS."
+        return // Exit the procedure
+    }
+    nseg = 121 // Number of segments covering all of axon[0]
+    cell.axon[0] nseg = nseg // Apply the number of segments to the axon
+
+    ais_end = 45 // End of the AIS in micrometers
+    ais_mid = ais_end / 2 // Midpoint of the AIS in micrometers
+
+	
+	//////////////// WT trying to fine tune to get closer to hard-coded AIS v5. ***This is best WT 022425*** gbar=6 at segment=20
+    ais_mid12 = ais_mid - 0.28 * ais_end              // Adjusted midpoint for NaV1.2 as percentage of AIS
+    ais_width12 = 0.45 * ais_end                      // Width of the AIS "arch" for NaV1.2 in micrometers
+    ais_start12 = max(0, ais_mid12 - ais_width12 / 2) // Constrain start to be >= 0
+    ais_end12 = min(L, ais_mid12 + ais_width12 / 2)   // Constrain end to be <= L
+
+    ais_mid16 = ais_mid + 0.01 * ais_end              // Adjusted midpoint for NaV1.6 as percentage of AIS
+    ais_width16 = 0.98 * ais_end                      // Width of the AIS "arch" for NaV1.6 in micrometers
+    ais_start16 = max(0, ais_mid16 - ais_width16 / 2) // Constrain start to be >= 0
+    ais_end16 = min(L, ais_mid16 + ais_width16 / 2)   // Constrain end to be <= L
+	////////////////
+	
+    
+    //////////////// Crossover Point right shift 5 - crossover point gbar=6, segment=45
+    //ais_mid12 = ais_mid - 0.0 * ais_end                // Adjusted midpoint for NaV1.2 as percentage of AIS
+    //ais_width12 = 0.98 * ais_end                        // Width of the AIS "arch" for NaV1.2 in micrometers
+    //ais_start12 = min(0, ais_mid12 - ais_width12 / 2)   // Start at segment 0
+    //ais_end12 = min(L, ais_mid12 + ais_width12 / 2)     // Constrain end to be <= L
+
+    //ais_mid16 = ais_mid + 0.30 * ais_end                // Adjusted midpoint for NaV1.6 as percentage of AIS
+    //ais_width16 = 0.40 * ais_end                        // Width of the AIS "arch" for NaV1.6 in micrometers
+    //ais_start16 = max(0, ais_mid16 - ais_width16 / 2)   // Constrain start to be >= 0
+    //ais_end16 = ais_end                                 // End at end of ais
+	////////////////
+    
+
+    //////////////// Crossover Point right shift 4 - crossover point gbar=6, segment=40
+    //ais_mid12 = ais_mid - 0.05 * ais_end                // Adjusted midpoint for NaV1.2 as percentage of AIS
+    //ais_width12 = 0.90 * ais_end                        // Width of the AIS "arch" for NaV1.2 in micrometers
+    //ais_start12 = min(0, ais_mid12 - ais_width12 / 2)   // Start at segment 0
+    //ais_end12 = min(L, ais_mid12 + ais_width12 / 2)     // Constrain end to be <= L
+
+    //ais_mid16 = ais_mid + 0.25 * ais_end                // Adjusted midpoint for NaV1.6 as percentage of AIS
+    //ais_width16 = 0.55 * ais_end                        // Width of the AIS "arch" for NaV1.6 in micrometers
+    //ais_start16 = max(0, ais_mid16 - ais_width16 / 2)   // Constrain start to be >= 0
+    //ais_end16 = ais_end                                 // End at end of ais
+	////////////////
+	
+
+    //////////////// Crossover Point right shift 3 - crossover point gbar=6, segment 35
+    //ais_mid12 = ais_mid - 0.1 * ais_end                // Adjusted midpoint for NaV1.2 as percentage of AIS
+    //ais_width12 = 0.80 * ais_end                        // Width of the AIS "arch" for NaV1.2 in micrometers
+    //ais_start12 = min(0, ais_mid12 - ais_width12 / 2)   // Start at segment 0
+    //ais_end12 = min(L, ais_mid12 + ais_width12 / 2)     // Constrain end to be <= L
+
+    //ais_mid16 = ais_mid + 0.2 * ais_end                // Adjusted midpoint for NaV1.6 as percentage of AIS
+    //ais_width16 = 0.65 * ais_end                        // Width of the AIS "arch" for NaV1.6 in micrometers
+    //ais_start16 = max(0, ais_mid16 - ais_width16 / 2)   // Constrain start to be >= 0
+    //ais_end16 = ais_end                                 // End at end of ais
+	////////////////
+
+
+    //////////////// Crossover Point right shift 2 - crossover point gbar=6, segment 30
+    //ais_mid12 = ais_mid - 0.16 * ais_end                // Adjusted midpoint for NaV1.2 as percentage of AIS
+    //ais_width12 = 0.65 * ais_end                        // Width of the AIS "arch" for NaV1.2 in micrometers
+    //ais_start12 = min(0, ais_mid12 - ais_width12 / 2)   // Start at segment 0
+    //ais_end12 = min(L, ais_mid12 + ais_width12 / 2)     // Constrain end to be <= L
+
+    //ais_mid16 = ais_mid + 0.12 * ais_end                // Adjusted midpoint for NaV1.6 as percentage of AIS
+    //ais_width16 = 0.75 * ais_end                        // Width of the AIS "arch" for NaV1.6 in micrometers
+    //ais_start16 = max(0, ais_mid16 - ais_width16 / 2)   // Constrain start to be >= 0
+    //ais_end16 = ais_end                                 // End at end of ais
+	////////////////
+    
+    
+    //////////////// Crossover Point right shift 1 - crossover point gbar=6, segment 25
+    //ais_mid12 = ais_mid - 0.22 * ais_end                // Adjusted midpoint for NaV1.2 as percentage of AIS
+    //ais_width12 = 0.55 * ais_end                        // Width of the AIS "arch" for NaV1.2 in micrometers
+    //ais_start12 = min(0, ais_mid12 - ais_width12 / 2)   // Start at segment 0
+    //ais_end12 = min(L, ais_mid12 + ais_width12 / 2)     // Constrain end to be <= L
+
+    //ais_mid16 = ais_mid + 0.06 * ais_end                // Adjusted midpoint for NaV1.6 as percentage of AIS
+    //ais_width16 = 0.85 * ais_end                        // Width of the AIS "arch" for NaV1.6 in micrometers
+    //ais_start16 = max(0, ais_mid16 - ais_width16 / 2)   // Constrain start to be >= 0
+    //ais_end16 = ais_end                                 // End at end of ais
+	////////////////
+    
+    
+    //////////////// Crossover Point left shift 1 - crossover point gbar=6, segment 15
+    //ais_mid12 = ais_mid - 0.35 * ais_end              // Adjusted midpoint for NaV1.2 as percentage of AIS
+    //ais_width12 = 0.35 * ais_end                      // Width of the AIS "arch" for NaV1.2 in micrometers
+    //ais_start12 = max(0, ais_mid12 - ais_width12 / 2) // Constrain start to be >= 0
+    //ais_end12 = min(L, ais_mid12 + ais_width12 / 2)   // Constrain end to be <= L
+
+    //ais_mid16 = ais_mid - 0.05 * ais_end              // Adjusted midpoint for NaV1.6 as percentage of AIS
+    //ais_width16 = 1.1 * ais_end                      // Width of the AIS "arch" for NaV1.6 in micrometers
+    //ais_start16 = max(0, ais_mid16 - ais_width16 / 2) // Constrain start to be >= 0
+    //ais_end16 = min(L, ais_mid16 + ais_width16 / 2)   // Constrain end to be <= L
+	////////////////
+    
+    
+    //////////////// Crossover Point left shift 2 - crossover point gbar=6, segment 10
+    //ais_mid12 = ais_mid - 0.41 * ais_end              // Adjusted midpoint for NaV1.2 as percentage of AIS
+    //ais_width12 = 0.27 * ais_end                      // Width of the AIS "arch" for NaV1.2 in micrometers
+    //ais_start12 = max(0, ais_mid12 - ais_width12 / 2) // Constrain start to be >= 0
+    //ais_end12 = min(L, ais_mid12 + ais_width12 / 2)   // Constrain end to be <= L
+
+    //ais_mid16 = ais_mid - 0.11 * ais_end              // Adjusted midpoint for NaV1.6 as percentage of AIS
+    //ais_width16 = 1.23 * ais_end                      // Width of the AIS "arch" for NaV1.6 in micrometers
+    //ais_start16 = max(0, ais_mid16 - ais_width16 / 2) // Constrain start to be >= 0
+    //ais_end16 = min(L, ais_mid16 + ais_width16 / 2)   // Constrain end to be <= L
+	////////////////
+    
+
+
+
+    
+	// Define the Gaussian-like curve parameters
+    peak_na12 = ais_na12
+    peak_na16 = ais_na16
+    sigma12 = ais_width12 / 6 // Roughly 99.7% of the curve within the width (3 standard deviations on each side)
+    sigma16 = ais_width16 / 3 // Roughly 99.7% of the curve within the width (3 standard deviations on each side). Increase sigma to make wider at top
+
+
+    // Calculate gbars given the segment along the AIS.
+    for i=0, nseg-1 {
+        x = i / (nseg - 1) // Correct way to calculate x as a fraction of the total length
+        position = x * L // Position along the axon in micrometers
+
+        print "i=", i, " x=", x, " position=", position, " ais_start12=", ais_start12, " ais_end12=", ais_end12 // Debug print
+        print "i=", i, " x=", x, " position=", position, " ais_start16=", ais_start16, " ais_end16=", ais_end16 // Debug print
+        
+        ///////////////// Parabolic-like function for Na12///////////////
+        if (position >= ais_start12 && position <= ais_end12) {
+            na12_profile = peak_na12 * (1 - ((position - ais_mid12) / (ais_width12 / 2))^2)
+            if (na12_profile < 0) {
+                na12_profile = 0
+            }
+        } else {
+            na12_profile = 0 // Value outside the arch
+        }
+        gbar_na12(x) = na12_profile
+        print "na12_profile=", na12_profile // Debug print
+        //////////////////////////////
+    
+
+
+        ///////////////// Parabolic-like function for Na12mut///////////////
+        if (position >= ais_start12 && position <= ais_end12) {
+            na12mut_profile = peak_na12 * (1 - ((position - ais_mid12) / (ais_width12 / 2))^2)
+            if (na12mut_profile < 0) {
+                na12mut_profile = 0
+            }
+        } else {
+            na12mut_profile = 0 // Value outside the arch
+        }
+        gbar_na12mut(x) = na12mut_profile
+        print "na12mut_profile=", na12mut_profile // Debug print
+        //////////////////////////////
+
+
+
+        ///////////////// Parabolic-like function for Na16///////////////
+        if (position >= ais_start16 && position <= ais_end16) {
+            na16_profile = peak_na16 * (1 - ((position - ais_mid16) / (ais_width16 / 2))^2)
+            if (na16_profile < 0) {
+                na16_profile = 0
+            }
+        } else {
+            na16_profile = naked_axon_na / 2 // Value outside the arch
+        }
+        gbar_na16(x) = na16_profile
+        print "na16_profile=", na16_profile // Debug print
+        //////////////////////////////
+        
+
+
+        ///////////////// Parabolic-like function for Na16mut///////////////
+        if (position >= ais_start16 && position <= ais_end16) {
+            na16mut_profile = peak_na16 * (1 - ((position - ais_mid16) / (ais_width16 / 2))^2)
+            if (na16mut_profile < 0) {
+                na16mut_profile = 0
+            }
+        } else {
+            na16mut_profile = naked_axon_na / 2 // Value outside the arch
+        }
+        gbar_na16mut(x) = na16mut_profile
+        print "na16mut_profile=", na16mut_profile // Debug print
+        //////////////////////////////
+    
+        if (x < 0 || x > 1) { // Check for out-of-range x
+            print "ERROR: x is out of range!"
+        }
+    }
+
+    gbar_na16(ais_end / L:1) = naked_axon_na / 2:naked_axon_na / 2 // 1/5th nav1.6
+    gbar_na16mut(ais_end / L:1) = naked_axon_na / 2:naked_axon_na / 2 // 1/5th nav1.6
+    gbar_na12(ais_end / L:1) = 0:0 //naked axon ##Don't start naked axon until end of AIS
+    gbar_na12mut(ais_end / L:1) = 0:0 //naked axon ##Don't start naked axon until end of AIS
+
+    gK_Pstbar_K_Pst(0:ais_end / L) = axon_KP:axon_KP
+    gK_Pstbar_K_Pst(ais_end / L:1) = axon_KP / 10:axon_KP / 10
+    gK_Tstbar_K_Tst(0:ais_end / L) = axon_KT:axon_KT
+    gK_Tstbar_K_Tst(ais_end / L:1) = axon_KT / 10:axon_KT / 10    
+    gSKv3_1bar_SKv3_1(0:ais_end / L) = axon_K:axon_K
+    gSKv3_1bar_SKv3_1(ais_end / L:1) = axon_K / 10:axon_K / 10
+    gCa_HVAbar_Ca_HVA(0:ais_end / L) = ais_ca:ais_ca
+    gCa_HVAbar_Ca_HVA(ais_end / L:1) = ais_ca / 10:ais_ca / 10
+    gSK_E2bar_SK_E2(0:ais_end / L) = ais_KCa:ais_KCa // SK channel
+    gSK_E2bar_SK_E2(ais_end / L:1) = ais_KCa / 10:ais_KCa / 10
+
+    access cell.soma
+}
+
+
+proc update_soma(){
+	access cell.soma
+
+	vShift_na = navshift
+	gbar_na12 = soma_na12/2
+	gbar_na12mut = soma_na12/2
+	gbar_na16 = soma_na16/2
+	gbar_na16mut = soma_na16/2
+	gSKv3_1bar_SKv3_1 = soma_K
+}
+
+proc update_dend(){
+	forsec cell.apical{
+		gbar_na12 = dend_na12/2
+		gbar_na12mut = dend_na12/2
+		gbar_na16 = dend_na16/2
+		gbar_na16mut = dend_na16/2
+		gSKv3_1bar_SKv3_1 = dend_k
+	}
+}
+
+proc working(){
+	populate_axon()
+	create_ais()
+	update_soma()
+	update_dend()
+
+	print "ran working"
+}
+
+initial_values()
+access cell.axon[0]
+L=90
+
+access cell.soma
+
+working()
