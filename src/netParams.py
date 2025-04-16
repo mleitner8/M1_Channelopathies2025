@@ -215,7 +215,7 @@ if 'SOM_simple' not in loadCellParams:
 
 #------------------------------------------------------------------------------
 ## load densities
-with open('cells/cellDensity.pkl', 'rb') as fileObj: density = pickle.load(fileObj)['density']
+with open('../cells/cellDensity.pkl', 'rb') as fileObj: density = pickle.load(fileObj)['density']
 
 ## Local populations
 
