@@ -136,7 +136,7 @@ for label, p in reducedCells.items():  # create cell rules that were not loaded
 if 'PT5B_full' not in loadCellParams:
     ihMod2str = {'harnett': 1, 'kole': 2, 'migliore': 3}
 
-    netParams.loadCellParams('PT5B_full', 'Na1216TF.pkl') #change here
+    netParams.loadCellParams('PT5B_full', '../cells/Na12HH16HH.json') #change here
     netParams.renameCellParamsSec(label='PT5B_full', oldSec ='soma_0', newSec ='soma')
     cellRule = netParams.cellParams['PT5B_full']
 
@@ -153,8 +153,8 @@ if 'PT5B_full' not in loadCellParams:
     cellRule['secLists']['apicdend'] = [sec for sec in cellRule.secs if ('apic' in sec)] # apical
     cellRule['secLists']['spiny'] = [sec for sec in cellRule['secLists']['alldend'] if sec not in nonSpiny]
 
-#     netParams.addCellParamsWeightNorm('PT5B_full', 'conn/PT5B_full_weightNorm.pkl', threshold=cfg.weightNormThreshold)  # load weight norm
-#     if saveCellParams: netParams.saveCellParamsRule(label='PT5B_full', fileName='cells/PT5B_full_cellParams.pkl')
+    netParams.addCellParamsWeightNorm('PT5B_full', 'conn/PT5B_full_weightNorm.pkl', threshold=cfg.weightNormThreshold)  # load weight norm
+    if saveCellParams: netParams.saveCellParamsRule(label='PT5B_full', fileName='cells/PT5B_full_cellParams.pkl')
 
 #------------------------------------------------------------------------------
 ## IT5A full cell model params (700+ comps)
