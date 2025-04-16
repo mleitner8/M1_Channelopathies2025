@@ -242,7 +242,7 @@ if cfg.singleCellPops:
 ## Long-range input populations (VecStims)
 if cfg.addLongConn:
     ## load experimentally based parameters for long range inputs
-    with open('conn/conn_long.pkl', 'rb') as fileObj: connLongData = pickle.load(fileObj)
+    with open('../conn/conn_long.pkl', 'rb') as fileObj: connLongData = pickle.load(fileObj)
     #ratesLong = connLongData['rates']
 
     numCells = cfg.numCellsLong
@@ -349,7 +349,7 @@ if cfg.addNetStim:
 #------------------------------------------------------------------------------
 # Local connectivity parameters
 #------------------------------------------------------------------------------
-with open('conn/conn.pkl', 'rb') as fileObj: connData = pickle.load(fileObj)
+with open('../conn/conn.pkl', 'rb') as fileObj: connData = pickle.load(fileObj)
 pmat = connData['pmat']
 wmat = connData['wmat']
 bins = connData['bins']
@@ -551,8 +551,8 @@ if cfg.addLongConn:
 # Subcellular connectivity (synaptic distributions)
 #------------------------------------------------------------------------------         
 if cfg.addSubConn:
-    with open('conn/conn_dend_PT.json', 'r') as fileObj: connDendPTData = json.load(fileObj)
-    with open('conn/conn_dend_IT.json', 'r') as fileObj: connDendITData = json.load(fileObj)
+    with open('../conn/conn_dend_PT.json', 'r') as fileObj: connDendPTData = json.load(fileObj)
+    with open('../conn/conn_dend_IT.json', 'r') as fileObj: connDendITData = json.load(fileObj)
     
     #------------------------------------------------------------------------------
     # L2/3,TVL,S2,cM1,M2 -> PT (Suter, 2015)
