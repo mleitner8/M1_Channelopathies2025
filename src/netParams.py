@@ -71,7 +71,7 @@ loadCellParams = cellParamLabels
 saveCellParams = False #True
 
 for ruleLabel in loadCellParams:
-    netParams.loadCellParamsRule(label=ruleLabel, fileName='cells/'+ruleLabel+'_cellParams.pkl')
+    netParams.loadCellParamsRule(label=ruleLabel, fileName='../cells/'+ruleLabel+'_cellParams.pkl')
     
     # Adapt K gbar
     if ruleLabel in ['IT2_reduced', 'IT4_reduced', 'IT5A_reduced', 'IT5B_reduced', 'IT6_reduced', 'CT6_reduced', 'IT5A_full']:
