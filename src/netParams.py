@@ -132,6 +132,7 @@ for label, p in reducedCells.items():  # create cell rules that were not loaded
 #------------------------------------------------------------------------------
 ## PT5B full cell model params (700+ comps)
 #UC Davis PT Cell
+#TODO: load cell params the same as single cell repo
 
 if 'PT5B_full' not in loadCellParams:
     ihMod2str = {'harnett': 1, 'kole': 2, 'migliore': 3}
@@ -519,7 +520,7 @@ if cfg.addConn and (cfg.IEGain > 0.0 or cfg.IIGain > 0.0):
 #------------------------------------------------------------------------------
 if cfg.addLongConn:
 
-    # load load experimentally based parameters for long range inputs
+    # load experimentally based parameters for long range inputs
     cmatLong = connLongData['cmat']
     binsLong = connLongData['bins']
 
@@ -540,7 +541,7 @@ if cfg.addLongConn:
                             'postConds': {'cellModel': cellModel, 'cellType': ct, 'ynorm': list(binRange)},
                             'synMech': syns[EorI],
                             'convergence': convergence,
-                            'weight': cfg.weightLong / cfg.synsperconn[cellModel], 
+                            'weight': cfg.weightLong[longPop] / cfg.synsperconn[cellModel],
                             'synMechWeightFactor': cfg.synWeightFractionEE,
                             'delay': 'defaultDelay+dist_3D/propVelocity',
                             'synsPerConn': cfg.synsperconn[cellModel],
