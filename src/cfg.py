@@ -166,7 +166,7 @@ cfg.scale = 1
 cfg.sizeY = 1350.0
 cfg.sizeX = 300.0
 cfg.sizeZ = 300.0
-cfg.correctBorderThreshold = False #150.0
+cfg.correctBorderThreshold = 150.0
 
 cfg.L5BrecurrentFactor = 1.0
 cfg.ITinterFactor = 1.0
