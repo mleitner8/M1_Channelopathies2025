@@ -138,7 +138,7 @@ if 'PT5B_full' not in loadCellParams:
 
     netParams.loadCellParams('PT5B_full', '../cells/Na12HH16HH_TF.json') #change here
     #netParams.renameCellParamsSec(label='PT5B_full', oldSec ='soma_0', newSec ='soma')
-    cellRule = netParams.cellParams['PT5B_full']
+    #cellRule = netParams.cellParams['PT5B_full']
 
     #cellRule['secs']['axon_0']['geom']['pt3d'] = [[1e30, 1e30, 1e30]]
     #cellRule['secs']['axon_1']['geom']['pt3d'] = [[1e30, 1e30, 1e30]]
