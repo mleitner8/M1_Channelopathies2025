@@ -172,7 +172,7 @@ cfg.L5BrecurrentFactor = 1.0
 cfg.ITinterFactor = 1.0
 cfg.strengthFactor = 1.0
 
-cfg.EEGain = 1.383  # 0.5
+cfg.EEGain = 1.0  # 0.5
 cfg.EIGain = 1.0
 cfg.IEGain = 1.0
 cfg.IIGain = 1.0
@@ -198,8 +198,8 @@ cfg.SOMSOMGain = None  # 0.75
 
 # ------------------------------------------------------------------------------
 ## I->E/I layer weights (L2/3+4, L5, L6)
-cfg.IEweights = [0.8592, 1.492, 1.2818]  # [0.8, 1.2, 1.0]
-cfg.IIweights = [1.4254, 0.6253, 1.4879]  # [1.4, 1.1, 1.4] #
+cfg.IEweights = [0.5, 0.5, 0.5]  # [0.8, 1.2, 1.0]
+cfg.IIweights = [0.5, 1, 0.5]  # [1.4, 1.1, 1.4] #
 
 cfg.IPTGain = 1.0
 cfg.IFullGain = 1.0
