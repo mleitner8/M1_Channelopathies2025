@@ -68,7 +68,7 @@ elif cfg.cellsrec == 4:
 
 # cfg.recordTraces = {'V_soma': {'sec':'soma', 'loc':0.5, 'var':'v'}}
 
-cfg.recordTraces = {'V_soma': {'sec': 'soma_0', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}},
+cfg.recordTraces = {'V_soma': {'sec': 'soma', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}},
                     'V_axon_0': {'sec': 'axon_0', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}}}
 
 cfg.recordStim = False
@@ -78,7 +78,7 @@ cfg.recordStep = 0.1
 # ------------------------------------------------------------------------------
 # Saving
 # ------------------------------------------------------------------------------
-cfg.simLabel = 'v2_tune14'
+cfg.simLabel = 'v2_tune16'
 cfg.saveFolder = '../data/v2_manualTune'
 cfg.savePickle = True
 cfg.saveJson = True
@@ -237,7 +237,7 @@ cfg.pulse2 = {'pop': 'None', 'start': 1000, 'end': 1200, 'rate': [0, 20], 'noise
 # ------------------------------------------------------------------------------
 cfg.addIClamp = 0
 
-cfg.IClamp1 = {'pop': 'IT5B', 'sec': 'soma_0', 'loc': 0.5, 'start': 0, 'dur': 1000, 'amp': 0.50}
+cfg.IClamp1 = {'pop': 'IT5B', 'sec': 'soma', 'loc': 0.5, 'start': 0, 'dur': 1000, 'amp': 0.50}
 
 # ------------------------------------------------------------------------------
 # NetStim inputs
@@ -245,6 +245,6 @@ cfg.IClamp1 = {'pop': 'IT5B', 'sec': 'soma_0', 'loc': 0.5, 'start': 0, 'dur': 10
 cfg.addNetStim = 0
 
 ## pop, sec, loc, synMech, start, interval, noise, number, weight, delay
-cfg.NetStim1 = {'pop': 'IT5B', 'sec': 'soma_0', 'loc': 0.5, 'synMech': ['AMPA', 'NMDA'],
+cfg.NetStim1 = {'pop': 'IT5B', 'sec': 'soma', 'loc': 0.5, 'synMech': ['AMPA', 'NMDA'],
                 'synMechWeightFactor': [0.5, 0.5],
                 'start': 0, 'interval': 1000.0 / 40.0, 'noise': 0.0, 'number': 1000.0, 'weight': 0.5, 'delay': 0}

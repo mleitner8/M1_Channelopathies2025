@@ -1352,7 +1352,6 @@
             "apic_122"
         ],
         "below_soma": [
-            "soma_0",
             "dend_3",
             "dend_4",
             "dend_5",
@@ -1438,10 +1437,11 @@
             "dend_100",
             "dend_109",
             "dend_112",
-            "apic_121"
+            "apic_121",
+            "axon_0",
+            "soma"
         ],
         "perisom": [
-            "soma_0",
             "dend_0",
             "dend_3",
             "dend_4",
@@ -1472,7 +1472,9 @@
             "dend_100",
             "dend_101",
             "dend_104",
-            "apic_114"
+            "apic_114",
+            "axon_0",
+            "soma"
         ],
         "spiny": [
             "dend_0",
@@ -1924,7 +1926,7 @@
             },
             "topol": {
                 "childX": 0.0,
-                "parentSec": "soma_0",
+                "parentSec": "soma",
                 "parentX": 0.5
             },
             "weightNorm": [
@@ -43547,7 +43549,14 @@
                 "Ra": 100.0,
                 "cm": 1.6171424,
                 "diam": 1.6440753755318644,
-                "nseg": 121
+                "nseg": 121,
+                "pt3d": [
+                    [
+                        0,
+                        0,
+                        0
+                    ]
+                ]
             },
             "ions": {
                 "ca": {
@@ -44938,9 +44947,11 @@
                     ]
                 }
             },
+            "spikeGenLoc": 0.5,
+            "threshold": 0.0,
             "topol": {
                 "childX": 0.0,
-                "parentSec": "soma_0",
+                "parentSec": "soma",
                 "parentX": 1.0
             }
         },
@@ -44950,7 +44961,14 @@
                 "Ra": 100.0,
                 "cm": 1.6171424,
                 "diam": 1.6440753755318644,
-                "nseg": 11
+                "nseg": 11,
+                "pt3d": [
+                    [
+                        1e+30,
+                        1e+30,
+                        1e+30
+                    ]
+                ]
             },
             "ions": {
                 "ca": {
@@ -45487,7 +45505,7 @@
             },
             "topol": {
                 "childX": 0.0,
-                "parentSec": "soma_0",
+                "parentSec": "soma",
                 "parentX": 0.5
             },
             "weightNorm": [
@@ -45783,7 +45801,7 @@
             },
             "topol": {
                 "childX": 0.0,
-                "parentSec": "soma_0",
+                "parentSec": "soma",
                 "parentX": 0.5
             },
             "weightNorm": [
@@ -50873,7 +50891,7 @@
             },
             "topol": {
                 "childX": 0.0,
-                "parentSec": "soma_0",
+                "parentSec": "soma",
                 "parentX": 0.5
             },
             "weightNorm": [
@@ -53617,7 +53635,7 @@
             },
             "topol": {
                 "childX": 0.0,
-                "parentSec": "soma_0",
+                "parentSec": "soma",
                 "parentX": 0.5
             },
             "weightNorm": [
@@ -54331,7 +54349,7 @@
             },
             "topol": {
                 "childX": 0.0,
-                "parentSec": "soma_0",
+                "parentSec": "soma",
                 "parentX": 0.5
             },
             "weightNorm": [
@@ -63667,7 +63685,7 @@
             },
             "topol": {
                 "childX": 0.0,
-                "parentSec": "soma_0",
+                "parentSec": "soma",
                 "parentX": 0.5
             },
             "weightNorm": [
@@ -64259,7 +64277,7 @@
             },
             "topol": {
                 "childX": 0.0,
-                "parentSec": "soma_0",
+                "parentSec": "soma",
                 "parentX": 0.5
             },
             "weightNorm": [
@@ -64757,7 +64775,7 @@
             },
             "topol": {
                 "childX": 0.0,
-                "parentSec": "soma_0",
+                "parentSec": "soma",
                 "parentX": 0.5
             },
             "weightNorm": [
@@ -66073,7 +66091,7 @@
             },
             "topol": {
                 "childX": 0.0,
-                "parentSec": "soma_0",
+                "parentSec": "soma",
                 "parentX": 0.5
             },
             "weightNorm": [
@@ -68647,7 +68665,7 @@
             },
             "topol": {
                 "childX": 0.0,
-                "parentSec": "soma_0",
+                "parentSec": "soma",
                 "parentX": 0.5
             },
             "weightNorm": [
@@ -75588,7 +75606,7 @@
                 0.003554456001404626
             ]
         },
-        "soma_0": {
+        "soma": {
             "geom": {
                 "L": 29.024825586459087,
                 "Ra": 100.0,
@@ -75896,7 +75914,10 @@
                     "mod": "IClamp"
                 }
             },
-            "topol": {}
+            "topol": {},
+            "weightNorm": [
+                0.0033327733319621386
+            ]
         }
     }
 }
