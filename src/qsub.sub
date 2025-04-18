@@ -1,12 +1,12 @@
 #!/bin/bash
 #$ -cwd
-#$ -N M1_UCDavis_12HH16HH_batch
+#$ -N M1_UCDavis_12HH16HH
 #$ -q cpu.q
 #$ -pe smp 64
-#$ -l h_vmem=490G
+#$ -l h_vmem=120G
 #$ -l h_rt=15:00:00
-#$ -o /ddn/mleitner8/Channelopathies_2024/sim/grid_M1_UCDavis_12HH16HH_batch4.log.run
-#$ -e /ddn/mleitner8/Channelopathies_2024/sim/grid_M1_UCDavis_12HH16HH_batch4.log.err
+#$ -o /ddn/mleitner8/M1_Channelopathies2025/sim/M1_UCDavis_12HH16HH_5.log.run
+#$ -e /ddn/mleitner8/M1_Channelopathies2025/sim/M1_UCDavis_12HH16HH_5.log.err
 
 source ~/.bashrc
-mpiexec -n $NSLOTS -hosts $(hostname) nrniv -python batch.py
+mpiexec -n $NSLOTS -hosts $(hostname) nrniv -python -mpi init.py

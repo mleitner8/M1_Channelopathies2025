@@ -137,6 +137,13 @@ if 'PT5B_full' not in loadCellParams:
     ihMod2str = {'harnett': 1, 'kole': 2, 'migliore': 3}
 
     netParams.loadCellParams('PT5B_full', '../cells/Na12HH16HH_TF.json') #change here
+
+    cellRule['secs']['axon_0']['spikeGenLoc'] = 0.5
+
+    del netParams.cellParams['PT5B_full']['secs']['axon_0']['geom']['pt3d']
+    del netParams.cellParams['PT5B_full']['secs']['axon_1']['geom']['pt3d']
+
+    netParams.cellParams['PT5B_full']['conds'] = {'cellModel': 'HH_full', 'cellType': 'PT'}
     #netParams.renameCellParamsSec(label='PT5B_full', oldSec ='soma_0', newSec ='soma')
     #cellRule = netParams.cellParams['PT5B_full']
 
