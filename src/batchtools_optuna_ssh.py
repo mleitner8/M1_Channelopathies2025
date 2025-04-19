@@ -62,18 +62,18 @@ slurm_config = {
 shell_config = {'command': 'nrniv -python init.py'}
 
 results = search(job_type = 'sh', # slurm or 'sh'
-       comm_type = 'socket', # ssh, socket if a metric and mode is specified, some method of communicating with the host needs to be defined
+       comm_type = 'ssh', # ssh, socket if a metric and mode is specified, some method of communicating with the host needs to be defined
        label = 'optuna',
        params = params,
        output_path = '../batchData/optuna_batch',
        checkpoint_path = '../batchData/ray',
-       run_config = shell_config, # or slurm_config
+       run_config = slurm_config, # or slurm_config
        metric = 'loss', # if a metric and mode is specified, the search will collect metric data and report on the optimal configuration
        mode = 'min',
        algorithm = "optuna",
        max_concurrent = 1,
-       #remote_dir='/home/rbaravalle/M1_Channelopathies2025/src',
-       #host='expanse0',
-       #key='###',
+       remote_dir='/home/rbaravalle/M1_Channelopathies2025/src',
+       host='expanse0',
+       key='',
        num_samples=100,
        )
