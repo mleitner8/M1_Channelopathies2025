@@ -61,7 +61,7 @@ slurm_config = {
 # use batch_shell_config if running directly on the machine
 shell_config = {'command': 'nrniv -python init.py'}
 
-results = search(job_type = 'sh', # slurm or 'sh'
+results = search(job_type = 'slurm', # slurm or 'sh'
        comm_type = 'ssh', # ssh, socket if a metric and mode is specified, some method of communicating with the host needs to be defined
        label = 'optuna',
        params = params,
