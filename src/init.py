@@ -14,6 +14,25 @@ Contributors: salvadordura@gmail.com
 
 import matplotlib; matplotlib.use('Agg')  # to avoid graphics error in servers
 from netpyne import sim
+from netParams import netParams, cfg
+import json
+
+#------------------------------------------------------------------------------
+## Function to calculate the fitness according to required rate
+def rateFitnessFunc(simData, **kwargs):
+    import numpy as np
+    pops = kwargs['pops']
+    maxFitness = kwargs['maxFitness']
+
+    popFitness = [min(np.exp(abs(v['target'] - simData['popRates'][k]) / v['width']), maxFitness)
+                  if simData['popRates'][k] > v['min'] else maxFitness for k, v in pops.items()]
+    fitness = np.mean(popFitness)
+
+    popInfo = '; '.join(
+        ['%s rate=%.1f fit=%1.f' % (p, simData['popRates'][p], popFitness[i]) for i, p in enumerate(pops)])
+    print('  ' + popInfo)
+    return fitness
+
 
 #------------------------------------------------------------------------------
 ## Function to modify cell params during sim (e.g. modify PT ih)
@@ -56,7 +75,7 @@ def modifyMechsFunc(simTime):
 
 # -----------------------------------------------------------
 # Main code
-cfg, netParams = sim.readCmdLineArgs(simConfigDefault='cfg.py', netParamsDefault='netParams.py')
+#cfg, netParams = sim.readCmdLineArgs(simConfigDefault='cfg.py', netParamsDefault='netParams.py')
 sim.initialize(
     simConfig = cfg, 	
     netParams = netParams)  # create network object and set cfg and net params
@@ -69,11 +88,11 @@ sim.net.addStims() 							# add network stimulation
 sim.setupRecording()              			# setup variables to record for each cell (spikes, V traces, etc)
 
 # Simulation option 1: standard
-# sim.runSim()                              # run parallel Neuron simulation (calling func to modify mechs)
+sim.runSim()                              # run parallel Neuron simulation (calling func to modify mechs)
 
-print(cfg.modifyMechs)
+#print(cfg.modifyMechs)
 # Simulation option 2: interval function to modify mechanism params
-sim.runSimWithIntervalFunc(1000.0, modifyMechsFunc)       # run parallel Neuron simulation (calling func to modify mechs)
+#sim.runSimWithIntervalFunc(1000.0, modifyMechsFunc)       # run parallel Neuron simulation (calling func to modify mechs)
 
 # Gather/save data option 1: standard
 sim.gatherData()
@@ -84,4 +103,44 @@ sim.gatherData()
 
 sim.saveData()                    			# save params, cell info and sim output to file (pickle,mat,txt,etc)#
 sim.analysis.plotData()         			# plot spike raster etc
+print('completed simulation...')
 
+if sim.rank == 0:
+    netParams.save("{}/{}_params.json".format(cfg.saveFolder, cfg.simLabel))
+    print('transmitting data...')
+    inputs = cfg.get_mappings()
+    print(json.dumps({**inputs}))
+    results = sim.analysis.popAvgRates(show=False)
+
+    print(results)
+
+    sim.simData['popRates'] = results
+
+    fitnessFuncArgs = {}
+    pops = {}
+    ## Exc pops
+    Epops = ['IT2', 'IT4', 'IT5A', 'IT5B', 'PT5B', 'IT6', 'CT6']
+    Etune = {'target': 5, 'width': 5, 'min': 0.5}
+    for pop in Epops:
+        pops[pop] = Etune
+    ## Inh pops
+    Ipops = ['PV2', 'SOM2',
+             'PV5A', 'SOM5A',
+             'PV5B', 'SOM5B',
+             'PV6', 'SOM6']
+    Itune = {'target': 10, 'width': 15, 'min': 0.25}
+    for pop in Ipops:
+        pops[pop] = Itune
+    fitnessFuncArgs['pops'] = pops
+    fitnessFuncArgs['maxFitness'] = 1000
+
+    rateLoss = rateFitnessFunc(sim.simData, **fitnessFuncArgs)
+
+    # results['PYR_loss'] = (results['PYR'] - 3.33875)**2
+    # results['BC_loss']  = (results['BC']  - 19.725 )**2
+    # results['OLM_loss'] = (results['OLM'] - 3.470  )**2
+    results['loss'] = rateLoss
+    out_json = json.dumps({**inputs, **results})
+
+    print(out_json)
+    sim.send(out_json)

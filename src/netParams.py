@@ -6,19 +6,14 @@ High-level specifications for M1 network model using NetPyNE
 
 Contributors: salvadordura@gmail.com
 """
-
 from netpyne import specs
 import pickle, json
+from cfg import cfg
+
+cfg.update()
 
 netParams = specs.NetParams()   # object of class NetParams to store the network parameters
-
 netParams.version = 56
-
-try:
-    from __main__ import cfg  # import SimConfig object with params from parent module
-except:
-    from cfg import cfg
-
 #------------------------------------------------------------------------------
 #
 # NETWORK PARAMETERS
@@ -59,9 +54,8 @@ cellModels = ['HH_simple', 'HH_reduced', 'HH_full']
 layer = {'1':[0.0, 0.1], '2': [0.1,0.29], '4': [0.29,0.37], '5A': [0.37,0.47], '24':[0.1,0.37], '5B': [0.47,0.8], '6': [0.8,1.0], 
 'longTPO': [2.0,2.1], 'longTVL': [2.1,2.2], 'longS1': [2.2,2.3], 'longS2': [2.3,2.4], 'longcM1': [2.4,2.5], 'longM2': [2.5,2.6], 'longOC': [2.6,2.7]}  # normalized layer boundaries
 
-netParams.correctBorder = False
-    #{'threshold': [cfg.correctBorderThreshold, cfg.correctBorderThreshold, cfg.correctBorderThreshold],
-                        #'yborders': [layer['2'][0], layer['5A'][0], layer['6'][0], layer['6'][1]]}  # correct conn border effect
+netParams.correctBorder = {'threshold': [cfg.correctBorderThreshold, cfg.correctBorderThreshold, cfg.correctBorderThreshold],
+                           'yborders': [layer['2'][0], layer['5A'][0], layer['6'][0], layer['6'][1]]}  # correct conn border effect
 
 #------------------------------------------------------------------------------
 ## Load cell rules previously saved using netpyne format
@@ -135,26 +129,15 @@ for label, p in reducedCells.items():  # create cell rules that were not loaded
 #TODO: load cell params the same as single cell repo
 
 if 'PT5B_full' not in loadCellParams:
-    ihMod2str = {'harnett': 1, 'kole': 2, 'migliore': 3}
-
     netParams.loadCellParams('PT5B_full', '../cells/Na12HH16HH_TF.json') #change here
-    #netParams.renameCellParamsSec(label='PT5B_full', oldSec ='soma_0', newSec ='soma')
-    cellRule = netParams.cellParams['PT5B_full']
+    
+    cellRule['secs']['axon_0']['spikeGenLoc'] = 0.5
 
-    #cellRule['secs']['axon_0']['geom']['pt3d'] = [[1e30, 1e30, 1e30]]
-    #cellRule['secs']['axon_1']['geom']['pt3d'] = [[1e30, 1e30, 1e30]]
+    # del netParams.cellParams['PT5B_full']['secs']['axon_0']['geom']['pt3d']
+    # del netParams.cellParams['PT5B_full']['secs']['axon_1']['geom']['pt3d']
 
-   # nonSpiny = ['apic_0', 'apic_1']
-   # netParams.addCellParamsSecList(label='PT5B_full', secListName='perisom', somaDist=[0, 50])  # sections within 50 um of soma
-    #netParams.addCellParamsSecList(label='PT5B_full', secListName='below_soma', somaDistY=[-600, 0])  # sections within 0-300 um of soma
-   # for sec in nonSpiny: # N.B. apic_1 not in `perisom` . `apic_0` and `apic_114` are
-      #  if sec in cellRule['secLists']['perisom']: # fixed logic
-          #  cellRule['secLists']['perisom'].remove(sec)
-    #cellRule['secLists']['alldend'] = [sec for sec in cellRule.secs if ('dend' in sec or 'apic' in sec)] # basal+apical
-    #cellRule['secLists']['apicdend'] = [sec for sec in cellRule.secs if ('apic' in sec)] # apical
-    #cellRule['secLists']['spiny'] = [sec for sec in cellRule['secLists']['alldend'] if sec not in nonSpiny]
-
-    netParams.addCellParamsWeightNorm('PT5B_full', '../conn/PT5B_full_weightNorm.pkl', threshold=cfg.weightNormThreshold)  # load weight norm
+    netParams.cellParams['PT5B_full']['conds'] = {'cellModel': 'HH_full', 'cellType': 'PT'}
+    # netParams.addCellParamsWeightNorm('PT5B_full', '../conn/PT5B_full_weightNorm.pkl', threshold=cfg.weightNormThreshold)  # load weight norm
    # if saveCellParams: netParams.saveCellParamsRule(label='PT5B_full', fileName='cells/PT5B_full_cellParams.pkl')
 
 #------------------------------------------------------------------------------
