@@ -75,5 +75,5 @@ results = search(job_type = 'sh', # slurm or 'sh'
        #remote_dir='/home/rbaravalle/M1_Channelopathies2025/src',
        #host='expanse0',
        #key='###',
-       num_samples=2,
+       num_samples=100,
        )
