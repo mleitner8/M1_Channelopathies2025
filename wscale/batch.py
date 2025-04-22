@@ -14,7 +14,6 @@ params = {
 sge_config = {
     'command': 'python test.py'}
 
-
 result_grid = search(job_type = 'sh',
        comm_type       = "socket",
        params          = params,
