@@ -1,49 +1,89 @@
+
+v_init = -67.66
+celsius = 37
+
 begintemplate ngfcell
-public soma
+public init
+public soma, dend
+
+create soma, dend
 
 
-create soma
+proc topol() {
+	connect dend(0), soma(0)
+}
 
 
 proc init() {
+	topol()
 	soma {
-		Ra = 100 //14
+		Ra = 14
 		nseg = 1
-		cm = 0.5 //1.8
+		cm = 1.5
+		L = 9.5
+		diam = 9.5 
+
 
 		insert ch_Navngf
-		gmax_ch_Navngf=3.7860265 		//gNasoma
-		ena = 90 //55 
-		
+		gmax_ch_Navngf=0.1 //3.7860265 //gNasoma //0.10*gna_scale
+		ena = 55 
+
+		insert hd
+		gbar_hd = 1e-05
+
 		insert ch_Kdrfastngf
-		gmax_ch_Kdrfastngf=0.15514516 	//kdrf 
+		gmax_ch_Kdrfastngf=0.09 //0.15514516// kdrf 
 
-		ek = -90
-
-		insert ch_leak
-		gmax_ch_leak = 8.470825e-05 	//gleak
-		e_ch_leak = -60
-
-		insert ch_KvAngf 				// Proximal A-type potassium 
-		gmax_ch_KvAngf = 0.00015 		// 5.2203905e-06 //gKvA
-		
-		insert ch_CavN  				// HAV-N- Ca channel //  T-type calcium
-		gmax_ch_CavN = 0.0008 			//0.00058169587 //gCavN 
-		
-		insert ch_CavL 					//  L-type calcium
-		gmax_ch_CavL= 0.005 			// 0.056108352 //gCavL
+		insert pas
+		g_pas = 5e-7
+		e_pas = -85
 
 		insert iconc_Ca
 		catau_iconc_Ca = 10
 		caiinf_iconc_Ca = 5.e-6
-		
-		insert ch_KCaS 					//  Small potassium channel: calcium gated
-		gmax_ch_KCaS= 0.000002 			// 4.5152237e-07 //gKCaS
-		
-		insert ch_KvCaB 				// Big potassium channel: voltage & ca2+ gated 
-		gmax_ch_KvCaB = 0.0000002 		// 1.0235317e-06 //gKvCaB
-	
-	} 
+
+		insert ch_KvAngf
+		gmax_ch_KvAngf = 5.2e-02 // 5.2203905e-06 //gKvA
+
+		insert ch_CavN  // CALCIUM // HAV-N- Ca channel
+		gmax_ch_CavN =  0.00058169587 // gCavN (N-type)
+
+		insert ch_CavL  // CALCIUM 
+		gmax_ch_CavL= 0.056108352 //gCavL (L-type)
+
+		insert ch_KCaS
+		gmax_ch_KCaS=6e-03 //4.5e-03 //4.5152237e-07 //gKCaS 
+
+		insert ch_KvCaB
+		gmax_ch_KvCaB = 1.0235317e-06 //gKvCaB
+
+		ek=-90
+		eca=130
+	}
+
+	dend {
+		Ra = 14
+		nseg = 1
+		cm = 1.5
+		diam = 7 // from PV cell
+		L = 44 // from PV cell 
+
+		// LEAK CHANNEL
+		insert pas
+		e_pas = -67
+		g_pas = 3e-4 //0.001 
+
+		// Fast Na+ for Spiking 	//gNasoma
+		insert ch_Navngf
+		gmax_ch_Navngf=3.7860265
+		ena = 55
+
+
+		// Fast K+  	//kdrf 
+		insert ch_Kdrfastngf
+		gmax_ch_Kdrfastngf=0.03 //0.15514516
+		ek = -90
+	}
 
 }
 
@@ -51,3 +91,9 @@ proc init() {
 
 
 endtemplate ngfcell
+
+
+
+
+
+
