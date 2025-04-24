@@ -149,11 +149,11 @@ cfg.weightNormThreshold = 4.0  # weight normalization factor threshold
 cfg.addConn = 1
 cfg.allowConnsWithWeight0 = True
 cfg.allowSelfConns = False
-cfg.scale = 0.1
+cfg.scale = 1.0
 cfg.sizeY = 1350.0
 cfg.sizeX = 300.0
 cfg.sizeZ = 300.0
-cfg.scaleDensity = 0.2
+cfg.scaleDensity = 1.0
 cfg.correctBorderThreshold = 150.0
 
 cfg.L5BrecurrentFactor = 1.0

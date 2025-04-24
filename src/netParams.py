@@ -134,7 +134,6 @@ if 'PT5B_full' not in loadCellParams:
     del netParams.cellParams['PT5B_full']['secs']['axon_1']['geom']['pt3d']
 
     netParams.cellParams['PT5B_full']['conds'] = {'cellModel': 'HH_full', 'cellType': 'PT'}
-    #TODO Get new weight normalization
     netParams.addCellParamsWeightNorm('PT5B_full', '../conn/PT5B_full_weightNorm.pkl', threshold=cfg.weightNormThreshold)  # load weight norm
 
     # ORIGINAL MODEL JUST FOR REFERENCE
