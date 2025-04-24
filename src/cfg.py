@@ -21,7 +21,7 @@ cfg = specs.SimConfig()
 #------------------------------------------------------------------------------
 # Run parameters
 #------------------------------------------------------------------------------
-cfg.duration = 1200  # Duration of the simulation, in ms
+cfg.duration = 100  # Duration of the simulation, in ms
 cfg.dt = 0.2
 cfg.seeds = {'conn': 4321, 'stim': 1234, 'loc': 4321} 
 cfg.hParams = {'celsius': 34, 'v_init': -80}  
@@ -95,7 +95,7 @@ cfg.compactConnFormat = 0
 #------------------------------------------------------------------------------
 with open('../cells/popColors.pkl', 'rb') as fileObj: popColors = pickle.load(fileObj)['popColors']
 
-cfg.analysis['plotRaster'] = {'include': allpops, 'orderBy': ['pop', 'y'], 'timeRange': [0, cfg.duration], 'saveFig': True, 'showFig': False, 'popRates': True, 'orderInverse': True, 'popColors': popColors, 'figSize': (12,10), 'lw': 0.3, 'markerSize':3, 'marker': '.', 'dpi': 300} 
+cfg.analysis['plotRaster'] = {'include': allpops, 'orderBy': ['pop', 'y'], 'timeRange': [0, cfg.duration], 'saveFig': True, 'showFig': False, 'popRates': True, 'orderInverse': True, 'popColors': popColors, 'figSize': (20,20), 'lw': 0.3, 'markerSize':3, 'marker': '.', 'dpi': 300} 
 
 # cfg.analysis['plotSpikeHist'] = {'include': ['IT2','IT4','IT5A','IT5B','PT5B','IT6','CT6'], 'timeRange': [1000,6000], 'yaxis':'rate', 'binSize':5, 'graphType':'bar',
 #  								'saveFig': True, 'showFig': False, 'popColors': popColors, 'figSize': (10,4), 'dpi': 300} 
@@ -123,25 +123,6 @@ cfg.cellmod =  {'IT2': 'HH_reduced',
 				'PT5B': 'HH_full',
 				'IT6': 'HH_reduced',
 				'CT6': 'HH_reduced'}
-
-cfg.ihModel = 'migliore'  # ih model
-cfg.ihGbar = 0.75  # multiplicative factor for ih gbar in PT cells
-cfg.ihGbarZD = None # multiplicative factor for ih gbar in PT cells
-cfg.ihGbarBasal = 1.0 # 0.1 # multiplicative factor for ih gbar in PT cells
-cfg.ihlkc = 0.2 # ih leak param (used in Migliore)
-cfg.ihlkcBasal = 1.0
-cfg.ihlkcBelowSoma = 0.01
-cfg.ihlke = -86  # ih leak param (used in Migliore)
-cfg.ihSlope = 14*2
-
-cfg.removeNa = False  # simulate TTX; set gnabar=0s
-cfg.somaNa = 5
-cfg.dendNa = 0.3
-cfg.axonNa = 7
-cfg.axonRa = 0.005
-
-cfg.gpas = 0.5  # multiplicative factor for pas g in PT cells
-cfg.epas = 0.9  # multiplicative factor for pas e in PT cells
 
 #------------------------------------------------------------------------------
 # Synapses
@@ -171,7 +152,7 @@ cfg.scale = 1.0
 cfg.sizeY = 1350.0
 cfg.sizeX = 300.0
 cfg.sizeZ = 300.0
-cfg.scaleDensity = 1.
+cfg.scaleDensity = 0.2
 cfg.correctBorderThreshold = 150.0
 
 cfg.L5BrecurrentFactor = 1.0
@@ -230,12 +211,10 @@ cfg.weightLong = {'TPO': 0.5*factor, 'TVL': 0.5*factor, 'S1': 0.5*factor, 'S2': 
 cfg.startLong = 0  # start at 0 ms
 cfg.ratesLong = {'TPO': [0,5], 'TVL': [0,5], 'S1': [0,5], 'S2': [0,5], 'cM1': [0,5], 'M2': [0,5], 'OC': [0,5]}
 
-
 ## input pulses
-cfg.addPulses = 1
+cfg.addPulses = True
 cfg.pulse = {'pop': 'None', 'start': 1000, 'end': 1100, 'rate': 20, 'noise': 0.8}
 cfg.pulse2 = {'pop': 'None', 'start': 1000, 'end': 1200, 'rate': 20, 'noise': 0.5, 'duration': None}
-
 
 #------------------------------------------------------------------------------
 # Current inputs 
@@ -244,11 +223,10 @@ cfg.addIClamp = 0
 
 cfg.IClamp1 = {'pop': 'IT5B', 'sec': 'soma', 'loc': 0.5, 'start': 0, 'dur': 1000, 'amp': 0.50}
 
-
 #------------------------------------------------------------------------------
 # NetStim inputs 
 #------------------------------------------------------------------------------
-cfg.addNetStim = 0
+cfg.addNetStim = False
 
  			   ## pop, sec, loc, synMech, start, interval, noise, number, weight, delay 
 # cfg.NetStim1 = {'pop': 'IT2', 'sec': 'soma', 'loc': 0.5, 'synMech': ['AMPA','NMDA'], 'synMechWeightFactor': cfg.synWeightFractionEE,

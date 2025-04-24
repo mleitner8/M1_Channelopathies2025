@@ -74,7 +74,6 @@ saveCellParams = False #True
 for ruleLabel in loadCellParams:
     netParams.loadCellParamsRule(label=ruleLabel, fileName='../cells/' + ruleLabel + '_cellParams.pkl')
 
-
 #------------------------------------------------------------------------------
 # Specification of cell rules not previously loaded
 # Includes importing from hoc template or python class, and setting additional params
@@ -122,7 +121,6 @@ for label, p in reducedCells.items():  # create cell rules that were not loaded
                 sec['geom']['pt3d'].append([offset+0, -sec['geom']['L'], 0, sec['geom']['diam']])   
 
         if saveCellParams: netParams.saveCellParamsRule(label=label, fileName='../cells/'+label+'_cellParams.pkl')
-
 
 #------------------------------------------------------------------------------
 ## PT5B full cell model params (700+ comps)
@@ -175,7 +173,6 @@ if 'PT5B_full' not in loadCellParams:
     # netParams.addCellParamsWeightNorm('PT5B_full', '../conn/PT5B_full_weightNorm.pkl', threshold=cfg.weightNormThreshold)  # load weight norm
     # if saveCellParams: netParams.saveCellParamsRule(label='PT5B_full', fileName='../cells/PT5B_full_cellParams.pkl')
 
-
 #------------------------------------------------------------------------------
 ## IT5A full cell model params (700+ comps)
 if 'IT5A_full' not in loadCellParams:
@@ -188,7 +185,6 @@ if 'IT5A_full' not in loadCellParams:
     cellRule['secLists']['apicdend'] = [sec for sec in cellRule.secs if ('apic' in sec)] # basal+apical
     cellRule['secLists']['spiny'] = [sec for sec in cellRule['secLists']['alldend'] if sec not in ['apic_0', 'apic_1']]
     if saveCellParams: netParams.saveCellParamsRule(label='IT5A_full', fileName='../cells/IT5A_full_cellParams.pkl')
-
 
 #------------------------------------------------------------------------------
 ## IT5B full cell model params (700+ comps) - not used
@@ -232,7 +228,6 @@ if 'VIP_reduced' not in loadCellParams:
     netParams.addCellParamsWeightNorm('VIP_reduced', '../conn/VIP_reduced_weightNorm.pkl', threshold=cfg.weightNormThreshold)
     if saveCellParams: netParams.saveCellParamsRule(label='VIP_reduced', fileName='../cells/VIP_reduced_cellParams.pkl')
 
-
 #------------------------------------------------------------------------------
 ## NGF cell params (1-comp)
 if 'NGF_reduced' not in loadCellParams:
@@ -242,7 +237,6 @@ if 'NGF_reduced' not in loadCellParams:
     cellRule['secs']['soma']['weightNorm'][0] *= 1.5
     cellRule['secs']['soma']['weightNorm'][0] *= 1.5
     if saveCellParams: netParams.saveCellParamsRule(label='NGF_reduced', fileName='../cells/NGF_reduced_cellParams.pkl')
-
 
 #------------------------------------------------------------------------------
 # Population parameters
@@ -319,7 +313,6 @@ if cfg.addLongConn:
             netParams.popParams[longPop].pop('rate')
             netParams.popParams[longPop]['spkTimes'] = spks
 
-
 #------------------------------------------------------------------------------
 # Synaptic mechanism parameters
 #------------------------------------------------------------------------------
@@ -338,7 +331,6 @@ PVSynMech = ['GABAA']
 VIPSynMech = ['GABAA_VIP']
 NGFSynMech = ['GABAA', 'GABAB']
 
-
 #------------------------------------------------------------------------------
 # Long range input pulses
 #------------------------------------------------------------------------------
@@ -352,8 +344,6 @@ if cfg.addPulses:
         if pop in netParams.popParams:
             if 'pulses' not in netParams.popParams[pop]: netParams.popParams[pop]['pulses'] = {}    
             netParams.popParams[pop]['pulses'].append({'start': start, 'end': end, 'rate': rate, 'noise': noise})
-
-
 
 #------------------------------------------------------------------------------
 # Current inputs (IClamp)
@@ -415,7 +405,6 @@ with open('../conn/conn.pkl', 'rb') as fileObj: connData = pickle.load(fileObj)
 pmat = connData['pmat']
 wmat = connData['wmat']
 bins = connData['bins']
-
 
 #------------------------------------------------------------------------------
 ## E -> E

@@ -3,20 +3,21 @@ import json, pickle
 from cfg import cfg
 
 
-with open('Na12HH16HH_TF.json', 'r') as fptr:
+with open('../cells/Na12HH16HH_TF.json', 'r') as fptr:
     cell_params = json.load(fptr) #, encoding='latin1')
 #pt5b    = json.load(open('pt5b.json', 'r'))
-# ADD AMPA!!
-exp2syn = {'mod': 'MyExp2SynNMDABB', 'tau1NMDA': 15, 'tau2NMDA': 150, 'e': 0}
 
+exp2syn = [{'mod': 'MyExp2SynNMDABB', 'tau1NMDA': 15, 'tau2NMDA': 150, 'e': 0},
+{'mod':'MyExp2SynBB', 'tau1': 0.05, 'tau2': 5.3, 'e': 0}]
 
 def init_cfg(cfg):
     cfg = specs.SimConfig(cfg.__dict__)
     cfg.sec_loc = ('soma', 0.5)
-    cfg.weight = 0.5
+    cfg.weight = 0.1
     cfg.analysis['plotTraces'] = {
         'include': ['CELL'],
         'saveFig': True,
+        'timeRange': [2000, cfg.duration]
     }
     cfg.recordTraces = {
         'V_soma': {'sec': 'soma', 'loc': 0.5, 'var': 'v'},
@@ -34,13 +35,15 @@ def init_params(cell, syn, sec, loc, weight):
     netParams.popParams['CELL'] = {'cellModel': cell['conds']['cellModel'],
                                    'cellType': cell['conds']['cellType'],
                                    'numCells': 1}
+    
     del netParams.cellParams['CELL']['secs']['axon_0']['geom']['pt3d']
     del netParams.cellParams['CELL']['secs']['axon_1']['geom']['pt3d']
 
-    netParams.synMechParams['SYN'] = syn
+    netParams.synMechParams['SYN_0'] = syn[0]
+    netParams.synMechParams['SYN_1'] = syn[1]
 
     netParams.stimSourceParams['STIM'] = {'type': 'NetStim',
-                                          'start': 700,
+                                          'start': 2500,
                                           'interval': 1e10,
                                           'noise': 0,
                                           'number': 1}
@@ -50,7 +53,7 @@ def init_params(cell, syn, sec, loc, weight):
         'conds'   : cell['conds'],
         'sec'     : sec,
         'loc'     : loc,
-        'synMech' : ['SYN'],
+        'synMech' : ['SYN_1', 'SYN_1'],
         'weight'  : weight,
         'delay'   : 1
     }

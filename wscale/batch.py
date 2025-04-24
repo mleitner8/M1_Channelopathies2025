@@ -3,7 +3,11 @@ import numpy as np
 import json
 
 sections = list(json.load(open('../cells/Na12HH16HH_TF.json', 'r'))['secs'].keys())
-weights = list(np.arange(0.01, 0.2, 0.01)/100.0) 
+sections.remove('axon_0')
+sections.remove('axon_1')
+
+weights = list(np.arange(0.01, 0.22, 0.05)/100.0) 
+# weights = list(np.arange(0.01, 0.22, 0.05)) 
 # Create parameter grid for search
 params = {
     'sec'   : sections,
