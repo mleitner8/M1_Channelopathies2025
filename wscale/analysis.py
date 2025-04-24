@@ -9,9 +9,9 @@ def parse_sec_loc(sec_loc):
 
 
 EPSPNORM = 0.5
-df = pandas.read_csv('grid_search.csv')[['config/sec_loc', 'config/weight', 'epsp']]
-sec_locs = df['config/sec_loc'].apply(parse_sec_loc)
-df[['sec', 'loc']] = pandas.DataFrame(sec_locs.tolist(), index=df.index)
+df = pandas.read_csv('grid_search.csv')[['config/sec', 'config/weight', 'epsp']]
+sec_locs = [[i, 0.5] for i in df['config/sec']]
+df[['sec', 'loc']] = pandas.DataFrame(sec_locs, index=df.index)
 secs = df['sec'].unique()
 
 wnorms = {}
@@ -26,14 +26,15 @@ for sec in secs:
     epsps = entries['epsp']
     f = interp1d(epsps, weights, fill_value='extrapolate')
     # print([*zip(weights, epsps)])
-    w = f(epspNorm) 
+    w = f(EPSPNORM) 
     while w < 0:
         x_new, y_new = zip(*epspSeg[:-1])
         f = interp1d(y_new, x_new, fill_value="extrapolate")
-        w = f(epspNorm)
+        w = f(EPSPNORM)
     wnorm = f(EPSPNORM) / EPSPNORM
-    wnorm[sec] = [wnorms]
+    wnorms[sec] = [wnorm]
 
 filename = 'PT5B_full_weightNorm.pkl' # 'weight_norms.pkl'
+print(wnorms)
 with open(filename, 'wb') as fptr:
-    pickle.dump(wnorm, fptr)
+    pickle.dump(wnorms, fptr)
