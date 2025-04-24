@@ -45494,15 +45494,6 @@
                     "g": 7.120456108418523e-06
                 }
             },
-            "pointps": {
-                "IClamp_0": {
-                    "amp": 0.0,
-                    "del": 0.0,
-                    "dur": 0.0,
-                    "loc": 0.5,
-                    "mod": "IClamp"
-                }
-            },
             "topol": {
                 "childX": 0.0,
                 "parentSec": "soma",
@@ -75903,15 +75894,6 @@
                 "pas": {
                     "e": -100.0,
                     "g": 7.120456108418523e-06
-                }
-            },
-            "pointps": {
-                "IClamp_0": {
-                    "amp": 0.0,
-                    "del": 0.0,
-                    "dur": 0.0,
-                    "loc": 0.5,
-                    "mod": "IClamp"
                 }
             },
             "topol": {},
