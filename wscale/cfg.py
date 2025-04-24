@@ -4,7 +4,7 @@ cfg = specs.SimConfig()
 
     # General simulation paramaters
 cfg.duration = 3500           # Simulation duration in ms
-cfg.dt       = 0.1          # Simulation time step in ms
+cfg.dt       = 0.025          # Simulation time step in ms
 cfg.verbose  = True           # Verbose output
 
     # config sec/weight

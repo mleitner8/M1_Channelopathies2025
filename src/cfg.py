@@ -21,8 +21,9 @@ cfg = specs.SimConfig()
 #------------------------------------------------------------------------------
 # Run parameters
 #------------------------------------------------------------------------------
-cfg.duration = 100  # Duration of the simulation, in ms
-cfg.dt = 0.2
+cfg.duration = 2000  # Duration of the simulation, in ms
+cfg.transient = 1000
+cfg.dt = 0.025
 cfg.seeds = {'conn': 4321, 'stim': 1234, 'loc': 4321} 
 cfg.hParams = {'celsius': 34, 'v_init': -80}  
 cfg.verbose = 0
@@ -38,7 +39,7 @@ cfg.pt3dRelativeToCellLocation = True
 cfg.oneSynPerNetcon = True  # only affects conns not in subconnParams; produces identical results
 
 cfg.includeParamsLabel = False
-cfg.printPopAvgRates = [0, cfg.duration]
+cfg.printPopAvgRates = [cfg.transient, cfg.duration]
 
 cfg.checkErrors = True
 cfg.checkErrorsVerbose = False
@@ -73,7 +74,7 @@ cfg.recordTraces = {'V_soma': {'sec':'soma', 'loc':0.5, 'var':'v'},
 
 cfg.recordStim = False
 cfg.recordTime = False  
-cfg.recordStep = 0.2
+cfg.recordStep = 0.1
 
 
 #------------------------------------------------------------------------------
@@ -95,7 +96,7 @@ cfg.compactConnFormat = 0
 #------------------------------------------------------------------------------
 with open('../cells/popColors.pkl', 'rb') as fileObj: popColors = pickle.load(fileObj)['popColors']
 
-cfg.analysis['plotRaster'] = {'include': allpops, 'orderBy': ['pop', 'y'], 'timeRange': [0, cfg.duration], 'saveFig': True, 'showFig': False, 'popRates': True, 'orderInverse': True, 'popColors': popColors, 'figSize': (20,20), 'lw': 0.3, 'markerSize':3, 'marker': '.', 'dpi': 300} 
+cfg.analysis['plotRaster'] = {'include': allpops, 'orderBy': ['pop', 'y'], 'timeRange': [cfg.transient, cfg.duration], 'saveFig': True, 'showFig': False, 'popRates': True, 'orderInverse': True, 'popColors': popColors, 'figSize': (20,20), 'lw': 0.3, 'markerSize':3, 'marker': '.', 'dpi': 100} 
 
 # cfg.analysis['plotSpikeHist'] = {'include': ['IT2','IT4','IT5A','IT5B','PT5B','IT6','CT6'], 'timeRange': [1000,6000], 'yaxis':'rate', 'binSize':5, 'graphType':'bar',
 #  								'saveFig': True, 'showFig': False, 'popColors': popColors, 'figSize': (10,4), 'dpi': 300} 
@@ -104,7 +105,7 @@ cfg.analysis['plotRaster'] = {'include': allpops, 'orderBy': ['pop', 'y'], 'time
 # 							'saveFig': True, 'showFig':False} 
 
 
-cfg.analysis['plotTraces'] = {'include': cfg.recordCells, 'timeRange': [0,cfg.duration], 'overlay': True, 'oneFigPer': 'trace', 'figSize': (10,4), 'saveFig': True, 'showFig': False} 
+cfg.analysis['plotTraces'] = {'include': cfg.recordCells, 'timeRange': [cfg.transient ,cfg.duration], 'overlay': True, 'oneFigPer': 'trace', 'figSize': (20,20), 'saveFig': True, 'showFig': False} 
 
 #cfg.analysis['plotShape'] = {'includePre': ['all'], 'includePost': [('PT5B',100)], 'cvar':'numSyns','saveFig': True, 'showFig': False, 'includeAxon': False}
 #cfg.analysis['plotConn'] = {'include': ['allCells']}
@@ -148,7 +149,7 @@ cfg.weightNormThreshold = 4.0  # weight normalization factor threshold
 cfg.addConn = 1
 cfg.allowConnsWithWeight0 = True
 cfg.allowSelfConns = False
-cfg.scale = 1.0
+cfg.scale = 0.1
 cfg.sizeY = 1350.0
 cfg.sizeX = 300.0
 cfg.sizeZ = 300.0
