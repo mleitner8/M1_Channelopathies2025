@@ -1,19 +1,18 @@
 from netpyne.batchtools.search import search
 
-params = {'weightLong.TPO': [0.5, 0.8],
-          'weightLong.S1': [0.5, 0.8],
-          'weightLong.S2': [0.5, 0.8],
-          'weightLong.cM1': [0.5, 0.8],
-          'weightLong.M2': [0.5, 0.8],
-          'weightLong.OC': [0.5, 0.8],
+params = {'weightLong.TPO': [0.25, 0.8],
+          'weightLong.S1': [0.25, 0.8],
+          'weightLong.S2': [0.25, 0.8],
+          'weightLong.cM1': [0.25, 0.8],
+          'weightLong.M2': [0.25, 0.8],
+          'weightLong.OC': [0.25, 0.8],
           'EEGain': [0.5, 1.5],
           'IEweights.0': [0.5, 1.5],
           'IEweights.1': [0.5, 1.5],
           'IEweights.2': [0.5, 1.5],
           'IIweights.0': [0.5, 1.5],
           'IIweights.1': [0.5, 1.5],
-          'IIweights.2': [0.5, 1.5],
-          'scaleDensity': [1]
+          'IIweights.2': [0.5, 1.5]
           }
 
 # EXPANSE CONFIG
@@ -39,15 +38,15 @@ results = search(job_type = 'slurm', # or 'sh'
        comm_type = 'ssh', # if a metric and mode is specified, some method of communicating with the host needs to be defined
        label = 'optuna',
        params = params,
-       output_path = '../batchDataMolly/optuna_2',
-       checkpoint_path = '../batchDataMolly/ray_2',
+       output_path = '../batchDataMolly/optuna',
+       checkpoint_path = '../batchDataMolly/ray',
        run_config = slurm_config,
        metric = 'loss', # if a metric and mode is specified, the search will collect metric data and report on the optimal configuration
        mode = 'min',
        algorithm = "optuna",
        max_concurrent = 1,
-       remote_dir='/home/rbaravalle/M1_NEURON_paper/src',
+       remote_dir='/home/rbaravalle/M1_Channelopathies2025/src',
        host='expanse0',
-       key='',
+       key='J4PXKKROVTM3R4ELLVAQ3CJCL6OUP2WN',
        num_samples=500,
        )

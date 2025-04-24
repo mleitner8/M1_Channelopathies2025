@@ -47,6 +47,7 @@ cfg.checkErrorsVerbose = False
 cfg.rand123GlobalIndex = None
 cfg.coreneuron = False
 cfg.random123 = False
+#TODO: reduce Na in dendrites for Tim model
 #------------------------------------------------------------------------------
 # Recording 
 #------------------------------------------------------------------------------

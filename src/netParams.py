@@ -125,7 +125,6 @@ for label, p in reducedCells.items():  # create cell rules that were not loaded
 #------------------------------------------------------------------------------
 ## PT5B full cell model params (700+ comps)
 if 'PT5B_full' not in loadCellParams:
-    # TOOD: ADD WEIGHT NORMALIZATION
     netParams.loadCellParams('PT5B_full', '../cells/Na12HH16HH_TF.json') #change here
     
     netParams.cellParams['PT5B_full']['secs']['axon_0']['spikeGenLoc'] = 0.5
