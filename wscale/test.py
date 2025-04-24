@@ -17,7 +17,7 @@ def init_cfg(cfg):
     cfg.analysis['plotTraces'] = {
         'include': ['CELL'],
         'saveFig': True,
-        'timeRange': [0, cfg.duration]
+        'timeRange': [2000, cfg.duration]
     }
     cfg.recordTraces = {
         'V_soma': {'sec': 'soma', 'loc': 0.5, 'var': 'v'},
@@ -43,7 +43,7 @@ def init_params(cell, syn, sec, loc, weight):
     netParams.synMechParams['SYN_1'] = syn[1]
 
     netParams.stimSourceParams['STIM'] = {'type': 'NetStim',
-                                          'start': 700,
+                                          'start': 2500,
                                           'interval': 1e10,
                                           'noise': 0,
                                           'number': 1}
