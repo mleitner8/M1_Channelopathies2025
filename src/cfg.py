@@ -171,6 +171,8 @@ cfg.EICellTypeGain= {'PV': 2.588295268601415, 'SOM': 0.6568380849927258, 'VIP': 
 
 cfg.IEdisynapticBias = None  # increase prob of I->Ey conns if Ex->I and Ex->Ey exist 
 
+cfg.dendNa = 0.7
+
 #------------------------------------------------------------------------------
 ## (deprecated) E->I gains 
 cfg.EPVGain = 1.0

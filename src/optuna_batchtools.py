@@ -47,6 +47,6 @@ results = search(job_type = 'slurm', # or 'sh'
        max_concurrent = 1,
        remote_dir='/home/rbaravalle/M1_Channelopathies2025/src',
        host='expanse0',
-       key='J4PXKKROVTM3R4ELLVAQ3CJCL6OUP2WN',
+       key='',
        num_samples=500,
        )
