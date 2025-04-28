@@ -136,11 +136,8 @@ if 'PT5B_full' not in loadCellParams:
     # Decrease dendritic Na
     for secName in netParams.cellParams['PT5B_full']['secs']: 
         if secName.startswith('apic'):
-            print(secName)
-            print(netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12mut'])
-            print(netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12'])
-            netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12mut'] *= cfg.dendNa
-            netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12mut'] *= cfg.dendNa
+            netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12']['gbar'] *= cfg.dendNa
+            netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12mut']['gbar'] *= cfg.dendNa
     netParams.addCellParamsWeightNorm('PT5B_full', '../conn/PT5B_full_weightNorm.pkl', threshold=cfg.weightNormThreshold)  # load weight norm
 
     # ORIGINAL MODEL JUST FOR REFERENCE
