@@ -108,6 +108,8 @@ cfg.analysis['plotRaster'] = {'include': allpops, 'orderBy': ['pop', 'y'], 'time
 
 cfg.analysis['plotTraces'] = {'include': cfg.recordCells, 'timeRange': [cfg.transient ,cfg.duration], 'overlay': True, 'oneFigPer': 'trace', 'figSize': (20,20), 'saveFig': True, 'showFig': False} 
 
+cfg.analysis['plotTraces'] = {'include': [(pop,s) for pop in ['PT5B'] for s in [10, 20, 30, 50]] , 'timeRange': [cfg.transient ,cfg.duration], 'overlay': True, 'oneFigPer': 'trace', 'figSize': (20,20), 'saveFig': True, 'showFig': False} 
+
 #cfg.analysis['plotShape'] = {'includePre': ['all'], 'includePost': [('PT5B',100)], 'cvar':'numSyns','saveFig': True, 'showFig': False, 'includeAxon': False}
 #cfg.analysis['plotConn'] = {'include': ['allCells']}
 # cfg.analysis['calculateDisynaptic'] = True
@@ -171,7 +173,7 @@ cfg.EICellTypeGain= {'PV': 2.588295268601415, 'SOM': 0.6568380849927258, 'VIP': 
 
 cfg.IEdisynapticBias = None  # increase prob of I->Ey conns if Ex->I and Ex->Ey exist 
 
-cfg.dendNa = 0.7
+cfg.dendNa = 1.0
 
 #------------------------------------------------------------------------------
 ## (deprecated) E->I gains 
@@ -216,7 +218,7 @@ cfg.startLong = 0  # start at 0 ms
 cfg.ratesLong = {'TPO': [0,5], 'TVL': [0,5], 'S1': [0,5], 'S2': [0,5], 'cM1': [0,5], 'M2': [0,5], 'OC': [0,5]}
 
 ## input pulses
-cfg.addPulses = True
+cfg.addPulses = False
 cfg.pulse = {'pop': 'None', 'start': 1000, 'end': 1100, 'rate': 20, 'noise': 0.8}
 cfg.pulse2 = {'pop': 'None', 'start': 1000, 'end': 1200, 'rate': 20, 'noise': 0.5, 'duration': None}
 

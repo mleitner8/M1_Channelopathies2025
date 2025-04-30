@@ -1,0 +1,23 @@
+Warning: no DISPLAY environment variable.
+--No graphics will be displayed.
+2025-04-29 15:56:19,865	INFO worker.py:1843 -- Started a local Ray instance. View the dashboard at [1m[32m127.0.0.1:8265 [39m[22m
+[I 2025-04-29 15:56:20,527] A new study created in memory with name: optuna
+2025-04-29 15:56:20,537	INFO tune_controller.py:444 -- Restoring the run from the latest experiment state file: experiment_state-2025-04-28_16-42-40.json
+[36m(pid=78511)[0m Warning: no DISPLAY environment variable.
+[36m(pid=78511)[0m --No graphics will be displayed.
+[36m(pid=79202)[0m Warning: no DISPLAY environment variable.
+[36m(pid=79202)[0m --No graphics will be displayed.
+[36m(pid=29979)[0m Warning: no DISPLAY environment variable.
+[36m(pid=29979)[0m --No graphics will be displayed.
+[36m(pid=5351)[0m Warning: no DISPLAY environment variable.
+[36m(pid=5351)[0m --No graphics will be displayed.
+[36m(pid=55709)[0m Warning: no DISPLAY environment variable.
+[36m(pid=55709)[0m --No graphics will be displayed.
+[36m(pid=70400)[0m Warning: no DISPLAY environment variable.
+[36m(pid=70400)[0m --No graphics will be displayed.
+[36m(pid=79119)[0m Warning: no DISPLAY environment variable.
+[36m(pid=79119)[0m --No graphics will be displayed.
+[36m(pid=50880)[0m Warning: no DISPLAY environment variable.
+[36m(pid=50880)[0m --No graphics will be displayed.
+/Users/romanbaravalle/miniconda3/envs/M1_CEBRA/lib/python3.10/multiprocessing/resource_tracker.py:224: UserWarning: resource_tracker: There appear to be 3 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

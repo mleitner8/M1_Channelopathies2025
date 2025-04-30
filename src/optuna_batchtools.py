@@ -1,18 +1,18 @@
 from netpyne.batchtools.search import search
 
-params = {'weightLong.TPO': [0.25, 0.8],
-          'weightLong.S1': [0.25, 0.8],
-          'weightLong.S2': [0.25, 0.8],
-          'weightLong.cM1': [0.25, 0.8],
-          'weightLong.M2': [0.25, 0.8],
-          'weightLong.OC': [0.25, 0.8],
-          'EEGain': [0.5, 1.5],
-          'IEweights.0': [0.5, 1.5],
-          'IEweights.1': [0.5, 1.5],
-          'IEweights.2': [0.5, 1.5],
-          'IIweights.0': [0.5, 1.5],
-          'IIweights.1': [0.5, 1.5],
-          'IIweights.2': [0.5, 1.5]
+params = {'weightLong.TPO': [0.4, 0.8],
+          'weightLong.S1': [0.4, 0.8],
+          'weightLong.S2': [0.4, 0.8],
+          'weightLong.cM1': [0.4, 0.8],
+          'weightLong.M2': [0.4, 0.8],
+          'weightLong.OC': [0.4, 0.8],
+          'EEGain': [0.5, 0.7],
+          'IEweights.0': [0.5, 0.6],
+          'IEweights.1': [0.7, 0.8],
+          'IEweights.2': [1.0, 1.1],
+          'IIweights.0': [1.4, 1.5],
+          'IIweights.1': [0.7, 0.8],
+          'IIweights.2': [1.1, 1.2]
           }
 
 # EXPANSE CONFIG
