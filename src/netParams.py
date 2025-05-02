@@ -134,34 +134,51 @@ for label, p in reducedCells.items():  # create cell rules that were not loaded
 #TODO: load cell params the same as single cell repo
 
 if 'PT5B_full' not in loadCellParams:
-    ihMod2str = {'harnett': 1, 'kole': 2, 'migliore': 3}
-
+    # import cell model from NEURON/python code
     netParams.loadCellParams('PT5B_full', '../cells/Na12HH16HH_TF.json') #change here
 
+    # rename soma to conform to netpyne standard
+    netParams.renameCellParamsSec(label='PT5B_full', oldSec='soma_0', newSec='soma')
+
+    # set variable so easier to work with below
+    cellRule = netParams.cellParams['PT5B_full']
+
+    # set the spike generation location to the axon (default in NEURON is the soma)
     cellRule['secs']['axon_0']['spikeGenLoc'] = 0.5
 
-    del netParams.cellParams['PT5B_full']['secs']['axon_0']['geom']['pt3d']
-    del netParams.cellParams['PT5B_full']['secs']['axon_1']['geom']['pt3d']
+    # add pt3d for axon sections so SecList does not break
+    cellRule['secs']['axon_0']['geom']['pt3d'] = [[1e30, 1e30, 1e30]]
+    cellRule['secs']['axon_1']['geom']['pt3d'] = [[1e30, 1e30, 1e30]]
 
+    #define cell conds
     netParams.cellParams['PT5B_full']['conds'] = {'cellModel': 'HH_full', 'cellType': 'PT'}
-    #netParams.renameCellParamsSec(label='PT5B_full', oldSec ='soma_0', newSec ='soma')
-    #cellRule = netParams.cellParams['PT5B_full']
 
-    #cellRule['secs']['axon_0']['geom']['pt3d'] = [[1e30, 1e30, 1e30]]
-    #cellRule['secs']['axon_1']['geom']['pt3d'] = [[1e30, 1e30, 1e30]]
+    # create lists useful to define location of synapses
+    nonSpiny = ['apic_0', 'apic_1']
+    netParams.addCellParamsSecList(label='PT5B_full', secListName='perisom', somaDist=[0, 50])  # sections within 50 um of soma
+    netParams.addCellParamsSecList(label='PT5B_full', secListName='below_soma', somaDistY=[-600, 0])  # sections within 0-300 um of soma
+    cellRule['secLists']['alldend'] = [sec for sec in cellRule.secs if ('dend' in sec or 'apic' in sec)] # basal+apical
+    cellRule['secLists']['apicdend'] = [sec for sec in cellRule.secs if ('apic' in sec)] # apical
+    cellRule['secLists']['spiny'] = [sec for sec in cellRule['secLists']['alldend'] if sec not in nonSpiny]
 
-   # nonSpiny = ['apic_0', 'apic_1']
-   # netParams.addCellParamsSecList(label='PT5B_full', secListName='perisom', somaDist=[0, 50])  # sections within 50 um of soma
-    #netParams.addCellParamsSecList(label='PT5B_full', secListName='below_soma', somaDistY=[-600, 0])  # sections within 0-300 um of soma
-   # for sec in nonSpiny: # N.B. apic_1 not in `perisom` . `apic_0` and `apic_114` are
-      #  if sec in cellRule['secLists']['perisom']: # fixed logic
-          #  cellRule['secLists']['perisom'].remove(sec)
-    #cellRule['secLists']['alldend'] = [sec for sec in cellRule.secs if ('dend' in sec or 'apic' in sec)] # basal+apical
-    #cellRule['secLists']['apicdend'] = [sec for sec in cellRule.secs if ('apic' in sec)] # apical
-    #cellRule['secLists']['spiny'] = [sec for sec in cellRule['secLists']['alldend'] if sec not in nonSpiny]
+    for sec in nonSpiny: # N.B. apic_1 not in `perisom` . `apic_0` and `apic_114` are
+        if sec in cellRule['secLists']['perisom']: # fixed logic
+            cellRule['secLists']['perisom'].remove(sec)
 
-    #netParams.addCellParamsWeightNorm('PT5B_full', '../conn/PT5B_full_weightNorm.pkl', threshold=cfg.weightNormThreshold)  # load weight norm
-   # if saveCellParams: netParams.saveCellParamsRule(label='PT5B_full', fileName='cells/PT5B_full_cellParams.pkl')
+    # Decrease dendritic Na
+    for secName in netParams.cellParams['PT5B_full']['secs']:
+        if secName.startswith('apic'):
+            print(secName)
+            print(netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12mut'])
+            print(netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12'])
+            netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12mut'] *= cfg.dendNa
+            netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12mut'] *= cfg.dendNa
+
+    # set weight normalization
+    netParams.addCellParamsWeightNorm('PT5B_full', '../conn/PT5B_full_weightNorm.pkl', threshold=cfg.weightNormThreshold)  # load weight norm
+
+    # save to json with all the above modifications so easier/faster to load
+    if saveCellParams: netParams.saveCellParamsRule(label='PT5B_full', fileName='cells/PT5B_full_cellParams.pkl')
 
 #------------------------------------------------------------------------------
 ## IT5A full cell model params (700+ comps)
