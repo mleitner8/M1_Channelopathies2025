@@ -743,4 +743,8 @@ netParams.description = """
 - v54: Moved to NetPyNE v0.9.1 and py3 (v54_batch7 onwards)
 - v56: Reduced dt from 0.05 to 0.025 (note this version follows from v54, i.e. without new cell types; branch 'paper2019_py3')
 - v56: (included in prev version): Added cfg.KgbarFactor
+- v100: New numbering to separate from old model; dt=0.025; fixed L1 density
+- v101: Parameterized long-range weights for each pop to use this in batch evol
+- v102: Fixed bug in I->IT and I->VIP conn due to cell model; renamed _simple to _reduced 
+- v103: Increased E->NGF/VIP and decreased default I->I; increased NGF weightNorm x1.5
 """
