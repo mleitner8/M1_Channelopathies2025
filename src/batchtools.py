@@ -15,23 +15,23 @@ params = {'weightLong.TPO': [0.4, 0.8],
           'IIweights.2': [1.1, 1.2]
           }
 
-# EXPANSE CONFIG
+# EXPANSE CONFIG   -- need to change conda environment and add source
 setup = """
 source ~/.bashrc
 source ~/default.sh
-conda activate M1_batchTools
-export LD_LIBRARY_PATH="/home/rbaravalle/.conda/envs/NetPyNE/lib/python3.10/site-packages/mpi4py_mpich.libs/"
+conda activate M1_batchTools 
+export LD_LIBRARY_PATH="/home/mollyleitner/miniconda3/envs/py312/lib/python3.12/site-packages/mpi4py_mpich.libs/"
 """
 slurm_config = {
-    'allocation': 'TG-MED240058',
+    'allocation': 'TG-MED240058', #change with project information
     'realtime': '10:30:00',
     'nodes': 1,
     'coresPerNode': 96,
     'mem': '128G',
     'partition': 'compute',
-    'email': 'romanbaravalle@gmail.com',
+    'email': 'molly.leitner@downstate.edu',
     'custom': setup,
-    'command':'time mpirun -n 96 nrniv -python -mpi init.py'
+    'command':'time mpirun -n 96 nrniv -python -mpi init_batch.py'
 }
 
 results = search(job_type = 'slurm', # or 'sh'

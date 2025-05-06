@@ -9,6 +9,14 @@ Updates:
 2014 December (Marianne Bezaire): documented
 ENDCOMMENT
 
+NEURON {
+	SUFFIX ch_KCaS
+	USEION k READ ek WRITE ik VALENCE 1
+	USEION ca READ cai VALENCE 2
+	RANGE g, gmax, qinf, qtau, ik
+	RANGE myi
+    THREADSAFE
+}
 
 VERBATIM
 #include <stdlib.h> /* 	Include this library so that the following
@@ -23,15 +31,6 @@ UNITS {
         (mM)    = (millimolar)
 	(mA)	= (milliamp)
 	(mV)	= (millivolt)
-}
-
-NEURON {
-	SUFFIX ch_KCaS
-	USEION k READ ek WRITE ik VALENCE 1
-	USEION ca READ cai VALENCE 2
-	RANGE g, gmax, qinf, qtau, ik
-	RANGE myi
-    THREADSAFE
 }
 
 INDEPENDENT {t FROM 0 TO 1 WITH 1 (ms)}
@@ -54,6 +53,7 @@ ASSIGNED {
 	qtau (ms) 
 	qexp
 	myi (mA/cm2)
+	q10
 }
 
 
@@ -77,7 +77,6 @@ PROCEDURE state() {  :Computes state variable q at current v and dt.
 	q = q + (qinf-q) * qexp
 }
 
-LOCAL q10
 PROCEDURE rate(cai) {  :Computes rate and other constants at current v.
 	LOCAL alpha, beta, tinc
 	q10 = 3^((celsius - 34)/10) : set to 1 for the cutsuridis model?
@@ -92,9 +91,4 @@ beta = 0.00025
 }
 
 UNITSON
-
-
-
-
-
 

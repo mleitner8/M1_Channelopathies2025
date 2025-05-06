@@ -1,27 +1,27 @@
 TITLE sodium channel (voltage dependent, higher threshold)
 
-COMMENT
-sodium channel (voltage dependent, higher threshold)
+:COMMENT
+:sodium channel (voltage dependent, higher threshold)
+:
+:Ions: na
+:
+:Style: quasi-ohmic
+:
+:From: modified from ch_Nav to have a higher threshold, 
+:	  suitable for neurogliaform and ivy cells
+:
+:Updates:
+:2014 December (Marianne Bezaire): documented
+:ENDCOMMENT
 
-Ions: na
-
-Style: quasi-ohmic
-
-From: modified from ch_Nav to have a higher threshold, 
-	  suitable for neurogliaform and ivy cells
-
-Updates:
-2014 December (Marianne Bezaire): documented
-ENDCOMMENT
-
-COMMENT
-VERBATIM
-#include <stdlib.h> 
-/* 	Include this library so that the following (innocuous) warning does not appear:
-		In function '_thread_cleanup':
-		warning: incompatible implicit declaration of built-in function 'free'  */
-ENDVERBATIM
-ENDCOMMENT
+:COMMENT
+:VERBATIM
+:#include <stdlib.h> 
+:/* 	Include this library so that the following (innocuous) warning does not appear:
+:		In function '_thread_cleanup':
+:		warning: incompatible implicit declaration of built-in function 'free'  */
+:ENDVERBATIM
+:ENDCOMMENT
 
 UNITS {
 	(mA) =(milliamp)
@@ -76,6 +76,7 @@ ASSIGNED {
 	mexp
 	hexp 
 	myi (mA/cm2)
+	q10
 }
 
 BREAKPOINT {
@@ -99,7 +100,6 @@ PROCEDURE states() {	:Computes state variables m, h, and n
 	h = h + hexp*(hinf-h)
 }
  
-LOCAL q10	: declare outside a block so available to whole mechanism
 PROCEDURE rates(v) {  :Computes rate and other constants at current v.
                       :Call once from HOC to initialize inf at resting v.
 	LOCAL  alpha, beta, sum	: only available to block; must be first line in block
@@ -124,9 +124,9 @@ PROCEDURE rates(v) {  :Computes rate and other constants at current v.
 PROCEDURE trates(v) {  :Computes rate and other constants at current v.
                       :Call once from HOC to initialize inf at resting v.
 	LOCAL tinc	: only available to block; must be first line in block
-	TABLE minf, mexp, hinf, hexp, mtau, htau
-	DEPEND dt, celsius, mAlphV, mAlphC, mBetaV, mBetaC, hAlphV, hAlphC, hBetaV, hBetaC
-	FROM -100 TO 100 WITH 200
+	:TABLE minf, mexp, hinf, hexp, mtau, htau
+	:DEPEND dt, celsius, mAlphV, mAlphC, mBetaV, mBetaC, hAlphV, hAlphC, hBetaV, hBetaC
+	:FROM -100 TO 100 WITH 200
 
 	rates(v)	: not consistently executed from here if usetable_hh == 1
 				: so don't expect the tau values to be tracking along with
