@@ -181,6 +181,12 @@ if 'PT5B_full' not in loadCellParams:
             netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12mut'] *= cfg.dendNa
             netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12mut'] *= cfg.dendNa
 
+    # Change params for UCDAVIS mutants
+    for secName in netParams.cellParams['PT5B_full']['secs']: #decrease dendritic nav1.2
+        if secName.startswith('apic'):
+            del netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12mut']
+            netParams.cellParams['PT5B_full']['secs']['axon_0'][secName]['na12mut_2'] = {'mod': 'na12', 'gbar': 1e-5}
+
     # set weight normalization
     netParams.addCellParamsWeightNorm('PT5B_full', '../conn/PT5B_full_weightNorm.pkl', threshold=cfg.weightNormThreshold)  # load weight norm
 
