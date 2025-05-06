@@ -1,5 +1,5 @@
 """
-batch.py
+batch_old.py
 
 Batch simulation for M1 model using NetPyNE
 
