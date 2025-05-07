@@ -142,7 +142,7 @@ for label, p in reducedCells.items():  # create cell rules that were not loaded
 
 if 'PT5B_full' not in loadCellParams:
     # import cell model from NEURON/python code
-    netParams.loadCellParams('PT5B_full', '../cells/Na12HH16HH_TF.json') #change here
+    netParams.importCellParams('PT5B_full', '../cells/Neuron_Model_12HH16HH/Na12HH16HHModel_TF.py', 'Na12Model_TF')
 
     # rename soma to conform to netpyne standard
     netParams.renameCellParamsSec(label='PT5B_full', oldSec='soma_0', newSec='soma')
@@ -178,20 +178,36 @@ if 'PT5B_full' not in loadCellParams:
             print(secName)
             print(netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12mut'])
             print(netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12'])
-            netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12mut'] *= cfg.dendNa
+            netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12'] *= cfg.dendNa
             netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12mut'] *= cfg.dendNa
 
     # Change params for UCDAVIS mutants
     for secName in netParams.cellParams['PT5B_full']['secs']: #decrease dendritic nav1.2
         if secName.startswith('apic'):
-            del netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12mut']
-            netParams.cellParams['PT5B_full']['secs']['axon_0'][secName]['na12mut_2'] = {'mod': 'na12', 'gbar': 1e-5}
+            netParams.cellParams['PT5B_full']['secs'][secName]['na12mut'] = {'mod': 'na12', 'gbar': 1e-5}
+
+#TODO load mutant params from csv file
+    for secName in netParams.cellParams: #mutant R119I
+        netParams.cellParams['PT5B_full']['secs']['PT5B_full']['secs'][secName]['na12mut'] = \
+            {'mod': 'na12mut', 'Ra': 0.19953217, 'Rb': 0.09365142, 'Rd': 0.02022166, 'Rg': 0.01116065, 'a0s': 0.0000775,
+             'gms': 0.141628828, 'hmin': 0.011878279, 'mmin': 0.02378683, 'q10': 1.75422509,
+             'qa': 3.28099731, 'qd': 0.90335573, 'qg': 2.14380902, 'qinf': 6.3951063, 'sh': 9.10593486,
+             'smax': 5.63912804, 'tha': -37.025873, 'thi1': -78.898604, 'thi2': -64.498989, 'thinf': -53.104936,
+             'vhalfs': -63.652573, 'vvh': -44.61452, 'vvs': 1.6172257, 'zetas': 14.3424517}
 
     # set weight normalization
     netParams.addCellParamsWeightNorm('PT5B_full', '../conn/PT5B_full_weightNorm.pkl', threshold=cfg.weightNormThreshold)  # load weight norm
 
     # save to json with all the above modifications so easier/faster to load
     if saveCellParams: netParams.saveCellParamsRule(label='PT5B_full', fileName='cells/PT5B_full_cellParams.pkl')
+
+else:
+    #load existing params
+    netParams.loadCellParams('PT5B_full', '../cells/Na12HH16HH_TF.json')
+
+    # set weight normalization
+    netParams.addCellParamsWeightNorm('PT5B_full', '../conn/PT5B_full_weightNorm.pkl',
+                                      threshold=cfg.weightNormThreshold)
 
 #------------------------------------------------------------------------------
 ## IT5A full cell model params (700+ comps)
@@ -209,6 +225,8 @@ if 'IT5A_full' not in loadCellParams:
         for kmech in [k for k in cellRule['secs'][secName]['mechs'].keys() if k.startswith('k') and k!='kBK']:
             cellRule['secs'][secName]['mechs'][kmech]['gbar'] *= cfg.KgbarFactor 
     if saveCellParams: netParams.saveCellParamsRule(label='IT5A_full', fileName='cells/IT5A_full_cellParams.pkl')
+
+
 
 
 #------------------------------------------------------------------------------
