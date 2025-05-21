@@ -9,6 +9,8 @@ Contributors: salvadordura@gmail.com
 
 from netpyne import specs
 import pickle, json
+import csv
+import pandas as pd
 
 netParams = specs.NetParams()   # object of class NetParams to store the network parameters
 
@@ -185,6 +187,17 @@ if 'PT5B_full' not in loadCellParams:
     for secName in netParams.cellParams['PT5B_full']['secs']: #decrease dendritic nav1.2
         if secName.startswith('apic'):
             netParams.cellParams['PT5B_full']['secs'][secName]['na12mut'] = {'mod': 'na12', 'gbar': 1e-5}
+
+    #Load CSV with Mutant Params
+    with open('MutantParameters_updated_050625.csv', mode='r') as file:
+        reader = csv.DictReader(file)
+        data = [row for row in reader]
+
+    variant = 'R119I'
+
+    for secName in netParams.cellParams:  # mutant R119I
+        netParams.cellParams['PT5B_full']['secs']['PT5B_full']['secs'][secName]['na12mut'] = data['variant']
+
 
 #TODO load mutant params from csv file
     for secName in netParams.cellParams: #mutant R119I
