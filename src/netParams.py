@@ -155,9 +155,9 @@ if 'PT5B_full' not in loadCellParams:
     # set the spike generation location to the axon (default in NEURON is the soma)
     cellRule['secs']['axon_0']['spikeGenLoc'] = 0.5
 
-    # add pt3d for axon sections so SecList does not break
-    cellRule['secs']['axon_0']['geom']['pt3d'] = [[1e30, 1e30, 1e30]]
-    cellRule['secs']['axon_1']['geom']['pt3d'] = [[1e30, 1e30, 1e30]]
+    # del axon pt3d
+    del netParams.cellParams['PT5B_full']['secs']['axon_0']['geom']['pt3d']
+    del netParams.cellParams['PT5B_full']['secs']['axon_1']['geom']['pt3d']
 
     #define cell conds
     netParams.cellParams['PT5B_full']['conds'] = {'cellModel': 'HH_full', 'cellType': 'PT'}
