@@ -1,4 +1,4 @@
-from cells.Neuron_Model_12HH16HH.NeuronModelClass import NeuronModel
+from NeuronModelClass import NeuronModel
 from NrnHelper import *
 import matplotlib.pyplot as plt
 from pathlib import Path

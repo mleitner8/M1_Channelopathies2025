@@ -10,7 +10,6 @@ Contributors: salvadordura@gmail.com
 from netpyne import specs
 import pickle, json
 import csv
-import pandas as pd
 
 
 netParams = specs.NetParams()   # object of class NetParams to store the network parameters
