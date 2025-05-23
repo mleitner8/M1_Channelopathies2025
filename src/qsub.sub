@@ -5,8 +5,8 @@
 #$ -pe smp 64
 #$ -l h_vmem=120G
 #$ -l h_rt=15:00:00
-#$ -o /ddn/mleitner8/M1_Channelopathies2025/sim/M1_UCDavis_12HH16HH_5.log.run
-#$ -e /ddn/mleitner8/M1_Channelopathies2025/sim/M1_UCDavis_12HH16HH_5.log.err
+#$ -o /ddn/mleitner8/M1_Channelopathies2025/src/M1_UCDavis_variant1.log.run
+#$ -e /ddn/mleitner8/M1_Channelopathies2025/src/M1_UCDavis_variant1.log.err
 
 source ~/.bashrc
 mpiexec -n $NSLOTS -hosts $(hostname) nrniv -python -mpi init.py
