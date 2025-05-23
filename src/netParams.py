@@ -12,6 +12,7 @@ import pickle, json
 import csv
 import pandas as pd
 
+
 netParams = specs.NetParams()   # object of class NetParams to store the network parameters
 
 netParams.version = 103
@@ -175,38 +176,45 @@ if 'PT5B_full' not in loadCellParams:
             cellRule['secLists']['perisom'].remove(sec)
 
     # Decrease dendritic Na
-    for secName in netParams.cellParams['PT5B_full']['secs']:
-        if secName.startswith('apic'):
-            print(secName)
-            print(netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12mut'])
-            print(netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12'])
-            netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12'] *= cfg.dendNa
-            netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12mut'] *= cfg.dendNa
+    #for secName in netParams.cellParams['PT5B_full']['secs']:
+        #if secName.startswith('apic'):
+           # print(secName)
+            #print(netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12mut'])
+            #print(netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12'])
+            #netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12'] *= cfg.dendNa
+            #netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12mut'] *= cfg.dendNa
 
     # Change params for UCDAVIS mutants
-    for secName in netParams.cellParams['PT5B_full']['secs']: #decrease dendritic nav1.2
-        if secName.startswith('apic'):
-            netParams.cellParams['PT5B_full']['secs'][secName]['na12mut'] = {'mod': 'na12', 'gbar': 1e-5}
+    #for secName in netParams.cellParams['PT5B_full']['secs']: #decrease dendritic nav1.2
+        #if secName.startswith('apic'):
+            #netParams.cellParams['PT5B_full']['secs'][secName]['na12mut'] = {'mod': 'na12', 'gbar': 1e-5}
+
+    def csv_to_dict(filepath):
+        result = {}
+        with open(filepath, mode='r', newline='') as file:
+            reader = csv.DictReader(file)
+            fieldnames = reader.fieldnames
+            key_field = fieldnames[0]  # Use the first column as key
+            for row in reader:
+                key = row[key_field]
+                value = {k: v for k, v in row.items() if k != key_field}
+                result[key] = value
+        return result
 
     #Load CSV with Mutant Params
-    with open('MutantParameters_updated_050625.csv', mode='r') as file:
-        reader = csv.DictReader(file)
-        data = [row for row in reader]
+    if cfg.loadmutantParams == True:
+        variants = csv_to_dict('MutantParameters_updated_050625.csv')
+        for secName in netParams.cellParams:  # mutant R119I
+            netParams.cellParams['PT5B_full']['secs']['PT5B_full']['secs'][secName]['na12mut'] = variants[cfg.variant]
 
-    variant = 'R119I'
-
-    for secName in netParams.cellParams:  # mutant R119I
-        netParams.cellParams['PT5B_full']['secs']['PT5B_full']['secs'][secName]['na12mut'] = data['variant']
-
-
-#TODO load mutant params from csv file
-    for secName in netParams.cellParams: #mutant R119I
-        netParams.cellParams['PT5B_full']['secs']['PT5B_full']['secs'][secName]['na12mut'] = \
-            {'mod': 'na12mut', 'Ra': 0.19953217, 'Rb': 0.09365142, 'Rd': 0.02022166, 'Rg': 0.01116065, 'a0s': 0.0000775,
-             'gms': 0.141628828, 'hmin': 0.011878279, 'mmin': 0.02378683, 'q10': 1.75422509,
-             'qa': 3.28099731, 'qd': 0.90335573, 'qg': 2.14380902, 'qinf': 6.3951063, 'sh': 9.10593486,
-             'smax': 5.63912804, 'tha': -37.025873, 'thi1': -78.898604, 'thi2': -64.498989, 'thinf': -53.104936,
-             'vhalfs': -63.652573, 'vvh': -44.61452, 'vvs': 1.6172257, 'zetas': 14.3424517}
+    #To change params manually
+    #for secName in netParams.cellParams: #mutant R119I
+        #netParams.cellParams['PT5B_full']['secs']['PT5B_full']['secs'][secName]['na12mut'] = \
+            #{'mod': 'na12mut', 'Ra': 0.19953217, 'Rb': 0.09365142, 'Rd': 0.02022166, 'Rg': 0.01116065, 'a0s': 0.0000775,
+             #'gms': 0.141628828, 'hmin': 0.011878279, 'mmin': 0.02378683, 'q10': 1.75422509,
+            # 'qa': 3.28099731, 'qd': 0.90335573, 'qg': 2.14380902, 'qinf': 6.3951063, 'sh': 9.10593486,
+             #'smax': 5.63912804, 'tha': -37.025873, 'thi1': -78.898604, 'thi2': -64.498989, 'thinf': -53.104936,
+             #'vhalfs': -63.652573, 'vvh': -44.61452, 'vvs': 1.6172257, 'zetas': 14.3424517}
 
     # set weight normalization
     netParams.addCellParamsWeightNorm('PT5B_full', '../conn/PT5B_full_weightNorm.pkl', threshold=cfg.weightNormThreshold)  # load weight norm

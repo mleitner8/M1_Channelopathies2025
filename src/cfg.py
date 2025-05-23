@@ -268,3 +268,5 @@ cfg.NetStim1 = {'pop': 'IT5B', 'sec': 'soma', 'loc': 0.5, 'synMech': ['AMPA', 'N
 # ------------------------------------------------------------------------------
 # Load mutant params from csv
 # ------------------------------------------------------------------------------
+cfg.loadmutantParams = True
+cfg.variant = 'R119I'
