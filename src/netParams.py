@@ -77,7 +77,7 @@ netParams.correctBorder = {'threshold': [cfg.correctBorderThreshold, cfg.correct
 cellParamLabels = ['IT2_reduced', 'IT4_reduced', 'IT5A_reduced', 'IT5B_reduced', 'PT5B_reduced',
     'IT6_reduced', 'CT6_reduced', 'PV_reduced', 'SOM_reduced', 'IT5A_full', 'VIP_reduced', 'NGF_reduced' ] # 'PT5B_full', 'NGF_simple', 'VIP_reduced'] # list of cell rules to load from file
 loadCellParams = cellParamLabels
-saveCellParams = False #True
+saveCellParams = True
 
 for ruleLabel in loadCellParams:
     netParams.loadCellParamsRule(label=ruleLabel, fileName='../cells/'+ruleLabel+'_cellParams.pkl')
@@ -356,11 +356,11 @@ if 'PT5B_full' not in loadCellParams:
     netParams.addCellParamsWeightNorm('PT5B_full', '../conn/PT5B_full_weightNorm.pkl', threshold=cfg.weightNormThreshold)  # load weight norm
 
     # save to json with all the above modifications so easier/faster to load
-    if saveCellParams: netParams.saveCellParamsRule(label='PT5B_full', fileName='cells/PT5B_full_cellParams.pkl')
+    if saveCellParams: netParams.saveCellParamsRule(label='PT5B_full', fileName='../cells/PT5B_full_cellParams.pkl')
 
 else:
     #load existing params
-    netParams.loadCellParams('PT5B_full', '../cells/Na12HH16HH_TF.json')
+    netParams.loadCellParams('PT5B_full', '../cells/PT5B_full_cellParams.pkl')
 
     # set weight normalization
     netParams.addCellParamsWeightNorm('PT5B_full', '../conn/PT5B_full_weightNorm.pkl',
