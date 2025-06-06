@@ -17,6 +17,7 @@ netParams.version = 56
 #Import cfg for new batchtools:
 from cfg import cfg
 cfg.update()
+import csv
 
 # Import cfg for old batch:
 #try:

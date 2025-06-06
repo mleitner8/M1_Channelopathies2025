@@ -248,3 +248,9 @@ cfg.addNetStim = 0
 cfg.NetStim1 = {'pop': 'IT5B', 'sec': 'soma', 'loc': 0.5, 'synMech': ['AMPA', 'NMDA'],
                 'synMechWeightFactor': [0.5, 0.5],
                 'start': 0, 'interval': 1000.0 / 40.0, 'noise': 0.0, 'number': 1000.0, 'weight': 0.5, 'delay': 0}
+
+# ------------------------------------------------------------------------------
+# Load mutant params from csv
+# ------------------------------------------------------------------------------
+cfg.loadmutantParams = True
+cfg.variant = 'R119I'
