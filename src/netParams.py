@@ -71,7 +71,7 @@ netParams.correctBorder = {'threshold': [cfg.correctBorderThreshold, cfg.correct
 #------------------------------------------------------------------------------
 ## Load cell rules previously saved using netpyne format
 cellParamLabels = ['IT2_reduced', 'IT4_reduced', 'IT5A_reduced', 'IT5B_reduced', 'PT5B_reduced',
-    'IT6_reduced', 'CT6_reduced', 'PV_simple', 'SOM_simple', 'IT5A_full'] # 'PT5B_full', 'NGF_simple', 'VIP_reduced'] # list of cell rules to load from file
+    'IT6_reduced', 'CT6_reduced', 'PV_simple', 'SOM_simple', 'IT5A_full', 'PT5B_full'] # 'NGF_simple', 'VIP_reduced'] # list of cell rules to load from file
 loadCellParams = cellParamLabels
 saveCellParams = False #True
 
