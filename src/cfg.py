@@ -199,7 +199,6 @@ cfg.IEdisynapticBias = None  # increase prob of I->Ey conns if Ex->I and Ex->Ey 
 
 cfg.dendNa = 1.0
 
-cfg.IEdisynapticBias = None  # increase prob of I->Ey conns if Ex->I and Ex->Ey exist
 
 # ------------------------------------------------------------------------------
 ## E->I gains (deprecated)
