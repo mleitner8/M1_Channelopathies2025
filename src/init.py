@@ -15,7 +15,6 @@ Contributors: salvadordura@gmail.com
 import matplotlib; matplotlib.use('Agg')  # to avoid graphics error in servers
 from netpyne import sim
 
-
 #------------------------------------------------------------------------------
 ## Function to modify cell params during sim (e.g. modify PT ih)
 def modifyMechsFunc(simTime):
