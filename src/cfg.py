@@ -162,6 +162,8 @@ cfg.weightNorm = 1  # use weight normalization
 cfg.weightNormThreshold = 4.0  # weight normalization factor threshold
 
 cfg.addConn = 1
+cfg.allowConnsWithWeight0 = True
+cfg.allowSelfConns = False
 cfg.scale = 1
 cfg.sizeY = 1350.0
 cfg.sizeX = 300.0
@@ -172,12 +174,14 @@ cfg.L5BrecurrentFactor = 1.0
 cfg.ITinterFactor = 1.0
 cfg.strengthFactor = 1.0
 
-cfg.EEGain = 1.0  # 0.5
+cfg.EEGain = 0.9701458851851824  # 0.5
 cfg.EIGain = 1.0
 cfg.IEGain = 1.0
 cfg.IIGain = 1.0
 
 cfg.IEdisynapticBias = None  # increase prob of I->Ey conns if Ex->I and Ex->Ey exist
+
+cfg.dendNa = 1.0
 
 # ------------------------------------------------------------------------------
 ## E->I gains
@@ -198,8 +202,8 @@ cfg.SOMSOMGain = None  # 0.75
 
 # ------------------------------------------------------------------------------
 ## I->E/I layer weights (L2/3+4, L5, L6)
-cfg.IEweights = [0.5, 0.5, 0.5]  # [0.8, 1.2, 1.0]
-cfg.IIweights = [0.5, 1, 0.5]  # [1.4, 1.1, 1.4] #
+cfg.IEweights = [0.8680123131812839, 1.2407609382707516, 1.4735035804798486]  # [0.8, 1.2, 1.0]
+cfg.IIweights = [1.2917372737477644, 1.0922011258575448, 0.6388172421357348]  # [1.4, 1.1, 1.4] #
 
 cfg.IPTGain = 1.0
 cfg.IFullGain = 1.0
@@ -207,7 +211,7 @@ cfg.IFullGain = 1.0
 # ------------------------------------------------------------------------------
 # Subcellular distribution
 # ------------------------------------------------------------------------------
-cfg.addSubConn = False
+cfg.addSubConn = True
 
 # ------------------------------------------------------------------------------
 # Long range inputs
@@ -217,10 +221,7 @@ cfg.numCellsLong = 1000  # num of cells per population
 cfg.noiseLong = 1.0  # firing rate random noise
 cfg.delayLong = 5.0  # (ms)
 factor = 1
-cfg.weightLong = {'TPO': 0.5, 'TVL': 0.5,
-                  'S1': 0.5, 'S2': 0.5,
-                  'cM1': 0.5, 'M2': 0.5,
-                  'OC': 0.5}
+cfg.weightLong = {'TPO': 0.45644931218749174, 'TVL': 0.5, 'S1': 0.36622440689049585, 'S2': 0.6784051400778675, 'cM1': 0.5102084809387325, 'M2': 0.2963005602762849, 'OC': 0.5144172551297354}
 # {'TPO': 0.5*factor, 'TVL': 0.5*factor, 'S1': 0.5*factor, 'S2': 0.5*factor,
 # 'cM1': 0.5*factor, 'M2': 0.5*factor, 'OC': 0.5*factor}  # corresponds to unitary connection somatic EPSP (mV)
 cfg.startLong = 0  # start at 0 ms
@@ -228,7 +229,7 @@ cfg.ratesLong = {'TPO': [0, 5], 'TVL': [0, 2.5], 'S1': [0, 5], 'S2': [0, 5], 'cM
                  'OC': [0, 5]}
 
 ## input pulses
-cfg.addPulses = 1
+cfg.addPulses = False
 cfg.pulse = {'pop': 'None', 'start': 1000, 'end': 1200, 'rate': [0, 20], 'noise': 0.8}
 cfg.pulse2 = {'pop': 'None', 'start': 1000, 'end': 1200, 'rate': [0, 20], 'noise': 0.5, 'duration': 500}
 
