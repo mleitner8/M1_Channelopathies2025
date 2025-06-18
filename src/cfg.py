@@ -143,12 +143,7 @@ cfg.epas = 0.9  # multiplicative factor for pas e in PT cells
 cfg.KgbarFactor = 1.0  # multiplicative factor for K channels gbar in all E cells
 cfg.makeKgbarFactorEqualToNewFactor = False
 
-#if cfg.UCDAVIS == False:
-    #cfg.modifyMechs = {'startTime': 500, 'endTime': 1000, 'cellType': 'PT', 'mech': 'hd', 'property': 'gbar',
-                       #'newFactor': 1.00, 'origFactor': 0.75}
-#else:
-    #cfg.modifyMechs = {'startTime': 1e20 * 500, 'endTime': 1e20 * 1000, 'cellType': 'PT', 'mech': 'hd',
-                       #'property': 'gbar', 'newFactor': 1.00, 'origFactor': 0.75}
+cfg.modifyMechs = {'startTime': 500, 'endTime': 1000, 'cellType':'PT', 'mech': 'hd', 'property': 'gbar', 'newFactor': 1.00, 'origFactor': 0.75}
 
 cfg.PTNaFactor = 1
 
