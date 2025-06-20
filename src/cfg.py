@@ -157,7 +157,7 @@ cfg.AMPATau2Factor = 1.0
 # ------------------------------------------------------------------------------
 # Network
 # ------------------------------------------------------------------------------
-cfg.singleCellPops = False  # Create pops with 1 single cell (to debug)
+cfg.singleCellPops = True  # Create pops with 1 single cell (to debug)
 cfg.weightNorm = 1  # use weight normalization
 cfg.weightNormThreshold = 4.0  # weight normalization factor threshold
 

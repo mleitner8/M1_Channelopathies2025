@@ -71,9 +71,9 @@ netParams.correctBorder = {'threshold': [cfg.correctBorderThreshold, cfg.correct
 #------------------------------------------------------------------------------
 ## Load cell rules previously saved using netpyne format
 cellParamLabels = ['IT2_reduced', 'IT4_reduced', 'IT5A_reduced', 'IT5B_reduced', 'PT5B_reduced',
-    'IT6_reduced', 'CT6_reduced', 'PV_simple', 'SOM_simple', 'IT5A_full']#, 'PT5B_full'] # 'NGF_simple', 'VIP_reduced'] # list of cell rules to load from file
+    'IT6_reduced', 'CT6_reduced', 'PV_simple', 'SOM_simple', 'IT5A_full', 'PT5B_full'] # 'NGF_simple', 'VIP_reduced'] # list of cell rules to load from file
 loadCellParams = cellParamLabels
-saveCellParams = True #False
+saveCellParams = False
 
 for ruleLabel in loadCellParams:
     netParams.loadCellParamsRule(label=ruleLabel, fileName='../cells/'+ruleLabel+'_cellParams.pkl')
@@ -308,36 +308,35 @@ if 'PT5B_full' not in loadCellParams:
             cellRule['secLists']['perisom'].remove(sec)
 
     # Decrease dendritic Na
-    for secName in netParams.cellParams['PT5B_full']['secs']:
-        if secName.startswith('apic'):
-            print(secName)
-            print(netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12mut'])
-            print(netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12'])
-            netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12'] = cfg.dendNa
-            netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12mut'] = cfg.dendNa
+    #for secName in netParams.cellParams['PT5B_full']['secs']:
+        #if secName.startswith('apic'):
+            #print(netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12mut'])
+            #print(netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12'])
+            #netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12'] = cfg.dendNa
+            #netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12mut'] = cfg.dendNa
 
     # Change params for UCDAVIS mutants
     #for secName in netParams.cellParams['PT5B_full']['secs']: #decrease dendritic nav1.2
         #if secName.startswith('apic'):
             #netParams.cellParams['PT5B_full']['secs'][secName]['na12mut'] = {'mod': 'na12', 'gbar': 1e-5}
 
-    def csv_to_dict(filepath):
-        result = {}
-        with open(filepath, mode='r', newline='') as file:
-            reader = csv.DictReader(file)
-            fieldnames = reader.fieldnames
-            key_field = fieldnames[0]  # Use the first column as key
-            for row in reader:
-                key = row[key_field]
-                value = {k: v for k, v in row.items() if k != key_field}
-                result[key] = value
-        return result
+    #def csv_to_dict(filepath):
+        #result = {}
+        #with open(filepath, mode='r', newline='') as file:
+            #reader = csv.DictReader(file)
+            #fieldnames = reader.fieldnames
+            #key_field = fieldnames[0]  # Use the first column as key
+            #for row in reader:
+                #key = row[key_field]
+                #value = {k: v for k, v in row.items() if k != key_field}
+                #result[key] = value
+        #return result
 
     #Load CSV with Mutant Params
     if cfg.loadmutantParams == True:
         variants = csv_to_dict('MutantParameters_updated_050625.csv')
         for secName in netParams.cellParams:  # mutant R119I
-            netParams.cellParams['PT5B_full']['secs']['PT5B_full']['secs'][secName]['na12mut'] = variants[cfg.variant]
+            netParams.cellParams['PT5B_full']['secs'][secName]['na12mut'] = variants[cfg.variant]
 
     #To change params manually
     #for secName in netParams.cellParams: #mutant R119I
