@@ -73,7 +73,7 @@ netParams.correctBorder = {'threshold': [cfg.correctBorderThreshold, cfg.correct
 cellParamLabels = ['IT2_reduced', 'IT4_reduced', 'IT5A_reduced', 'IT5B_reduced', 'PT5B_reduced',
     'IT6_reduced', 'CT6_reduced', 'PV_simple', 'SOM_simple', 'IT5A_full', 'PT5B_full'] # 'NGF_simple', 'VIP_reduced'] # list of cell rules to load from file
 loadCellParams = cellParamLabels
-saveCellParams = False
+saveCellParams = False #True
 
 for ruleLabel in loadCellParams:
     netParams.loadCellParamsRule(label=ruleLabel, fileName='../cells/'+ruleLabel+'_cellParams.pkl')
@@ -312,8 +312,8 @@ if 'PT5B_full' not in loadCellParams:
         if secName.startswith('apic'):
             #print(netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12mut'])
             #print(netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12'])
-            netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12']['gbar'] = cfg.dendNa
-            netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12mut']['gbar'] = cfg.dendNa
+            netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12']['gbar'] *= cfg.dendNa
+            netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12mut']['gbar'] *= cfg.dendNa
 
     # Change params for UCDAVIS mutants
     #for secName in netParams.cellParams['PT5B_full']['secs']: #decrease dendritic nav1.2
