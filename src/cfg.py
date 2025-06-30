@@ -205,7 +205,7 @@ cfg.scale = 1.0
 cfg.sizeY = 1350.0
 cfg.sizeX = 300.0
 cfg.sizeZ = 300.0
-cfg.scaleDensity = 1.0
+cfg.scaleDensity = 0.3
 cfg.correctBorderThreshold = 150.0
 
 cfg.L5BrecurrentFactor = 1.0

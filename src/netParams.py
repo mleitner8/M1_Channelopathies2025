@@ -9,15 +9,17 @@ Contributors: salvadordura@gmail.com
 
 from netpyne import specs
 import pickle, json, csv
+#  FOR OLD BATCH
+# try:
+#     from __main__ import cfg  # import SimConfig object with params from parent module
+# except:
+#     from cfg import cfg
+from cfg import cfg
 
-netParams = specs.NetParams()   # object of class NetParams to store the network parameters
+cfg.update()
 
-netParams.version = 103
-
-try:
-    from __main__ import cfg  # import SimConfig object with params from parent module
-except:
-    from cfg import cfg
+netParams = specs.NetParams()  # object of class NetParams to store the network parameters
+netParams.version = 104
 
 #------------------------------------------------------------------------------
 #
