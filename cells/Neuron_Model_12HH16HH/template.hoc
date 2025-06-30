@@ -78,8 +78,8 @@ proc init() { local synapses_enabled
     forsec this.all {
         if(diam == 0){
           diam =  1
-          printf("Error : Morphology problem with section [%s] 0 diam \n", \
-                secname())
+          // printf("Error : Morphology problem with section [%s] 0 diam \n", \
+          //       secname())
         }
     }
 

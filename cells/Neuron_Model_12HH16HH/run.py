@@ -52,7 +52,7 @@ def create_cell(add_synapses=True):
 
     # Instantiate the cell from the template
 
-    print("Loading cell cADpyr232_L5_TTPC1_0fb1ca4724")
+    # print("Loading cell cADpyr232_L5_TTPC1_0fb1ca4724")
     cell = neuron.h.cADpyr232_L5_TTPC1_0fb1ca4724(1 if add_synapses else 0)
     return cell
 
@@ -60,7 +60,7 @@ def create_cell(add_synapses=True):
 def create_stimuli(cell, step_number):
     """Create the stimuli"""
 
-    print('Attaching stimulus electrodes')
+    # print('Attaching stimulus electrodes')
 
     stimuli = []
     step_amp = [0] * 3
@@ -73,9 +73,9 @@ def create_stimuli(cell, step_number):
     iclamp.delay = 700
     iclamp.dur = 2000
     iclamp.amp = float(step_amp[step_number - 1])
-    print('Setting up step current clamp: '
-          'amp=%f nA, delay=%f ms, duration=%f ms' %
-          (iclamp.amp, iclamp.delay, iclamp.dur))
+    # print('Setting up step current clamp: '
+    #       'amp=%f nA, delay=%f ms, duration=%f ms' %
+    #       (iclamp.amp, iclamp.delay, iclamp.dur))
 
     stimuli.append(iclamp)
 
@@ -83,9 +83,9 @@ def create_stimuli(cell, step_number):
     hyp_iclamp.delay = 0
     hyp_iclamp.dur = 3000
     hyp_iclamp.amp = float(hyp_amp)
-    print('Setting up hypamp current clamp: '
-          'amp=%f nA, delay=%f ms, duration=%f ms' %
-          (hyp_iclamp.amp, hyp_iclamp.delay, hyp_iclamp.dur))
+    # print('Setting up hypamp current clamp: '
+    #       'amp=%f nA, delay=%f ms, duration=%f ms' %
+    #       (hyp_iclamp.amp, hyp_iclamp.delay, hyp_iclamp.dur))
 
     stimuli.append(hyp_iclamp)
 
@@ -94,7 +94,7 @@ def create_stimuli(cell, step_number):
 
 def create_recordings(cell):
     """Create the recordings"""
-    print('Attaching recording electrodes')
+    # print('Attaching recording electrodes')
 
     recordings = {}
 
@@ -115,13 +115,13 @@ def run_step(step_number, plot_traces=None):
     recordings = create_recordings(cell)
 
     # Overriding default 30s simulation,
-    print('Setting simulation time to 3s for the step currents')
+    # print('Setting simulation time to 3s for the step currents')
     neuron.h.tstop = 3000
 
-    print('Disabling variable timestep integration')
+    # print('Disabling variable timestep integration')
     neuron.h.cvode_active(0)
 
-    print('Running for %f ms' % neuron.h.tstop)
+    # print('Running for %f ms' % neuron.h.tstop)
     neuron.h.run()
 
     time = numpy.array(recordings['time'])
@@ -139,8 +139,8 @@ def run_step(step_number, plot_traces=None):
                     time,
                     soma_voltage))))
 
-    print('Soma voltage for step %d saved to: %s'
-          % (step_number, soma_voltage_filename))
+    # print('Soma voltage for step %d saved to: %s'
+    #       % (step_number, soma_voltage_filename))
 
     if plot_traces:
         import pylab
@@ -157,7 +157,7 @@ def init_simulation():
     neuron.h.load_file("stdrun.hoc")
     neuron.h.load_file("import3d.hoc")
 
-    print('Loading constants')
+    # print('Loading constants')
     neuron.h.load_file('constants.hoc')
 
 

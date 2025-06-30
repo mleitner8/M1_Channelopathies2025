@@ -3737,7 +3737,7 @@ proc sethgbar () { local xd
         if(xd <= nexusdist) {
           gbar_h15(x) = h_gbar*exp(x_savedist(x)/h_lambda)
         } else { // this else should not happen...
-          print xd , " > " , nexusdist
+          //print xd , " > " , nexusdist
           gbar_h15(x) = h_gbar_tuft // but if main trunk extends slightly beyond branchpoint, should be OK...
         }
         if ( gbar_h15(x) < 0 ) { gbar_h(x) = 0 } // conductance must not be negative
@@ -3756,7 +3756,7 @@ proc sethgbar () { local xd
         if(xd <= nexusdist) {
           gbar_ih(x) = h_gbar*exp(x_savedist(x)/h_lambda)
         } else { // this else should not happen...
-          print xd , " > " , nexusdist
+          //print xd , " > " , nexusdist
           gbar_ih(x) = h_gbar_tuft // but if main trunk extends slightly beyond branchpoint, should be OK...
         }
         if ( gbar_ih(x) < 0 ) { gbar_ih(x) = 0 } // conductance must not be negative
@@ -3807,7 +3807,7 @@ proc sethgbar () { local xd
     //     if(xd <= nexusdist) {
     //       gbar_hd(x) = h_gbar*exp(x_savedist(x)/h_lambda)
     //     } else { // this else should not happen...
-    //       print xd , " > " , nexusdist
+    //       //print xd , " > " , nexusdist
     //       gbar_hd(x) = h_gbar_tuft // but if main trunk extends slightly beyond branchpoint, should be OK...
     //     }
     //     if ( gbar_hd(x) < 0 ) { gbar_hd(x) = 0 } // conductance must not be negative
@@ -3827,7 +3827,7 @@ proc sethgbar () { local xd
         if(xd <= nexusdist) {
           gbar_h(x) = h_gbar*exp(x_savedist(x)/h_lambda)
         } else { // this else should not happen...
-          print xd , " > " , nexusdist
+          //print xd , " > " , nexusdist
           gbar_h(x) = h_gbar_tuft // but if main trunk extends slightly beyond branchpoint, should be OK...
         }
         if ( gbar_h(x) < 0 ) { gbar_h(x) = 0 } // conductance must not be negative

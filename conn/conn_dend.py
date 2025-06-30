@@ -79,7 +79,7 @@ def alignGrid (cell, gridY, fixedSomaY=-735):
         somaX, somaY, _ = sim.net._posFromLoc(cell.secs[somaLabel]['hSec'], 0.5) # get cell pos move method to Cell!
         gridY = [y+(somaY-fixedSomaY) for y in gridY] # adjust grid so cell soma is at fixedSomaY
     else:
-        print('Cannot find soma in cell')
+        # print 'Cannot find soma in cell'
         sys.exit()
     return gridY
 
@@ -98,7 +98,8 @@ def weightNormGrid (cell, gridY, spacing):
                         wnormCounter[i] += 1
                         wnormGrid[i] += wnorm
         else:
-            print(secName+ ' has no weightNorm')
+            1
+            # print secName+ ' has no weightNorm'
     wnormGrid = [wn/wc if wc>0 else 0 for wn,wc in zip(wnormGrid,wnormCounter)]
     return wnormGrid
 
@@ -184,11 +185,11 @@ def extractColor(colorbarFile, figFile, figDim, checkColorRange=True, show=False
     # cbarmin = min([np.mean(c) for c in cbarColors])
     # cbarmax = max([np.mean(c) for c in cbarColors])
 
-    print('Extracting figure values...')
+    # print 'Extracting figure values...'
     fig_image = Image.open(figFile) #Can be many different formats.
     fig = fig_image.load()
     xlen,ylen=fig_image.size #Get the width and hight of the image for iterating over
-    print(xlen,ylen, figDim[0], figDim[1])
+    print xlen,ylen, figDim[0], figDim[1]/
     xstep = float(xlen) / figDim[0]
     ystep = float(ylen) / figDim[1]
     
@@ -197,31 +198,28 @@ def extractColor(colorbarFile, figFile, figDim, checkColorRange=True, show=False
         for (j,yf) in enumerate(np.arange((ystep/4.0),ylen,ystep)):
             x=int(round(xf))
             y=int(round(yf))
-            print (i,j,x,y)
+            #print i,j,x,y
             if x > xlen or y > ylen: continue
             color = fig[x, y][0:3] # if have alpha channel will be 4d
-            
+            # print color
             dist = [np.linalg.norm(np.array(color)-np.array(cbcol)) for cbcol in cbarColors]
             minDist = min(dist)
             if checkColorRange:
                 incx,incy = 0,0
                 #while (np.mean(color) <= cbarmin) or (np.mean(color) >= cbarmax) and inc <= ystep/2.5:
-                while minDist > 15.0 and incx <= 0.5*xstep:
+                while minDist > 15.0 and incx <= 0.7*xstep:
                     incy += 2
-                    if incy >= 0.5*ystep: 
+                    if incy >= 0.7*ystep: 
                         incy = 0
                         incx += 2
-                    #print (minDist, x + incx, y + incy)
-                    try:
-                        color = fig[x+incx,y+incy][0:3]  # if have alpha channel will be 4-d
-                    except:
-                        pass
+                    #print minDist, x+incx, y+incy 
+                    color = fig[x+incx,y+incy][0:3]  # if have alpha channel will be 4-d
                     dist = [np.linalg.norm(np.array(color)-np.array(cbcol)) for cbcol in cbarColors]
-                    minDist = min([float(minDist) , min(dist)]) 
+                    minDist = min(dist)
             
             index = np.argmin(dist) 
             value = 1.0 - float(index)/float(cbarlen)
-            print(value)
+            #print value
             figVals[i][j] = value
 
     if save:
@@ -375,32 +373,17 @@ if __name__ == '__main__':
     # E/I -> I = spiny/all dends (no scracm); 
 
     # ----------------------------------
-    # for netpyne paper: fig 3 - VL -> PT (actually fig 6A)
-    ylen = 25
+    # for netpyne paper fig 3
+    ylen = 30
     n = 10
-    data = extractColor(dataFolder+'colorbar_Suter15.png', dataFolder+'Suter15_fig6A_v2.png', (n, ylen), checkColorRange=True, show=1, save=True)
-    with open(dataFolder+'Suter15_fig6A_v2.pkl','rb') as f:
+    #data = extractColor(dataFolder+'colorbar_Suter15.png', dataFolder+'Suter15_fig3A.png', (n, ylen), checkColorRange=True, show=1, save=True)
+    with open(dataFolder+'Suter15_fig3A.pkl','r') as f:
         d=pkl.load(f)
     for i in range(14, 21):
         d[4, i] = d[5, i]
     d[4, 15] = d[5, 16]
 
     plt.imshow(d.T, interpolation='none')
-    plt.savefig(dataFolder+'Suter15_fig6A_extracted.png')
+    plt.savefig(dataFolder+'Suter15_fig3A_extracted.png')
     
-    # ----------------------------------
-    # for M1 paper: S2 -> PT
-    # ylen = 25
-    # n = 10
-    # data = extractColor(dataFolder+'colorbar_Suter15.png', dataFolder+'Suter15_fig5D_v2.png', (n, ylen), checkColorRange=True, show=1, save=True)
-    # with open(dataFolder+'Suter15_fig5D.pkl','rb') as f:
-    #     d=pkl.load(f)
-    # # for i in range(12, 17):
-    # #      d[5, i] = d[4, i]
-    # # d[5, 17] = d[5, 16]
-    # # d[6, 14] = d[5, 16]
-    # # d[6, 15] = d[5, 16]
-
-    # plt.imshow(d.T, interpolation='none')
-    # plt.savefig(dataFolder+'Suter15_fig5D_S2_PT_scracm_extracted_v2.png')
 

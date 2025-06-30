@@ -13,6 +13,16 @@ Updates:
 2014 December (Marianne Bezaire): documented
 ENDCOMMENT
 
+NEURON {
+	SUFFIX ch_CavN				: The name of the mechanism
+	USEION ca READ eca WRITE ica VALENCE 2 
+	RANGE g
+	RANGE gmax
+	RANGE cinf, ctau, dinf, dtau
+	RANGE myi
+	THREADSAFE
+}
+
 VERBATIM
 #include <stdlib.h> /* 	Include this library so that the following
 						(innocuous) warning does not appear:
@@ -28,17 +38,6 @@ UNITS {
 	(mM) = (millimolar)
 	FARADAY = 96520 (coul)
 	R = 8.3134	(joule/degC)
-}
- 
- 
-NEURON {
-	SUFFIX ch_CavN				: The name of the mechanism
-	USEION ca READ eca WRITE ica VALENCE 2 
-	RANGE g
-	RANGE gmax
-	RANGE cinf, ctau, dinf, dtau
-	RANGE myi
-	THREADSAFE
 }
  
 INDEPENDENT {t FROM 0 TO 100 WITH 100 (ms)}
@@ -66,6 +65,7 @@ ASSIGNED {			: assigned (where?)
 	dtau (ms) 
 	cexp dexp      
 	myi (mA/cm2)
+	q10
 }
 
 BREAKPOINT {
@@ -92,8 +92,6 @@ PROCEDURE states() {	:Computes state variables m, h, and n
         :return 0;
         :ENDVERBATIM
 }
- 
-LOCAL q10
 
 PROCEDURE rates(v) {  :Computes rate and other constants at current v.
                       :Call once from HOC to initialize inf at resting v.
@@ -115,8 +113,8 @@ PROCEDURE rates(v) {  :Computes rate and other constants at current v.
 PROCEDURE trates(v) {  :Computes rate and other constants at current v.
                       :Call once from HOC to initialize inf at resting v.
 	LOCAL tinc
-	TABLE  cinf, cexp, dinf, dexp, ctau, dtau
-	DEPEND dt, celsius FROM -100 TO 100 WITH 200
+	:TABLE  cinf, cexp, dinf, dexp, ctau, dtau
+	:DEPEND dt, celsius FROM -100 TO 100 WITH 200
                            
 	rates(v)	: not consistently executed from here if usetable_hh == 1
 				: so don't expect the tau values to be tracking along with
@@ -136,10 +134,4 @@ FUNCTION vtrap(x,y) {  :Traps for 0 in denominator of rate eqns.
 }
 
 UNITSON
-
-
-
-
-
-
 

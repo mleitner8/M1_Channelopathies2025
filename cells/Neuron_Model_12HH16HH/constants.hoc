@@ -25,7 +25,7 @@ Second Street, Suite 300, San Francisco, California, 94105, USA.
 */
 
 celsius=34
-{printf("Setting temperature to %f C\n", celsius)}
+//{printf("Setting temperature to %f C\n", celsius)}
 tstop=30000
 dt=0.1
-{printf("Setting simulation time step to %f ms\n", dt)}
+//{printf("Setting simulation time step to %f ms\n", dt)}

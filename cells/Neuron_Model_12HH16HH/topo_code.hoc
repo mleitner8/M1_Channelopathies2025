@@ -7,10 +7,10 @@ mt = new MechanismType(0)
 fn = new File()
 fn.wopen("64MDL.csv")
 forall{
-	fn.printf("#%s\n",secname())
+	// fn.printf("#%s\n",secname())
 	if (ismembrane("pas")){
-		fn.printf("g_pas = %f\n",g_pas)
-		fn.printf("e_pas = %f\n",e_pas)
+		// fn.printf("g_pas = %f\n",g_pas)
+		// fn.printf("e_pas = %f\n",e_pas)
 	}
 	for i=0, mt.count()-1 {
 		mt.select(i)
@@ -19,16 +19,16 @@ forall{
 			ms = new MechanismStandard(mname,-1)
 			for j=0, ms.count()-1 {
 				k = ms.name(s, j)
-				sprint(ss,"temp=%s",s)
+				// sprint(ss,"temp=%s",s)
 				execute(ss)
-				fn.printf("%s = %f\n",s,temp)
+				// fn.printf("%s = %f\n",s,temp)
 			}
 			ms = new MechanismStandard(mname,3)
 			for j=0, ms.count()-1 {
 				k = ms.name(s, j)
-				sprint(ss,"temp=%s",s)
+				// sprint(ss,"temp=%s",s)
 				execute(ss)
-				fn.printf("%s = %f\n",s,temp)
+				// fn.printf("%s = %f\n",s,temp)
 			}
 		}
 	}
@@ -39,7 +39,7 @@ fn.close()
 fn = new File()
 fn.wopen("64PP.csv")
 forall{
-	fn.printf("#%s\n",secname())
+	// fn.printf("#%s\n",secname())
 	mt = new MechanismType(1)
 	mt.select("IClamp")
 	for (pp = mt.pp_begin(); object_id(pp) != 0; pp = mt.pp_next()) {
@@ -47,10 +47,10 @@ forall{
 		del1 = pp.del
 		dur1 = pp.dur
 		amp1 = pp.amp
-		fn.printf("IClamp,%g, %g, %g, %g, ", x, del1, dur1, amp1)
+		// fn.printf("IClamp,%g, %g, %g, %g, ", x, del1, dur1, amp1)
 		pop_section()
 	}
-	fn.printf("\n")
+	// fn.printf("\n")
 }
 fn.close()
 // End point processess mechanisms output

@@ -180,7 +180,7 @@ class PTcell (Cell3D):
       # lambda_f takes in the current section
       sec.nseg = int((sec.L/(d_lambda*self.lambda_f(sec))+0.9)/2)*2 + 1
     for sec in self.all: after += sec.nseg 
-    print "geom_nseg: changed from ", before, " to ", after, " total segments"
+    # print "geom_nseg: changed from ", before, " to ", after, " total segments"
 
   def lambda_f (self, section): 
     # these are reasonable values for most models

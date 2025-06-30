@@ -131,7 +131,7 @@ def plotMats2D(labels=0, cbar=0):
     ybinsNew = np.arange(0, 1.0, 0.0001)
     rc('font',**{'family':'sans-serif','sans-serif':['Arial']})
     matplotlib.rcParams.update({'font.size': 16}) #, 'font.weight':'bold'})
-    plt.set_cmap('jet')
+    plt.set_cmap('viridis')
     fontsiz=26
     step = 0.0001
     
@@ -174,7 +174,10 @@ def plotMats2D(labels=0, cbar=0):
             plt.gca().set_yticks(yaxis)
             plt.gca().set_yticklabels(yaxis,fontsize=fontsiz)
             plt.gca().set_xticks([x+0.5 for x in range(7)])
-            plt.gca().set_xticklabels(longPops, fontsize=fontsiz, rotation=45)
+            longPopsLabels = list(longPops)
+            longPopsLabels[0] = 'PO'
+            longPopsLabels[1] = 'VL'            
+            plt.gca().set_xticklabels(longPopsLabels, fontsize=fontsiz, rotation=45)
             tight_layout()
             plt.gca().invert_yaxis()
             subplots_adjust(top=0.9, bottom=0.15)
@@ -186,7 +189,7 @@ def plotMats2D(labels=0, cbar=0):
                 cbar.ax.set_ylabel('convergence')
 
 
-        filename = dataFolder+'conn_long_cmat_2D_'+EorI+'.png'
+        filename = dataFolder+'conn_long_cmat_2D_'+EorI+'_viridis.png'
 
         #plt.show()
 
@@ -210,7 +213,7 @@ def plotPies():
 
     fracsTitles = {'EI':'Exc vs inh inputs', 'ELL': 'Exc long-range vs local inputs', 'ILL': 'Inh long-range vs local inputs', 'L':'Long-range inputs'} 
     
-    print (fracs)
+    # print (fracs)
 
     for k in fracs.keys():
         fracLabel,frac = fracLabels[k],fracs[k]
@@ -222,7 +225,7 @@ def plotPies():
         labels = fracLabel
 
         ## RED/BLUE for E/I!!
-        print (k)
+        # print (k)
         if k=='EI':
              colors = [colorList[4], colorList[1]]
         else:
@@ -260,7 +263,7 @@ delays = {}  # dict for the delays
 rates = {}  # dict for the spontaneous firing rate of each presyn pop
 
 ## cell types
-cellTypes = ['IT', 'PT', 'CT', 'SOM', 'PV']
+cellTypes = ['IT', 'PT', 'CT', 'SOM', 'PV', 'VIP', 'NGF']
 
 ## General coordinate system / layer boundaries '''
 bins['layerLabels'] =   ['pia', 'L1-L2 border', 'L2/3-L4 border',   'L4-L5A border',   'L5A-L5B border',    'L5B-L6 border',   'L6-WM border']  
@@ -300,8 +303,13 @@ for m1pop, s1pop in zip(m1EPops, s1EPops):
     numSyns['M1'][m1pop] = int(round(numSyns['Meyer'][s1pop] * numSynsFactor))
 
 ## tot num syns inh pops
-m1IPops = ['PV2', 'SOM2', 'PV5A', 'SOM5A', 'PV5B', 'SOM5B', 'PV6', 'SOM6']
-s1IPops = ['IT2', 'IT2', 'IT5', 'IT5', 'IT5', 'IT5', 'IT6', 'IT6']
+m1IPops =  ['NGF1',
+            'PV2', 'SOM2', 'VIP2', 'NGF2',
+            'PV4', 'SOM4', 'VIP4', 'NGF4',
+            'PV5A', 'SOM5A', 'VIP5A', 'NGF5A',
+            'PV5B', 'SOM5B', 'VIP5B', 'NGF5B',
+            'PV6', 'SOM6', 'VIP6', 'NGF6']
+s1IPops = ['IT2']*5 + ['IT4']*4 + ['IT5']*8 + ['IT6']*4  
 
 numSynsFactorInh =  1.0  # Potjans & Diesman used ~0.8; Mark15 mentions ~10:1 of E vs I thalamic input synapses (consistent with proportion of E:I cells)
 for m1pop, s1pop in zip(m1IPops, s1IPops):
@@ -357,7 +365,9 @@ fracSyns['M1']['Other'] = 0.5
 #############
 ## Thalamus 
 inputPops = ['TPO', 'TVL']
-normInput = {'Yama15elife': {}, ('Yama15', 'IT'): {}, ('Yama15', 'PT'): {}, ('Yama15', 'CT'): {}, ('Yama15', 'SOM'): {}, ('Yama15', 'PV'): {}}
+normInput = {'Yama15elife': {},
+            ('Yama15', 'IT'): {}, ('Yama15', 'PT'): {}, ('Yama15', 'CT'): {},
+            ('Yama15', 'SOM'): {}, ('Yama15', 'PV'): {}, ('Yama15', 'VIP'): {}, ('Yama15', 'NGF'): {}}
 
 ## Yamawaki,2015 elife (forelimb)
 normInput['Yama15elife']['TPO'] = [0.26, 0.72, 0.72, 0.58, 0.25, 0.090, 0.044, 0.022]
@@ -401,14 +411,23 @@ normInput[('Yama15', 'IT')]['TVL'][7] = normInput[('Yama15', 'CT')]['TVL'][0]*3 
 normInput[('Yama15', 'IT')]['TVL'][8] = normInput[('Yama15', 'CT')]['TVL'][1] # IT6 lower = CT 
 bins[('TVL', 'IT')] = bins[('TPO', 'IT')] = bins['Yama15'][0:8+1]
 
-bins[('TVL', 'PV')] = bins[('TVL', 'SOM')] = bins[('TVL', 'IT')]
-bins[('TPO', 'PV')] = bins[('TPO', 'SOM')] =  bins[('TPO', 'IT')]
+bins[('TVL', 'PV')] = bins[('TVL', 'SOM')] = bins[('TVL', 'VIP')] = bins[('TVL', 'NGF')] = bins[('TVL', 'IT')]
+bins[('TPO', 'PV')] = bins[('TPO', 'SOM')] = bins[('TPO', 'VIP')] = bins[('TPO', 'NGF')] = bins[('TPO', 'IT')]
+
+# add L1 NGF 
+bins[('TPO', 'NGF')] = [[layers[0], layers[1]]] + bins[('TPO', 'NGF')]
+bins[('TVL', 'NGF')] = [[layers[0], layers[1]]] + bins[('TPO', 'NGF')]
 
 ## For inhib cells assume original Yamawaki elife yfrac-based values
 normInput[('Yama15', 'SOM')]['TPO'] = normInput['Yama15elife']['TPO'] + [normInput['Yama15elife']['TPO'][-1]] # add extra L6 
 normInput[('Yama15', 'PV')]['TPO'] = normInput['Yama15elife']['TPO'] + [normInput['Yama15elife']['TPO'][-1]]
+normInput[('Yama15', 'VIP')]['TPO'] = normInput['Yama15elife']['TPO'] + [normInput['Yama15elife']['TPO'][-1]]
+normInput[('Yama15', 'NGF')]['TPO'] = normInput['Yama15elife']['TPO'] + [normInput['Yama15elife']['TPO'][-1]]
 normInput[('Yama15', 'SOM')]['TVL'] = normInput['Yama15elife']['TVL'] + [normInput['Yama15elife']['TVL'][-1]]
 normInput[('Yama15', 'PV')]['TVL'] = normInput['Yama15elife']['TVL'] + [normInput['Yama15elife']['TVL'][-1]]
+normInput[('Yama15', 'VIP')]['TVL'] = normInput['Yama15elife']['TVL'] + [normInput['Yama15elife']['TVL'][-1]]
+normInput[('Yama15', 'NGF')]['TVL'] = normInput['Yama15elife']['TVL'] + [normInput['Yama15elife']['TVL'][-1]]
+
 
 ## normalize so max=1.0
 for inputPop in inputPops:
@@ -426,8 +445,11 @@ M1BinPops = {}  # pop corresponding to each bin (thalamus) to obtain syns per ce
 M1BinPops['IT'] = ['IT2', 'IT2', 'IT4', 'IT5A', 'IT5B',  'IT5B',  'IT5B', 'IT6', 'IT6']
 M1BinPops['PT'] = ['PT5B', 'PT5B', 'PT5B']
 M1BinPops['CT'] = ['CT6', 'CT6']
-M1BinPops['PV'] = ['PV2', 'PV2', 'PV5A', 'PV5A', 'PV5B', 'PV5B', 'PV5B', 'PV6', 'PV6']
-M1BinPops['SOM'] = ['SOM2', 'SOM2', 'SOM5A', 'SOM5A', 'SOM5B', 'SOM5B', 'SOM5B', 'SOM6', 'SOM6']
+M1BinPops['PV'] = ['PV2', 'PV2', 'PV4', 'PV5A', 'PV5B', 'PV5B', 'PV5B', 'PV6', 'PV6']
+M1BinPops['SOM'] = ['SOM2', 'SOM2', 'SOM4', 'SOM5A', 'SOM5B', 'SOM5B', 'SOM5B', 'SOM6', 'SOM6']
+M1BinPops['VIP'] = ['VIP2', 'VIP2', 'VIP4', 'VIP5A', 'VIP5B', 'VIP5B', 'VIP5B', 'VIP6', 'VIP6']
+M1BinPops['NGF'] = ['NGF1', 'NGF2', 'NGF2', 'NGF4', 'NGF5A', 'NGF5B', 'NGF5B', 'NGF5B', 'NGF6', 'NGF6']
+
 
 for inputPop in inputPops:
     for ct in cellTypes:
@@ -470,6 +492,13 @@ bins[('S1', 'PV')] = bins[('S1', 'IT')]
 normInput[('Mao11', 'SOM')] = normInput[('Mao11', 'IT')] # input? yes (Wall 2016) vs no (Harris & Shepeherd 2015) 
 bins[('S1', 'SOM')] =  bins[('S1', 'IT')] 
 
+normInput[('Mao11', 'VIP')] = normInput[('Mao11', 'IT')]
+bins[('S1', 'VIP')] = bins[('S1', 'IT')] 
+
+normInput[('Mao11', 'NGF')] = normInput[('Mao11', 'IT')] # input? yes (Wall 2016) vs no (Harris & Shepeherd 2015) 
+bins[('S1', 'NGF')] = [[layers[0], layers[1]]] + bins[('S1', 'IT')] 
+
+
 ## syns per conn
 synsPerConn['S1'] = 5
 
@@ -478,8 +507,11 @@ M1BinPops = {}  # pop corresponding to each bin (S1) to obtain syns per cell
 M1BinPops['IT'] = ['IT2', 'IT4', 'IT5A', 'IT5B', 'IT6']
 M1BinPops['PT'] = ['PT5B']
 M1BinPops['CT'] = ['CT6']
-M1BinPops['PV'] = ['PV2', 'PV5A', 'PV5A', 'PV5B',  'PV6']
-M1BinPops['SOM'] = ['SOM2', 'SOM5A', 'SOM5A', 'SOM5B', 'SOM6']
+M1BinPops['PV'] = ['PV2', 'PV4', 'PV5A', 'PV5B',  'PV6']
+M1BinPops['SOM'] = ['SOM2', 'SOM4', 'SOM5A', 'SOM5B', 'SOM6']
+M1BinPops['VIP'] = ['VIP2', 'VIP4', 'VIP5A', 'VIP5B',  'VIP6']
+M1BinPops['NGF'] = ['NGF1', 'NGF2', 'NGF4', 'NGF5A', 'NGF5B', 'NGF6']
+
 
 inputPop = 'S1'
 for ct in cellTypes:
@@ -525,6 +557,13 @@ bins[('S2', 'PV')] = bins['Suter15']
 normInput[('Suter15', 'SOM')] = normInput['Suter15'] # input? yes (Wall 2016) vs no (Harris & Shepeherd 2015) 
 bins[('S2', 'SOM')] = bins['Suter15'] 
 
+normInput[('Suter15', 'VIP')] = normInput['Suter15'] 
+bins[('S2', 'VIP')] = bins['Suter15'] 
+
+normInput[('Suter15', 'NGF')] = normInput['Suter15'] # input? yes (Wall 2016) vs no (Harris & Shepeherd 2015) 
+bins[('S2', 'NGF')] = [[layers[0], layers[1]]] + bins['Suter15']
+
+
 ## syns per conn
 synsPerConn['S2'] = 5
 
@@ -533,8 +572,11 @@ M1BinPops = {}  # pop corresponding to each bin (S2) to obtain syns per cell
 M1BinPops['IT'] = ['IT2', 'IT4', 'IT5A', 'IT5B', 'IT5B', 'IT5B', 'IT6']
 M1BinPops['PT'] = ['PT5B', 'PT5B', 'PT5B']
 M1BinPops['CT'] = ['CT6']
-M1BinPops['PV'] = ['PV2', 'PV5A', 'PV5A', 'PV5B', 'PV5B', 'PV5B', 'PV6']
-M1BinPops['SOM'] = ['SOM2', 'SOM5A', 'SOM5A', 'SOM5B', 'SOM5B', 'SOM5B', 'SOM6']
+M1BinPops['PV'] = ['PV2', 'PV4', 'PV5A', 'PV5B', 'PV5B', 'PV5B', 'PV6']
+M1BinPops['SOM'] = ['SOM2', 'SOM4', 'SOM5A', 'SOM5B', 'SOM5B', 'SOM5B', 'SOM6']
+M1BinPops['VIP'] = ['VIP2', 'VIP4', 'VIP5A', 'VIP5B', 'VIP5B', 'VIP5B', 'VIP6']
+M1BinPops['NGF'] = ['NGF1', 'NGF2', 'NGF4', 'NGF5A', 'NGF5B', 'NGF5B', 'NGF5B', 'NGF6']
+
 
 inputPop = 'S2'
 for ct in cellTypes:
@@ -575,7 +617,13 @@ normInput[('Hooks13_M2', 'PV')] = normInput['Hooks13_M2']
 bins[('M2', 'PV')] = bins['Hooks13_M2'] 
 
 normInput[('Hooks13_M2', 'SOM')] = normInput['Hooks13_M2'] # input? yes (Wall 2016) vs no (Harris & Shepeherd 2015) 
-bins[('M2', 'SOM')] = bins['Hooks13_M2'] 
+bins[('M2', 'SOM')] = bins['Hooks13_M2']
+
+normInput[('Hooks13_M2', 'VIP')] = normInput['Hooks13_M2'] 
+bins[('M2', 'VIP')] = bins['Hooks13_M2'] 
+
+normInput[('Hooks13_M2', 'NGF')] = normInput['Hooks13_M2'] # input? yes (Wall 2016) vs no (Harris & Shepeherd 2015) 
+bins[('M2', 'NGF')] = [[layers[0], layers[1]]] + bins['Hooks13_M2'] 
 
 for ct in cellTypes:
     bins[('cM1', ct)] = bins[('M2', ct)]
@@ -589,8 +637,10 @@ M1BinPops = {}  # pop corresponding to each bin (S2) to obtain syns per cell
 M1BinPops['IT'] = ['IT2', 'IT4', 'IT5A', 'IT5B', 'IT5B', 'IT6']
 M1BinPops['PT'] = ['PT5B', 'PT5B']
 M1BinPops['CT'] = ['CT6']
-M1BinPops['PV'] = ['PV2', 'PV5A', 'PV5A', 'PV5B', 'PV5B', 'PV6']
-M1BinPops['SOM'] = ['SOM2', 'SOM5A', 'SOM5A', 'SOM5B', 'SOM5B', 'SOM6']
+M1BinPops['PV'] = ['PV2', 'PV4', 'PV5A', 'PV5B',  'PV6']
+M1BinPops['SOM'] = ['SOM2', 'SOM4', 'SOM5A', 'SOM5B', 'SOM6']
+M1BinPops['VIP'] = ['VIP2', 'VIP4', 'VIP5A', 'VIP5B',  'VIP6']
+M1BinPops['NGF'] = ['NGF1', 'NGF2', 'NGF4', 'NGF5A', 'NGF5B', 'NGF6']
 
 
 for pop in ['cM1', 'M2']:
@@ -628,6 +678,12 @@ bins[('OC', 'PV')] = bins['Hooks13_OC']
 normInput[('Hooks13_OC', 'SOM')] = normInput[('Hooks13_OC', 'IT')] # input? yes (Wall 2016) vs no (Harris & Shepeherd 2015) 
 bins[('OC', 'SOM')] = bins['Hooks13_OC']
 
+normInput[('Hooks13_OC', 'VIP')] = normInput['Hooks13_OC'] 
+bins[('OC', 'VIP')] = bins['Hooks13_OC']
+
+normInput[('Hooks13_OC', 'NGF')] = normInput[('Hooks13_OC', 'IT')] # input? yes (Wall 2016) vs no (Harris & Shepeherd 2015) 
+bins[('OC', 'NGF')] = [[layers[0], layers[1]]] + bins['Hooks13_OC']
+
 ## syns per conn
 synsPerConn['OC'] = 5
 
@@ -636,8 +692,10 @@ M1BinPops = {}  # pop corresponding to each bin (S1) to obtain syns per cell
 M1BinPops['IT'] = ['IT2', 'IT4', 'IT5A', 'IT5B', 'IT6']
 M1BinPops['PT'] = ['PT5B']
 M1BinPops['CT'] = ['CT6']
-M1BinPops['PV'] = ['PV2', 'PV5A', 'PV5A', 'PV5B',  'PV6']
-M1BinPops['SOM'] = ['SOM2', 'SOM5A', 'SOM5A', 'SOM5B', 'SOM6']
+M1BinPops['PV'] = ['PV2', 'PV4', 'PV5A', 'PV5B',  'PV6']
+M1BinPops['SOM'] = ['SOM2', 'SOM4', 'SOM5A', 'SOM5B', 'SOM6']
+M1BinPops['VIP'] = ['VIP2', 'VIP4', 'VIP5A', 'VIP5B',  'VIP6']
+M1BinPops['NGF'] = ['NGF1', 'NGF2', 'NGF4', 'NGF5A', 'NGF5B', 'NGF6']
 
 inputPop = 'OC'
 for ct in cellTypes:
@@ -709,14 +767,6 @@ rates['S2'] = [0,5]
 rates['cM1'] = [0,5]
 rates['M2'] = [0,5]
 rates['OC'] = [0,5]
-
-print ('TPO', bins[('TPO', 'IT')])
-print ('TVL', bins[('TVL', 'IT')])
-print ('S1', bins[('S1', 'IT')])
-print ('S2', bins[('S2', 'IT')])
-print ('cM1', bins[('cM1', 'IT')])
-print ('M2', bins[('M2', 'IT')])
-print ('OC', bins[('OC', 'IT')])
 
 
 # ------------------------------------------------------------------------------------------------------------------

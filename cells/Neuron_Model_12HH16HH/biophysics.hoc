@@ -38,9 +38,9 @@ proc distribute(){local x localobj sl
         sl = $o1
         mech = $s2
         distfunc = $s3
-        sprint(distfunc,"%%s %s(%%f) = %s",mech, distfunc)
+        //sprint(distfunc,"%%s %s(%%f) = %s",mech, distfunc)
         forsec sl for(x) {
-            sprint (stmp,distfunc,secname(),x,distance(x))
+            //sprint (stmp,distfunc,secname(),x,distance(x))
             execute(stmp)
         }
     }

@@ -116,7 +116,7 @@ class ITcell (Cell3D):
       sec.nseg = int((sec.L/(d_lambda*self.lambda_f(sec))+0.9)/2)*2 + 1
     for sec in self.all:
       after += sec.nseg 
-    print ("geom_nseg: changed from ", before, " to ", after, " total segments")
+    # print ("geom_nseg: changed from ", before, " to ", after, " total segments")
 
   def lambda_f(self, section): 
     # these are reasonable values for most models
@@ -345,7 +345,7 @@ class ITcell (Cell3D):
       cal_gcalbar = 2.82453671147e-05
       kdr_gbar = 0.00378281934564
 
-      return os.environ['SITE']+'/nrniv/local/morph/BS1578.ASC'
+      return os.path.join(os.path.dirname(os.path.realpath(__file__)), 'BS1578.ASC')
 
     elif params == 'BS1579':
       # properties from subthreshold fits
@@ -377,6 +377,6 @@ class ITcell (Cell3D):
       cal_gcalbar = 3.9810325062e-05
       kdr_gbar = 0.00382910493766
 
-      return os.environ['SITE']+'/nrniv/local/morph/BS1579.ASC'
+      return os.path.join(os.path.dirname(os.path.realpath(__file__)), 'BS1579.ASC')
 
 

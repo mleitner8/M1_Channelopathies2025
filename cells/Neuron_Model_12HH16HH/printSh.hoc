@@ -6,81 +6,81 @@ proc printValsWT16(){
         //print "after"
         //print tha_na16
         
-        print "na16 WT axon"
-        print "sh"
-        print sh_na16
+        // print "na16 WT axon"
+        // print "sh"
+        // print sh_na16
         
-        print "gbar"
-        print gbar_na16
+        // print "gbar"
+        // print gbar_na16
         
-        print "tha"
-        print tha_na16
+        // print "tha"
+        // print tha_na16
 
-        print "qa"
-        print qa_na16
+        // print "qa"
+        // print qa_na16
 
-        print "Ra"
-        print Ra_na16
+        // print "Ra"
+        // print Ra_na16
         
-        print "Rb"
-        print Rb_na16
+        // print "Rb"
+        // print Rb_na16
         
-        print "thi1,2"
-        print thi1_na16
-        print thi2_na16
+        // print "thi1,2"
+        // print thi1_na16
+        // print thi2_na16
         
-        print "qd qg"
-        print qd_na16
-        print qg_na16
+        // print "qd qg"
+        // print qd_na16
+        // print qg_na16
 
-        print "Rg Rd"
-        print Rg_na16
-        print Rd_na16
+        // print "Rg Rd"
+        // print Rg_na16
+        // print Rd_na16
 
-        print "thinf"
-        print thinf_na16
+        // print "thinf"
+        // print thinf_na16
         
     }
     
     forsec cell.somatic{
-        //print tha_na16
+        //// print tha_na16
         //tha_na16=-55
-        //print "after"
-        //print tha_na16
+        //// print "after"
+        //// print tha_na16
         
-        print "na16 soma"
-        print "sh"
-        print sh_na16
+        // print "na16 soma"
+        // print "sh"
+        // print sh_na16
         
-        print "gbar"
-        print gbar_na16
+        // print "gbar"
+        // print gbar_na16
         
-        print "tha"
-        print tha_na16
+        // print "tha"
+        // print tha_na16
 
-        print "qa"
-        print qa_na16
+        // print "qa"
+        // print qa_na16
 
-        print "Ra"
-        print Ra_na16
+        // print "Ra"
+        // print Ra_na16
         
-        print "Rb"
-        print Rb_na16
+        // print "Rb"
+        // print Rb_na16
         
-        print "thi1,2"
-        print thi1_na16
-        print thi2_na16
+        // print "thi1,2"
+        // print thi1_na16
+        // print thi2_na16
         
-        print "qd qg"
-        print qd_na16
-        print qg_na16
+        // print "qd qg"
+        // print qd_na16
+        // print qg_na16
 
-        print "Rg Rd"
-        print Rg_na16
-        print Rd_na16
+        // print "Rg Rd"
+        // print Rg_na16
+        // print Rd_na16
 
-        print "thinf"
-        print thinf_na16
+        // print "thinf"
+        // print thinf_na16
         
     }
 }
@@ -93,39 +93,39 @@ proc printValsMUT16(){
         //print "after"
         //print tha_na16
         
-        print "na16mut axon"
-        print "sh"
-        print sh_na16mut
+        // print "na16mut axon"
+        // print "sh"
+        // print sh_na16mut
         
-        print "gbar"
-        print gbar_na16mut
+        // print "gbar"
+        // print gbar_na16mut
         
-        print "tha"
-        print tha_na16mut
+        // print "tha"
+        // print tha_na16mut
 
-        print "qa"
-        print qa_na16mut
+        // print "qa"
+        // print qa_na16mut
 
-        print "Ra"
-        print Ra_na16mut
+        // print "Ra"
+        // print Ra_na16mut
         
-        print "Rb"
-        print Rb_na16mut
+        // print "Rb"
+        // print Rb_na16mut
         
-        print "thi1,2"
-        print thi1_na16mut
-        print thi2_na16mut
+        // print "thi1,2"
+        // print thi1_na16mut
+        // print thi2_na16mut
         
-        print "qd qg"
-        print qd_na16mut
-        print qg_na16mut
+        // print "qd qg"
+        // print qd_na16mut
+        // print qg_na16mut
 
-        print "Rg Rd"
-        print Rg_na16mut
-        print Rd_na16mut
+        // print "Rg Rd"
+        // print Rg_na16mut
+        // print Rd_na16mut
 
-        print "thinf"
-        print thinf_na16mut
+        // print "thinf"
+        // print thinf_na16mut
         
     }
     
@@ -135,39 +135,39 @@ proc printValsMUT16(){
         //print "after"
         //print tha_na16
         
-        print "na16mut soma"
-        print "sh"
-        print sh_na16mut
+        // print "na16mut soma"
+        // print "sh"
+        // print sh_na16mut
         
-        print "gbar"
-        print gbar_na16mut
+        // print "gbar"
+        // print gbar_na16mut
         
-        print "tha"
-        print tha_na16mut
+        // print "tha"
+        // print tha_na16mut
 
-        print "qa"
-        print qa_na16mut
+        // print "qa"
+        // print qa_na16mut
 
-        print "Ra"
-        print Ra_na16mut
+        // print "Ra"
+        // print Ra_na16mut
         
-        print "Rb"
-        print Rb_na16mut
+        // print "Rb"
+        // print Rb_na16mut
         
-        print "thi1,2"
-        print thi1_na16mut
-        print thi2_na16mut
+        // print "thi1,2"
+        // print thi1_na16mut
+        // print thi2_na16mut
         
-        print "qd qg"
-        print qd_na16mut
-        print qg_na16mut
+        // print "qd qg"
+        // print qd_na16mut
+        // print qg_na16mut
 
-        print "Rg Rd"
-        print Rg_na16mut
-        print Rd_na16mut
+        // print "Rg Rd"
+        // print Rg_na16mut
+        // print Rd_na16mut
 
-        print "thinf"
-        print thinf_na16mut
+        // print "thinf"
+        // print thinf_na16mut
         
     }
 }
@@ -179,39 +179,39 @@ proc printVals12HHWT(){
         //print "after"
         //print tha_na16
         
-        print "na12 axon"
-        print "sh"
-        print sh_na12
+        // print "na12 axon"
+        // print "sh"
+        // print sh_na12
         
-        print "gbar"
-        print gbar_na12
+        // print "gbar"
+        // print gbar_na12
         
-        print "tha"
-        print tha_na12
+        // print "tha"
+        // print tha_na12
 
-        print "qa"
-        print qa_na12
+        // print "qa"
+        // print qa_na12
 
-        print "Ra"
-        print Ra_na12
+        // print "Ra"
+        // print Ra_na12
         
-        print "Rb"
-        print Rb_na12
+        // print "Rb"
+        // print Rb_na12
 
-        print "thi1,2"
-        print thi1_na12
-        print thi2_na12
+        // print "thi1,2"
+        // print thi1_na12
+        // print thi2_na12
         
-        print "qd qg"
-        print qd_na12
-        print qg_na12
+        // print "qd qg"
+        // print qd_na12
+        // print qg_na12
 
-        print "Rg Rd"
-        print Rg_na12
-        print Rd_na12
+        // print "Rg Rd"
+        // print Rg_na12
+        // print Rd_na12
 
-        print "thinf"
-        print thinf_na12
+        // print "thinf"
+        // print thinf_na12
         
     }
     
@@ -221,39 +221,39 @@ proc printVals12HHWT(){
         //print "after"
         //print tha_na16
         
-        print "na16mut soma"
-        print "sh"
-        print sh_na16mut
+        // print "na16mut soma"
+        // print "sh"
+        // print sh_na16mut
         
-        print "gbar"
-        print gbar_na16mut
+        // print "gbar"
+        // print gbar_na16mut
         
-        print "tha"
-        print tha_na16mut
+        // print "tha"
+        // print tha_na16mut
 
-        print "qa"
-        print qa_na16mut
+        // print "qa"
+        // print qa_na16mut
 
-        print "Ra"
-        print Ra_na16mut
+        // print "Ra"
+        // print Ra_na16mut
         
-        print "Rb"
-        print Rb_na16mut
+        // print "Rb"
+        // print Rb_na16mut
         
-        print "thi1,2"
-        print thi1_na16mut
-        print thi2_na16mut
+        // print "thi1,2"
+        // print thi1_na16mut
+        // print thi2_na16mut
         
-        print "qd qg"
-        print qd_na16mut
-        print qg_na16mut
+        // print "qd qg"
+        // print qd_na16mut
+        // print qg_na16mut
 
-        print "Rg Rd"
-        print Rg_na16mut
-        print Rd_na16mut
+        // print "Rg Rd"
+        // print Rg_na16mut
+        // print Rd_na16mut
 
-        print "thinf"
-        print thinf_na16mut
+        // print "thinf"
+        // print thinf_na16mut
         
     }
 }
@@ -261,18 +261,18 @@ proc printVals12HHWT(){
 proc printValsHMM12WT(){
     forsec cell.axonal{
                
-        print "na12WT axon"
-        print "a1_0"
-        print a1_0_na12
+        // print "na12WT axon"
+        // print "a1_0"
+        // print a1_0_na12
         
-        print "a1_1"
-        print a1_1_na12
+        // print "a1_1"
+        // print a1_1_na12
         
-        print "b1_0"
-        print b1_0_na12
+        // print "b1_0"
+        // print b1_0_na12
 
-        print "b1_1"
-        print b1_1_na12
+        // print "b1_1"
+        // print b1_1_na12
 
         //print "vshift"
         //print vshift_na12
@@ -284,18 +284,18 @@ proc printValsHMM12WT(){
     
     forsec cell.somatic{
                
-        print "na12WT soma"
-        print "a1_0"
-        print a1_0_na12
+        // print "na12WT soma"
+        // print "a1_0"
+        // print a1_0_na12
         
-        print "a1_1"
-        print a1_1_na12
+        // print "a1_1"
+        // print a1_1_na12
         
-        print "b1_0"
-        print b1_0_na12
+        // print "b1_0"
+        // print b1_0_na12
 
-        print "b1_1"
-        print b1_1_na12
+        // print "b1_1"
+        // print b1_1_na12
 
         //print "vshift"
         //print vshift_na12
@@ -309,18 +309,18 @@ proc printValsHMM12WT(){
 proc printValsHMM12MUT(){
     forsec cell.axonal{
                
-        print "na12mut axon"
-        print "a1_0"
-        print a1_0_na12mut
+        // print "na12mut axon"
+        // print "a1_0"
+        // print a1_0_na12mut
         
-        print "a1_1"
-        print a1_1_na12mut
+        // print "a1_1"
+        // print a1_1_na12mut
         
-        print "b1_0"
-        print b1_0_na12mut
+        // print "b1_0"
+        // print b1_0_na12mut
 
-        print "b1_1"
-        print b1_1_na12mut
+        // print "b1_1"
+        // print b1_1_na12mut
 
         //print "vshift"
         //print vshift_na12mut
@@ -332,18 +332,18 @@ proc printValsHMM12MUT(){
     
     forsec cell.somatic{
                 
-        print "na12mut soma"
-        print "a1_0"
-        print a1_0_na12mut
+        // print "na12mut soma"
+        // print "a1_0"
+        // print a1_0_na12mut
         
-        print "a1_1"
-        print a1_1_na12mut
+        // print "a1_1"
+        // print a1_1_na12mut
         
-        print "b1_0"
-        print b1_0_na12mut
+        // print "b1_0"
+        // print b1_0_na12mut
 
-        print "b1_1"
-        print b1_1_na12mut
+        // print "b1_1"
+        // print b1_1_na12mut
 
        // print "vshift"
         //print vshift_na12mut
@@ -358,18 +358,18 @@ proc printValsDEBUG(){
     
     forsec cell.somatic{
                 
-        print "na12mut soma"
-        print "a1_0"
-        print a1_0_na12mut
+        // print "na12mut soma"
+        // print "a1_0"
+        // print a1_0_na12mut
         
-        print "a1_1"
-        print a1_1_na12mut
+        // print "a1_1"
+        // print a1_1_na12mut
         
-        print "b1_0"
-        print b1_0_na12mut
+        // print "b1_0"
+        // print b1_0_na12mut
 
-        print "b1_1"
-        print b1_1_na12mut
+        // print "b1_1"
+        // print b1_1_na12mut
 
        // print "vshift"
         //print vshift_na12mut

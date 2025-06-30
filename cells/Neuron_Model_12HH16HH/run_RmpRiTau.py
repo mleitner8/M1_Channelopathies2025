@@ -52,7 +52,7 @@ def create_cell():
 
     # Instantiate the cell from the template
 
-    print("Loading cell cADpyr232_L5_TTPC1_0fb1ca4724")
+    # print("Loading cell cADpyr232_L5_TTPC1_0fb1ca4724")
     cell = neuron.h.cADpyr232_L5_TTPC1_0fb1ca4724(0)
     return cell
 
@@ -60,7 +60,7 @@ def create_cell():
 def create_stimuli(cell, stim_start, stim_end, current_amplitude):
     """Create the stimuli"""
 
-    print('Attaching stimulus electrodes')
+    # print('Attaching stimulus electrodes')
 
     stimuli = []
 
@@ -68,9 +68,9 @@ def create_stimuli(cell, stim_start, stim_end, current_amplitude):
     iclamp.delay = stim_start
     iclamp.dur = stim_end - stim_start
     iclamp.amp = current_amplitude
-    print('Setting up step current clamp: '
-          'amp=%f nA, delay=%f ms, duration=%f ms' %
-          (iclamp.amp, iclamp.delay, iclamp.dur))
+    # print('Setting up step current clamp: '
+    #       'amp=%f nA, delay=%f ms, duration=%f ms' %
+    #       (iclamp.amp, iclamp.delay, iclamp.dur))
 
     stimuli.append(iclamp)
 
@@ -79,7 +79,7 @@ def create_stimuli(cell, stim_start, stim_end, current_amplitude):
 
 def create_recordings(cell):
     """Create the recordings"""
-    print('Attaching recording electrodes')
+    # print('Attaching recording electrodes')
 
     recordings = {}
 
@@ -105,11 +105,11 @@ def run_RmpRiTau_step(
 
     # Overriding default 30s simulation,
     neuron.h.tstop = stim_end + stim_start
-    print(
-        'Setting simulation time to %.6g ms for the step current' %
-        neuron.h.tstop)
+    # print(
+    #     'Setting simulation time to %.6g ms for the step current' %
+    #     neuron.h.tstop)
 
-    print('Setting initial voltage to -70 mV')
+    # print('Setting initial voltage to -70 mV')
     neuron.h.v_init = -70
 
     neuron.h.stdinit()
@@ -134,8 +134,8 @@ def run_RmpRiTau_step(
         'soma_voltage_RmpRiTau_step.dat')
     numpy.savetxt(soma_voltage_filename, zip(time, soma_voltage))
 
-    print('Soma voltage for RmpRiTau trace saved to: %s'
-          % (soma_voltage_filename))
+    # print('Soma voltage for RmpRiTau trace saved to: %s'
+    #       % (soma_voltage_filename))
 
     if plot_traces:
         import pylab
@@ -154,7 +154,7 @@ def init_simulation():
     neuron.h.load_file("stdrun.hoc")
     neuron.h.load_file("import3d.hoc")
 
-    print('Loading constants')
+    # print('Loading constants')
     neuron.h.load_file('constants.hoc')
 
 
@@ -198,12 +198,12 @@ def analyse_RmpRiTau_trace(
     rmpritau_dict['Tau'] = '%.6g' % dct
     rmpritau_dict['Tau_Units'] = 'ms'
 
-    print('Resting membrane potential is %s %s' %
-          (rmpritau_dict['Rmp'], rmpritau_dict['Rmp_Units']))
-    print('Input resistance is %s %s' %
-          (rmpritau_dict['Rin'], rmpritau_dict['Rin_Units']))
-    print('Time constant is %s %s' %
-          (rmpritau_dict['Tau'], rmpritau_dict['Tau_Units']))
+    # print('Resting membrane potential is %s %s' %
+    #       (rmpritau_dict['Rmp'], rmpritau_dict['Rmp_Units']))
+    # print('Input resistance is %s %s' %
+    #       (rmpritau_dict['Rin'], rmpritau_dict['Rin_Units']))
+    # print('Time constant is %s %s' %
+    #       (rmpritau_dict['Tau'], rmpritau_dict['Tau_Units']))
 
     import json
 

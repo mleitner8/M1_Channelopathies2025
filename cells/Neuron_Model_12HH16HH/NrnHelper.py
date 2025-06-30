@@ -53,7 +53,7 @@ def get_fi_curve(mdl,s_amp,e_amp,nruns,wt_data=None,wt2_data=None, ax1=None,fig 
         curr_peaks,_ = find_peaks(curr_volts[:stim_length2],height = -30) #modified for na16 TTX experiments
         all_volts.append(curr_volts)
         npeaks.append(len(curr_peaks))
-    print(npeaks) #spikes at each stim current for FI curve
+    #print((npeaks) #spikes at each stim current for FI curve
     if ax1 is None:
         fig,ax1 = plt.subplots(1,1)
         ax1.plot(x_axis,npeaks,marker = 'o',markersize=1,linestyle = '-',color = 'red')
@@ -182,31 +182,31 @@ def update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False, param_name='a1_0
         with open(dict_fn) as f:
             data = f.read()
         param_dict = json.loads(data)
-    print(f'updating {mechs} with {param_dict}')
+    #print((f'updating {mechs} with {param_dict}')
     isUpdated = False
     for curr_sec in mdl.sl:
         # print(f'current section {curr_sec}') ###120523 TF
         if curr_sec.name() == 'cADpyr232_L5_TTPC1_0fb1ca4724[0].axon[0]': ##TF040224 if not axon[0], continues to for loop below
-            print('THIS IS AXON 0 AH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-            print(f'Current Mech {curr_mech} and current section {curr_sec}')
-            print('THIS IS AXON 0 AH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+            #print(('THIS IS AXON 0 AH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+            #print((f'Current Mech {curr_mech} and current section {curr_sec}')
+            #print(('THIS IS AXON 0 AH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
             ##TF052324/##
             # Update all parameters except gbar for the axon section. AIS gbar will get updated when update_mod_param called (dependent on nav12/16)
             for curr_mech in mechs:
-                print(f'Current Mech {curr_mech} and current section {curr_sec}') ###120523 TF
+                #print((f'Current Mech {curr_mech} and current section {curr_sec}') ###120523 TF
                 if h.ismembrane(curr_mech, sec=curr_sec):
                     curr_name = h.secname(sec=curr_sec)
                     for seg in curr_sec:
                         for p_name in param_dict.keys():
                             hoc_cmd = f'{curr_name}.{p_name}_{curr_mech}({seg.x}) = {param_dict[p_name]}'
-                            print(f'hoc command {hoc_cmd}')
+                            #print((f'hoc command {hoc_cmd}')
                             h(hoc_cmd)
             continue
             ##/TF05224##
             
         # Update all other sections other than axon[0]
         for curr_mech in mechs:
-            print(f'Current Mech {curr_mech} and current section {curr_sec}') ###120523 TF
+            #print((f'Current Mech {curr_mech} and current section {curr_sec}') ###120523 TF
             if h.ismembrane(curr_mech, sec=curr_sec):
                 isUpdated = True
                 curr_name = h.secname(sec=curr_sec)
@@ -240,9 +240,9 @@ def update_mech_from_dict(mdl,dict_fn,mechs,input_dict = False, param_name='a1_0
                     #         print(f'hoc command {hoc_cmd}')
                     #         h(hoc_cmd)
                     #         print('this is the one **************************************************************************************************************************************************************')
-    if(not isUpdated):
-        print("Havent Updated in any section")
-    else: print("Updated !!!!")
+    # if(not isUpdated):
+    #     print("Havent Updated in any section")
+    # else: print("Updated !!!!")
     return param_dict
 
 ##TF030624 Update mech from dict function specifically for HH mod files
@@ -253,12 +253,12 @@ def update_mech_from_dict_HH(mdl,dict_fn,mechs,input_dict = False, param_name='a
         with open(dict_fn) as f:
             data = f.read()
         param_dict = json.loads(data)
-    print(f'updating {mechs} with {param_dict}')
+    #print((f'updating {mechs} with {param_dict}')
     
     for curr_sec in mdl.sl:
-        print(f'current section {curr_sec}') ###120523 TF
+        #print((f'current section {curr_sec}') ###120523 TF
         for curr_mech in mechs:
-            print(f'Current Mech {curr_mech}') ###120523 TF
+            #print((f'Current Mech {curr_mech}') ###120523 TF
             if h.ismembrane(curr_mech, sec=curr_sec):
                 curr_name = h.secname(sec=curr_sec)
                 #print(f'Current Name {curr_name}')###120523 TF
@@ -287,7 +287,7 @@ def update_mod_param(mdl,mechs,mltplr,gbar_name = 'gbar', print_flg =False):
             if h.ismembrane(curr_mech, sec=curr_sec):
                 for seg in curr_sec:
                     hoc_cmd = f'{curr_name}.{gbar_name}_{curr_mech}({seg.x}) *= {mltplr}'
-                    print(hoc_cmd)
+                    #print((hoc_cmd)
                     # print(f'this is the par value')
                     par_value = h(f'{curr_name}.{gbar_name}_{curr_mech}({seg.x})')
                     h(hoc_cmd)
@@ -296,9 +296,9 @@ def update_mod_param(mdl,mechs,mltplr,gbar_name = 'gbar', print_flg =False):
                     #h(f'{curr_name}.{gbar_name}_{curr_mech}({seg.x})')
                    
                     # print(f'par_value before{par_value} and after {assigned_value}')
-                    if print_flg:
-                       print(f'{curr_name}_{curr_mech}_{seg}_par_value before {par_value} and after {assigned_value}')
-                       print(f'**********##### There is now {mltplr} of {curr_mech}\n\n')
+                    # if print_flg:
+                    #    print(f'{curr_name}_{curr_mech}_{seg}_par_value before {par_value} and after {assigned_value}')
+                    #    print(f'**********##### There is now {mltplr} of {curr_mech}\n\n')
 
 
 def multiply_param(mdl,mechs,p_name,multiplier):
@@ -315,7 +315,7 @@ def offset_param(mdl,mechs,p_name,offset):
             if h.ismembrane(curr_mech, sec=curr_sec):
                 curr_name = h.secname(sec=curr_sec)
                 hoc_cmd = f'{curr_name}.{p_name}_{curr_mech} += {offset}'
-                print(hoc_cmd)
+                #print((hoc_cmd)
                 h(hoc_cmd)
 def update_param_value(mdl,mechs,p_name,value):
     for curr_sec in mdl.sl:
@@ -323,7 +323,7 @@ def update_param_value(mdl,mechs,p_name,value):
             if h.ismembrane(curr_mech, sec=curr_sec):
                 curr_name = h.secname(sec=curr_sec)
                 hoc_cmd = f'{curr_name}.{p_name}_{curr_mech} = {value}'
-                print(hoc_cmd)
+                #print((hoc_cmd)
                 h(hoc_cmd)
 
 
@@ -371,7 +371,7 @@ def update_K(mdl, channel_name, gbar_name, mut_mul):
             curr_name = h.secname(sec=curr_sec)
             for seg in curr_sec:
                 hoc_cmd = f'{curr_name}.{k_name}({seg.x}) *= {mut_mul}'
-                print(hoc_cmd)
+                #print((hoc_cmd)
                 h(f'a = {curr_name}.{k_name}({seg.x})')  # get old value
                 prev_var = h.a
                 prev.append(f'{curr_name}.{k_name}({seg.x}) = {prev_var}')  # store old value in hoc_cmd

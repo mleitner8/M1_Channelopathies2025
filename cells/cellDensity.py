@@ -24,7 +24,7 @@ import csv
 cellTypes = ['IT', 'PT', 'CT', 'PV', 'SOM']
 
 ## layers
-layers = [[0.1, 0.29], [0.29, 0.37], [0.37, 0.47], [0.47, 0.8], [0.8, 1.0]]
+layers = [[0,0.1], [0.1, 0.29], [0.29, 0.37], [0.37, 0.47], [0.47, 0.8], [0.8, 1.0]]
 
 density = {}
 
@@ -36,19 +36,19 @@ density = {}
 # ------------------------------------------------------------------------------------------------------------------
 datafile = '../../data/cellDensity/Tsai09_10a.csv'
 tsaiDens = []
-with open(datafile, 'r') as f:
-	reader = csv.reader(f)
-	for row in reader:
-		tsaiDens.append((float(row[0]), float(row[1])))
+with open(datafile, 'rb') as f:
+    reader = [x.decode('utf8').split(',') for x in f.readlines()]
+    for row in reader:
+        tsaiDens.append((float(row[0]), float(row[1])))
  
 density['Tsai09'] = [round(mean([tsaiDens[i][1] for i in range(len(tsaiDens)) if layer[0] < tsaiDens[i][0] <= layer[1]])*1e5) 
 					for layer in layers] 
-
-
+# print(density['Tsai09'])
+# print(mean(np.array(tsaiDens)[:,1]))
 
 
 #L4dens = (density['Tsai09'][0]+density['Tsai09'][1])/2
-#print L4dens 
+#print(L4dens )
 
 # ------------------------------------------------------------------------------------------------------------------
 # 2) E/I ratio from Lefort09 (mouse S1) 
@@ -56,7 +56,7 @@ density['Tsai09'] = [round(mean([tsaiDens[i][1] for i in range(len(tsaiDens)) if
 # overal 85:15 ratio consistent with Markram 2015 (87% +- 1% and 13% +- 1%)
 # -------------------------------------------------------------------------------------------------------------------
 ratioEI = {}
-ratioEI['Lefort09'] = [(0.193+0.11)/2, 0.09, 0.21, 0.21, 0.10]
+ratioEI['Lefort09'] = [1.0, (0.193+0.11)/2, 0.09, 0.21, 0.21, 0.10]
 density[('M1','E')] = [round(density['Tsai09'][i]) * (1-ratioEI['Lefort09'][i]) for i in range(len(density['Tsai09']))] 
 density[('M1','I')] = [round(density['Tsai09'][i]) * ratioEI['Lefort09'][i] for i in range(len(density['Tsai09']))] 
 
@@ -71,15 +71,17 @@ density[('M1', 'I')].append(l234Dens)
 # 3) PV/SOM ratio from Katz 2011 (mouse M1) - PV:SOM = 6180:2600 (L5B), 2640:1820 (L6), ~2:1
 # ~ consistent also with Wall 2016 (418:247)
 # -------------------------------------------------------------------------------------------------------------------
+'''
 ratioPV = 0.67
 ratioSOM = 0.33
-density[('M1', 'PV')] = [round(ratioPV * dens) for dens in density[('M1','I')]]
-density[('M1', 'SOM')] = [round(ratioSOM * dens) for dens in density[('M1','I')]]
-
+density[('M1', 'PVold')] = [round(ratioPV * dens) for dens in density[('M1','I')]]
+density[('M1', 'SOMold')] = [round(ratioSOM * dens) for dens in density[('M1','I')]]
+'''
 
 # ------------------------------------------------------------------------------------------------------------------
 # 4) Compare to Katz11 (mouse M1) absolute densities; and Wall16 (mouse S1) relative densities
 # -------------------------------------------------------------------------------------------------------------------
+'''
 ratioI = {}
 relDensityI = {}
 layerWidth = [0.3111-0.06113, 0.4999-0.3111, 0.5624-0.4999, 0.7492-0.5624, 1.0-0.7492]
@@ -87,18 +89,35 @@ ratioI[('Wall16','SOM')] = [0.352, 0.199, 0.268, 0.100, 0.57]
 ratioI[('Wall16','PV')] =  [0.150, 0.279, 0.296, 0.194, 0.81]
 relDensityI[('Wall16','SOM')] = [ratioI[('Wall16','SOM')][i]/layerWidth[i] for i in range(len(layerWidth))]
 relDensityI[('Wall16','PV')] =  [ratioI[('Wall16','PV')][i]/layerWidth[i] for i in range(len(layerWidth))]
-
-# Katz16
+'''
+# Katz11
 # L5B PV = 6180, SOM = 2600 (~70-30%)
 # L6  PV = 2640, SOM = 1820 (~60-40%)
 
+# ------------------------------------------------------------------------------------------------------------------
+# 5) Update (Aug'19): Add VIP cells and update relative interneuron densities 
+# Use interneuron proportions from 'GABAergic interneurons in neocortex' (Tremblay et al., 2016)
+# Avg for PV, SOM, VIP, non-VIP in each layer of mouse somatosensory cortex (fig 2)
+# ------------------------------------------------------------------------------------------------------------------
+PV = 	[0.007, 0.29, 0.641, 0.54, 0.465, 0.424]        
+SOM = 	[0.04, 0.116, 0.169, 0.319, 0.389, 0.318]       
+VIP = 	[0.052, 0.347, 0.092, 0.078, 0.06, 0.064]       
+nonVIP = [0.9, 0.247, 0.099, 0.064, 0.085, 0.193]      
+
+# Keep in mind again that all of these numbers are /mm3
+density[('M1','PV')] =     [(density[('M1','I')][i])*(PV[i]) for i in range(len(PV))] 
+density[('M1','SOM')] =    [(density[('M1','I')][i])*(SOM[i]) for i in range(len(SOM))]
+density[('M1','VIP')] =    [(density[('M1','I')][i])*(VIP[i]) for i in range(len(VIP))]
+density[('M1','nonVIP')] = [(density[('M1','I')][i])*(nonVIP[i]) for i in range(len(nonVIP))]
 
 
+# print(density)
 
 with open('popColors.pkl', 'rb') as fileObj: popColors = pickle.load(fileObj)['popColors']  # load popColors
 
+# OUTDATED CODE AFTER ADDING VIP AND NGF cells
 # plot pies
-plotPies = 1
+plotPies = 0
 if plotPies:
 	layers={}
 
@@ -115,9 +134,11 @@ if plotPies:
 
 		# The slices will be ordered and plotted counter-clockwise.
 		labels = pops.keys()
-		tot = float(sum(list(pops.values())))
+		tot = float(sum(pops.values()))
 		fracs = [round(float(pop)/tot*100) for pop in pops.values()]
 		fracs_full = [float(pop)/tot*100 for pop in pops.values()]
+		# print(layer)
+		# print(fracs, fracs_full)
 		#explode=(0, 0.05, 0, 0)
 		# if layer=='6':
 		# 	colors = [ 'gold', 'purple', 'red', 'green']
@@ -162,3 +183,4 @@ if savePickle:
 
 if saveMat:
     savemat('conn.mat', data)
+

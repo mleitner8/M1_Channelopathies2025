@@ -111,7 +111,7 @@ proc save_recording() { localobj timevoltage, fh
 
     fh = new File()
     fh.wopen("hoc_recordings/soma_voltage.dat")
-    timevoltage.fprint(0, fh, "%e ")
+    //timevoltage.fprint(0, fh, "%e ")
     fh.close()
 }
 load_file("fit.hoc")

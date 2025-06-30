@@ -88,7 +88,7 @@ def update_mechs_props(dict_fn,mechs):
                 curr_name = h.secname(sec=curr_sec)
                 for p_name in param_dict.keys():
                     hoc_cmd = f'{curr_name}.{p_name}_{curr_mech} = {param_dict[p_name]}'
-                    print(hoc_cmd)
+                    # print(hoc_cmd)
                     h(hoc_cmd)
                 #in case we need to go per sec:
                   #  for seg in curr_sec:
@@ -102,18 +102,18 @@ def update_gbar(mechs,mltplr,gbar_name = 'gbar'):
             if h.ismembrane(curr_mech, sec=curr_sec):
                 for seg in curr_sec:
                     hoc_cmd = f'{curr_name}.{gbar_name}_{curr_mech}({seg.x}) *= {mltplr}'
-                    print(hoc_cmd)
+                    # print(hoc_cmd)
                     par_value = h(f'{curr_name}.{gbar_name}_{curr_mech}({seg.x})')
                     h(hoc_cmd)
                     assigned_value = h(f'{curr_name}.{gbar_name}_{curr_mech}({seg.x})')
-                    print(f'par_value before{par_value} and after {assigned_value}')
+                    # print(f'par_value before{par_value} and after {assigned_value}')
 def multiply_param(mechs,p_name,multiplier):
     for curr_sec in sl:
         for curr_mech in mechs:
             if h.ismembrane(curr_mech, sec=curr_sec):
                 curr_name = h.secname(sec=curr_sec)
                 hoc_cmd = f'{curr_name}.{p_name}_{curr_mech} *= {multiplier}'
-                print(hoc_cmd)
+                # print(hoc_cmd)
                 h(hoc_cmd)
 def offset_param(mechs,p_name,offset):
     for curr_sec in sl:
@@ -121,7 +121,7 @@ def offset_param(mechs,p_name,offset):
             if h.ismembrane(curr_mech, sec=curr_sec):
                 curr_name = h.secname(sec=curr_sec)
                 hoc_cmd = f'{curr_name}.{p_name}_{curr_mech} += {offset}'
-                print(hoc_cmd)
+                # print(hoc_cmd)
                 h(hoc_cmd)
 #remember to compensate for previous changes parameters are not being initialized all over again hence for multiplier use [0.5,4] to check X0.5,X2
 def explore_param(mechs,p_name,values,multiplier = True):
@@ -159,7 +159,7 @@ def get_fi_curve(s_amp,e_amp,nruns,wt_data=None,ax1=None):
         curr_peaks,_ = find_peaks(curr_volts[:stim_length],height = -20)
         all_volts.append(curr_volts)
         npeaks.append(len(curr_peaks))
-    print(npeaks)
+    # print(npeaks)
     if ax1 is None:
         fig,ax1 = plt.subplots(1,1)
     ax1.plot(x_axis,npeaks,'black')

@@ -13,7 +13,14 @@ Updates:
 2014 December (Marianne Bezaire): documented
 ? ? (Aradi): shifted the voltage dependence by 16 mV
 ENDCOMMENT
-
+ 
+NEURON { 
+	SUFFIX ch_Kdrfastngf
+	USEION k READ ek WRITE ik VALENCE 1
+	RANGE g, gmax, ninf, ntau, ik
+	RANGE myi, offset5, offset6, slope5, slope6
+	THREADSAFE
+}
 
 VERBATIM
 #include <stdlib.h> /* 	Include this library so that the following
@@ -33,14 +40,6 @@ UNITS {
 	(um) = (micron)
 	FARADAY = 96520 (coul)
 	R = 8.3134	(joule/degC)
-}
- 
-NEURON { 
-	SUFFIX ch_Kdrfastngf
-	USEION k READ ek WRITE ik VALENCE 1
-	RANGE g, gmax, ninf, ntau, ik
-	RANGE myi, offset5, offset6, slope5, slope6
-	THREADSAFE
 }
  
 PARAMETER {
@@ -68,6 +67,7 @@ ASSIGNED {
 	v (mV) 
 	celsius (degC) : temperature - set in hoc; default is 6.3
 	dt (ms) 
+	q10
 } 
 
 BREAKPOINT {
@@ -90,7 +90,6 @@ PROCEDURE states() {	:Computes state variables m, h, and n
 	n = n + nexp*(ninf-n)
 }
  
-LOCAL q10
 PROCEDURE rates(v) {  :Computes rate and other constants at current v.
                       :Call once from HOC to initialize inf at resting v.
 	LOCAL  alpha, beta, sum, tinc
@@ -111,9 +110,9 @@ PROCEDURE rates(v) {  :Computes rate and other constants at current v.
 PROCEDURE trates(v) {  :Computes rate and other constants at current v.
                       :Call once from HOC to initialize inf at resting v.
 	LOCAL tinc
-	TABLE ninf, nexp, ntau
-	DEPEND dt, celsius, slope5, slope6, offset5, offset6
-	FROM -100 TO 100 WITH 200
+	:TABLE ninf, nexp, ntau
+	:DEPEND dt, celsius, slope5, slope6, offset5, offset6
+	:FROM -100 TO 100 WITH 200
 						   
 	rates(v)	: not consistently executed from here if usetable_hh == 1
 	: so don't expect the tau values to be tracking along with
@@ -132,10 +131,4 @@ FUNCTION vtrap(x,y) {  :Traps for 0 in denominator of rate eqns.
 }
  
 UNITSON
-
-
-
-
-
-
 

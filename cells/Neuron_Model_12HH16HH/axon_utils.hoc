@@ -72,7 +72,7 @@ proc create_ais(){
     access cell.axon[0]
     L = 90  // Total length of this section = 90um
     if (L == 0) {
-        print "ERROR: Length of cell.axon[0] is zero. Cannot create AIS."
+        // print "ERROR: Length of cell.axon[0] is zero. Cannot create AIS."
         return // Exit the procedure
     }
     nseg = 121 // Number of segments covering all of axon[0]
@@ -201,8 +201,8 @@ proc create_ais(){
         x = i / (nseg - 1) // Correct way to calculate x as a fraction of the total length
         position = x * L // Position along the axon in micrometers
 
-        print "i=", i, " x=", x, " position=", position, " ais_start12=", ais_start12, " ais_end12=", ais_end12 // Debug print
-        print "i=", i, " x=", x, " position=", position, " ais_start16=", ais_start16, " ais_end16=", ais_end16 // Debug print
+        // print "i=", i, " x=", x, " position=", position, " ais_start12=", ais_start12, " ais_end12=", ais_end12 // Debug print
+        // print "i=", i, " x=", x, " position=", position, " ais_start16=", ais_start16, " ais_end16=", ais_end16 // Debug print
         
         ///////////////// Parabolic-like function for Na12///////////////
         if (position >= ais_start12 && position <= ais_end12) {
@@ -214,7 +214,7 @@ proc create_ais(){
             na12_profile = 0 // Value outside the arch
         }
         gbar_na12(x) = na12_profile
-        print "na12_profile=", na12_profile // Debug print
+        // print "na12_profile=", na12_profile // Debug print
         //////////////////////////////
     
 
@@ -229,7 +229,7 @@ proc create_ais(){
             na12mut_profile = 0 // Value outside the arch
         }
         gbar_na12mut(x) = na12mut_profile
-        print "na12mut_profile=", na12mut_profile // Debug print
+        // print "na12mut_profile=", na12mut_profile // Debug print
         //////////////////////////////
 
 
@@ -244,7 +244,7 @@ proc create_ais(){
             na16_profile = naked_axon_na / 2 // Value outside the arch
         }
         gbar_na16(x) = na16_profile
-        print "na16_profile=", na16_profile // Debug print
+        // print "na16_profile=", na16_profile // Debug print
         //////////////////////////////
         
 
@@ -259,11 +259,11 @@ proc create_ais(){
             na16mut_profile = naked_axon_na / 2 // Value outside the arch
         }
         gbar_na16mut(x) = na16mut_profile
-        print "na16mut_profile=", na16mut_profile // Debug print
+        // print "na16mut_profile=", na16mut_profile // Debug print
         //////////////////////////////
     
         if (x < 0 || x > 1) { // Check for out-of-range x
-            print "ERROR: x is out of range!"
+            // print "ERROR: x is out of range!"
         }
     }
 
@@ -314,7 +314,7 @@ proc working(){
 	update_soma()
 	update_dend()
 
-	print "ran working"
+	// print "ran working"
 }
 
 initial_values()

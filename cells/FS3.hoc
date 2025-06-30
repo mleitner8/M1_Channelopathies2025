@@ -121,6 +121,7 @@ objref FScell1
 
 FScell1 = new FScell()
 
+
 //Create list with segments
 objref insoma_list, incell_list
 
@@ -137,7 +138,7 @@ proc current_balancein() {
   finitialize($1)
   fcurrent()
 
-  printf("Balancing each compartment to %d mV\n", $1)
+  //printf("Balancing each compartment to %d mV\n", $1)
 
   forsec incell_list{
    for (x) {
@@ -159,7 +160,5 @@ proc current_balancein() {
 //finitialize(v_init)
 fcurrent()
 }
-
-
 
 current_balancein(-73)  
