@@ -150,7 +150,6 @@ if 'PT5B_full' not in loadCellParams:
                 result[key] = value
         return result
 
-
     ###
     # Load CSV with Mutant Params
     if cfg.loadmutantParams == True:
@@ -383,6 +382,7 @@ else:
 if 'IT5A_full' not in loadCellParams:
     cellRule = netParams.importCellParams(label='IT5A_full', conds={'cellType': 'IT', 'cellModel': 'HH_full', 'ynorm': layer['5A']},
       fileName='cells/ITcell.py', cellName='ITcell', cellArgs={'params': 'BS1579'}, somaAtOrigin=True)
+    print(cellRule['conds'], cellRule['secs'].keys())
     netParams.renameCellParamsSec(label='IT5A_full', oldSec='soma_0', newSec='soma')
     netParams.addCellParamsWeightNorm('IT5A_full', 'conn/IT_full_BS1579_weightNorm.pkl', threshold=cfg.weightNormThreshold) # add weightNorm before renaming soma_0
     netParams.addCellParamsSecList(label='IT5A_full', secListName='perisom', somaDist=[0, 50])  # sections within 50 um of soma
@@ -414,6 +414,7 @@ if 'IT5A_full' not in loadCellParams:
 if 'PV_simple' not in loadCellParams:
     cellRule = netParams.importCellParams(label='PV_simple', conds={'cellType':'PV', 'cellModel':'HH_simple'}, 
       fileName='cells/FS3.hoc', cellName='FScell1', cellInstance = True)
+    print(cellRule['conds'], cellRule['secs'].keys())
     cellRule['secLists']['spiny'] = ['soma', 'dend']
     netParams.addCellParamsWeightNorm('PV_simple', 'conn/PV_simple_weightNorm.pkl', threshold=cfg.weightNormThreshold)
     if saveCellParams: netParams.saveCellParamsRule(label='PV_simple', fileName='cells/PV_simple_cellParams.pkl')
@@ -424,12 +425,65 @@ if 'PV_simple' not in loadCellParams:
 if 'SOM_simple' not in loadCellParams:
     cellRule = netParams.importCellParams(label='SOM_simple', conds={'cellType':'SOM', 'cellModel':'HH_simple'}, 
       fileName='cells/LTS3.hoc', cellName='LTScell1', cellInstance = True)
+    print(cellRule['conds'], cellRule['secs'].keys())
     cellRule['secLists']['spiny'] = ['soma', 'dend']
     netParams.addCellParamsWeightNorm('SOM_simple', 'conn/SOM_simple_weightNorm.pkl', threshold=cfg.weightNormThreshold)
     if saveCellParams: netParams.saveCellParamsRule(label='SOM_simple', fileName='cells/SOM_simple_cellParams.pkl')
 
+# ------------------------------------------------------------------------------
+# Drug Effects
+# ------------------------------------------------------------------------------
+if cfg.treatment:
+    def drugTreatment(cellType='PT5B_full', secs=['all'], mechs=['na12', 'na12mut'], variables=cfg.variables):
+        import numpy as np
+        for secName, sec in netParams.cellParams[cellType]['secs'].items():
+            if secs == ['all']:
+                for mechName, mechAux in sec['mechs'].items():
+                    if mechName in mechs:
+                        # print(cellType, secName, mechName, mechAux.keys())
+                        for varName, var in mechAux.items():
+                            if varName in variables:
+                                vector = np.array(
+                                    netParams.cellParams[cellType]['secs'][secName]['mechs'][mechName][varName])
+                                # print(secName, mechName, vector)
+                                vector *= cfg.drugEffect
+                                netParams.cellParams[cellType]['secs'][secName]['mechs'][mechName][
+                                    varName] = vector.tolist()
+                                # print(secName, mechName, vector)
+            else:
+                for i in secs:
+                    if secName == i:
+                        for mechName, mechAux in sec['mechs'].items():
+                            if mechName in mechs:
+                                # print(cellType, secName, mechName, mechAux.keys())
+                                for varName, var in mechAux.items():
+                                    if varName in variables:
+                                        vector = np.array(
+                                            netParams.cellParams[cellType]['secs'][secName]['mechs'][mechName][varName])
+                                        # print(secName, mechName, vector)
+                                        vector *= cfg.drugEffect
+                                        netParams.cellParams[cellType]['secs'][secName]['mechs'][mechName][
+                                            varName] = vector.tolist()
+                                        # print(secName, mechName, vector)
+                # else:
+                #     print(f"Section {secName} not found in list {secs}. Skipping...")
 
 
+    # [print(netParams.cellParams['PV_reduced']['secs'].keys())]  # print cell params to check
+    drugTreatment(cellType='IT2_reduced', secs=['all'], mechs=cfg.sodiumMechs, variables=cfg.variables)
+    drugTreatment(cellType='IT4_reduced', secs=['all'], mechs=cfg.sodiumMechs, variables=cfg.variables)
+    drugTreatment(cellType='IT5A_reduced', secs=['all'], mechs=cfg.sodiumMechs, variables=cfg.variables)
+    drugTreatment(cellType='IT5B_reduced', secs=['all'], mechs=cfg.sodiumMechs, variables=cfg.variables)
+    drugTreatment(cellType='PT5B_reduced', secs=['all'], mechs=cfg.sodiumMechs, variables=cfg.variables)
+    drugTreatment(cellType='IT6_reduced', secs=['all'], mechs=cfg.sodiumMechs, variables=cfg.variables)
+    drugTreatment(cellType='CT6_reduced', secs=['all'], mechs=cfg.sodiumMechs, variables=cfg.variables)
+    drugTreatment(cellType='SOM_reduced', secs=['all'], mechs=cfg.sodiumMechs, variables=cfg.variables)
+    drugTreatment(cellType='IT5A_full', secs=['all'], mechs=cfg.sodiumMechs, variables=cfg.variables)
+    drugTreatment(cellType='PT5B_full', secs=['all'], mechs=cfg.sodiumMechs, variables=cfg.variables)
+    # drugTreatment(cellType='PT5B_full', secs=['soma', 'axon_0', 'axon_1'], mechs=cfg.sodiumMechs, variables = cfg.variables)
+    drugTreatment(cellType='PV_reduced', secs=['all'], mechs=cfg.sodiumMechs, variables=cfg.variables)
+    drugTreatment(cellType='VIP_reduced', secs=['all'], mechs=cfg.sodiumMechs, variables=cfg.variables)
+    drugTreatment(cellType='NGF_reduced', secs=['all'], mechs=cfg.sodiumMechs, variables=cfg.variables)
 
 #------------------------------------------------------------------------------
 # Population parameters

@@ -43,7 +43,6 @@ cfg.checkErrors = False
 cfg.saveInterval = 100  # define how often the data is saved, this can be used with interval run if you want to update the weights more often than you save
 cfg.intervalFolder = 'interval_saving'
 
-cfg.UCDAVIS = True
 
 # ------------------------------------------------------------------------------
 # Recording
@@ -135,11 +134,7 @@ cfg.epas = 0.9  # multiplicative factor for pas e in PT cells
 cfg.KgbarFactor = 1.0  # multiplicative factor for K channels gbar in all E cells
 cfg.makeKgbarFactorEqualToNewFactor = False
 
-if cfg.UCDAVIS == False:
-    cfg.modifyMechs = {'startTime': 500, 'endTime': 1000, 'cellType': 'PT', 'mech': 'hd', 'property': 'gbar',
-                       'newFactor': 1.00, 'origFactor': 0.75}
-else:
-    cfg.modifyMechs = {'startTime': 1e20 * 500, 'endTime': 1e20 * 1000, 'cellType': 'PT', 'mech': 'hd',
+cfg.modifyMechs = {'startTime': 1e20 * 500, 'endTime': 1e20 * 1000, 'cellType': 'PT', 'mech': 'hd',
                        'property': 'gbar', 'newFactor': 1.00, 'origFactor': 0.75}
 
 cfg.PTNaFactor = 1
@@ -215,7 +210,7 @@ cfg.addSubConn = True
 # Long range inputs
 # ------------------------------------------------------------------------------
 cfg.addLongConn = 1
-cfg.numCellsLong = 1000  # num of cells per population
+cfg.numCellsLong = int(1000 * cfg.scaleDensity)  # num of cells per population
 cfg.noiseLong = 1.0  # firing rate random noise
 cfg.delayLong = 5.0  # (ms)
 factor = 1
@@ -251,5 +246,6 @@ cfg.NetStim1 = {'pop': 'IT5B', 'sec': 'soma', 'loc': 0.5, 'synMech': ['AMPA', 'N
 # ------------------------------------------------------------------------------
 # Load mutant params from csv
 # ------------------------------------------------------------------------------
+cfg.dendNa = 0.1
 cfg.loadmutantParams = False
-cfg.variant = 'R119I'
+cfg.variant = 'WT'  # L1666F, E1211K, D195G, R853Q, K1422E, M1879T, WT
