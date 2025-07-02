@@ -137,10 +137,36 @@ for label, p in reducedCells.items():  # create cell rules that were not loaded
 #------------------------------------------------------------------------------
 ## PT5B full cell model params (700+ comps)
 #UC Davis PT Cell
-
 if 'PT5B_full' not in loadCellParams:
-    # import cell model from NEURON/python code
-    netParams.importCellParams('PT5B_full', '../cells/Neuron_Model_12HH16HH/Na12HH16HHModel_TF.py', 'Na12Model_TF')
+    def csv_to_dict(filepath):
+        result = {}
+        with open(filepath, mode='r', newline='') as file:
+            reader = csv.DictReader(file)
+            fieldnames = reader.fieldnames
+            key_field = fieldnames[0]  # Use the first column as key
+            for row in reader:
+                key = row[key_field]
+                value = {k: v for k, v in row.items() if k != key_field}
+                result[key] = value
+        return result
+
+
+    ###
+    # Load CSV with Mutant Params
+    if cfg.loadmutantParams == True:
+        print("Loading mutant params: ", cfg.variant)
+    else:
+        cfg.variant = 'WT'
+
+    variants = csv_to_dict('../cells/MutantParameters_updated_062725.csv')
+    sorted_variant = dict(sorted(variants[cfg.variant].items()))
+    for key, value in sorted_variant.items():
+        sorted_variant[key] = float(value)
+    with open('../cells/Neuron_Model_12HH16HH/params/na12annaTFHH2mut.txt', 'w') as f:
+        json.dump(sorted_variant, f)
+    ###
+    netParams.importCellParams(label='PT5B_full', fileName='../cells/Neuron_Model_12HH16HH/Na12HH_Model_TF.py',
+                               cellName='Na12Model_TF')
 
     # rename soma to conform to netpyne standard
     netParams.renameCellParamsSec(label='PT5B_full', oldSec='soma_0', newSec='soma')
@@ -289,69 +315,60 @@ if 'PT5B_full' not in loadCellParams:
                                                   [92.3984146118164, 20.372407913208008, 0, 1.6440753936767578],
                                                   [93.75282287597656, 20.21404457092285, 0, 1.6440753936767578]]
 
-    #define cell conds
-    netParams.cellParams['PT5B_full']['conds'] = {'cellModel': 'HH_full', 'cellType': 'PT'}
+    # define cell conds
+    cellRule['conds'] = {'cellModel': 'HH_full', 'cellType': 'PT'}
+
+    # print(cellRule['conds'], cellRule['secs'].keys())
 
     # clean secLists from Tim's code
     cellRule['secLists'] = {}
 
     # create lists useful to define location of synapses
     nonSpiny = ['apic_0', 'apic_1']
-    netParams.addCellParamsSecList(label='PT5B_full', secListName='perisom', somaDist=[0, 50])  # sections within 50 um of soma
-    netParams.addCellParamsSecList(label='PT5B_full', secListName='below_soma', somaDistY=[-600, 0])  # sections within 0-300 um of soma
-    cellRule['secLists']['alldend'] = [sec for sec in cellRule.secs if ('dend' in sec or 'apic' in sec)] # basal+apical
-    cellRule['secLists']['apicdend'] = [sec for sec in cellRule.secs if ('apic' in sec)] # apical
+
+    netParams.addCellParamsSecList(label='PT5B_full', secListName='perisom',
+                                   somaDist=[0, 50])  # sections within 50 um of soma
+    netParams.addCellParamsSecList(label='PT5B_full', secListName='below_soma',
+                                   somaDistY=[-600, 0])  # sections within 0-300 um of soma
+    cellRule['secLists']['alldend'] = [sec for sec in cellRule.secs if ('dend' in sec or 'apic' in sec)]  # basal+apical
+    cellRule['secLists']['apicdend'] = [sec for sec in cellRule.secs if ('apic' in sec)]  # apical
     cellRule['secLists']['spiny'] = [sec for sec in cellRule['secLists']['alldend'] if sec not in nonSpiny]
 
-    for sec in nonSpiny: # N.B. apic_1 not in `perisom` . `apic_0` and `apic_114` are
-        if sec in cellRule['secLists']['perisom']: # fixed logic
+    for sec in nonSpiny:  # N.B. apic_1 not in `perisom` . `apic_0` and `apic_114` are
+        if sec in cellRule['secLists']['perisom']:  # fixed logic
             cellRule['secLists']['perisom'].remove(sec)
 
+    # # cellRule has to be used as a pointer for any operation, if not will throw an error
+    # del cellRule['secs']['soma']['pointps']
+    # del cellRule['secs']['dend_0']['pointps']
+
+    # Adapt ih params based on cfg param
+    for secName in cellRule['secs']:
+        for mechName, mech in cellRule['secs'][secName]['mechs'].items():
+            if mechName in ['Ih']:
+                mech['gIhbar'] = [g * cfg.ihGbar for g in mech['gIhbar']] if isinstance(mech['gIhbar'], list) else mech[
+                                                                                                                       'gIhbar'] * cfg.ihGbar
+                if secName.startswith('dend'):
+                    mech['gIhbar'] *= cfg.ihGbarBasal  # modify ih conductance in soma+basal dendrites
+
     # Decrease dendritic Na
-    for secName in netParams.cellParams['PT5B_full']['secs']:
+    for secName in cellRule['secs']:
         if secName.startswith('apic'):
-            #print(netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12mut'])
-            #print(netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12'])
-            netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12']['gbar'] *= cfg.dendNa
-            netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12mut']['gbar'] *= cfg.dendNa
-
-    # Change params for UCDAVIS mutants
-    #for secName in netParams.cellParams['PT5B_full']['secs']: #decrease dendritic nav1.2
-        #if secName.startswith('apic'):
-            #netParams.cellParams['PT5B_full']['secs'][secName]['na12mut'] = {'mod': 'na12', 'gbar': 1e-5}
-
-    #def csv_to_dict(filepath):
-        #result = {}
-        #with open(filepath, mode='r', newline='') as file:
-            #reader = csv.DictReader(file)
-            #fieldnames = reader.fieldnames
-            #key_field = fieldnames[0]  # Use the first column as key
-            #for row in reader:
-                #key = row[key_field]
-                #value = {k: v for k, v in row.items() if k != key_field}
-                #result[key] = value
-        #return result
-
-    #Load CSV with Mutant Params
-    #if cfg.loadmutantParams == True:
-        #variants = csv_to_dict('MutantParameters_updated_050625.csv')
-        #for secName in netParams.cellParams:  # mutant R119I
-            #netParams.cellParams['PT5B_full']['secs'][secName]['na12mut'] = variants[cfg.variant]
-
-    #To change params manually
-    #for secName in netParams.cellParams: #mutant R119I
-        #netParams.cellParams['PT5B_full']['secs']['PT5B_full']['secs'][secName]['na12mut'] = \
-            #{'mod': 'na12mut', 'Ra': 0.19953217, 'Rb': 0.09365142, 'Rd': 0.02022166, 'Rg': 0.01116065, 'a0s': 0.0000775,
-             #'gms': 0.141628828, 'hmin': 0.011878279, 'mmin': 0.02378683, 'q10': 1.75422509,
-            # 'qa': 3.28099731, 'qd': 0.90335573, 'qg': 2.14380902, 'qinf': 6.3951063, 'sh': 9.10593486,
-             #'smax': 5.63912804, 'tha': -37.025873, 'thi1': -78.898604, 'thi2': -64.498989, 'thinf': -53.104936,
-             #'vhalfs': -63.652573, 'vvh': -44.61452, 'vvs': 1.6172257, 'zetas': 14.3424517}
+            cellRule['secs'][secName]['mechs']['na12']['gbar'] *= cfg.dendNa
+            cellRule['secs'][secName]['mechs']['na12mut']['gbar'] *= cfg.dendNa
 
     # set weight normalization
-    netParams.addCellParamsWeightNorm('PT5B_full', '../conn/PT5B_full_weightNorm.pkl', threshold=cfg.weightNormThreshold)  # load weight norm
+    netParams.addCellParamsWeightNorm('PT5B_full', '../conn/PT5B_full_weightNorm.pkl',
+                                      threshold=cfg.weightNormThreshold)
+
+    # Test that mutant is being loaded!
+    # for secName in cellRule['secs']:
+    #     print(cellRule['secs'][secName]['mechs']['na12'])
+    #     print(cellRule['secs'][secName]['mechs']['na12mut'])
+    # quit()
 
     # save to json with all the above modifications so easier/faster to load
-    if saveCellParams: netParams.saveCellParamsRule(label='PT5B_full', fileName='../cells/PT5B_full_cellParams.pkl')
+    if saveCellParams: netParams.saveCellParamsRule(label='PT5B_full', fileName='../cells/Na12HH16HH_TF.json')
 
 else:
     #load existing params
