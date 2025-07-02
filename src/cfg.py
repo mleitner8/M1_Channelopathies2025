@@ -187,6 +187,9 @@ cfg.axonRa = 0.005
 cfg.gpas = 0.5  # multiplicative factor for pas g in PT cells
 cfg.epas = 0.9  # multiplicative factor for pas e in PT cells
 
+cfg.modifyMechs = {'startTime': 500, 'endTime': 1000, 'cellType': 'PT', 'mech': 'hd', 'property': 'gbar',
+                       'newFactor': 1.00, 'origFactor': 0.75}
+
 # ------------------------------------------------------------------------------
 # Synapses
 # ------------------------------------------------------------------------------
