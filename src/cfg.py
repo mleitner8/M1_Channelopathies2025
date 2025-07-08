@@ -249,3 +249,14 @@ cfg.NetStim1 = {'pop': 'IT5B', 'sec': 'soma', 'loc': 0.5, 'synMech': ['AMPA', 'N
 cfg.dendNa = 0.1
 cfg.loadmutantParams = False
 cfg.variant = 'WT'  # L1666F, E1211K, D195G, R853Q, K1422E, M1879T, WT
+
+# ------------------------------------------------------------------------------
+# Drug Effects
+# ------------------------------------------------------------------------------
+cfg.treatment = False
+cfg.sodiumMechs = ['na12', 'na12mut', 'Nafx', 'nax', 'na16mut', 'Nafcr', 'ch_Navngf', 'na16', 'na16mut',
+                   'nap']  # Look at the suffix in the modfiles
+cfg.LVACaMechs = ['Ca_LVAst', 'cat', 'catt', 'catcb']
+cfg.variables = ['gbar', 'gnafbar', 'gmax']  # Name of the variable/s to modify
+cfg.drugEffect = 0.5  # Multiplicative factor
+
