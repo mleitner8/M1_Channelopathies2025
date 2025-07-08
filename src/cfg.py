@@ -77,7 +77,7 @@ cfg.recordStep = 0.1
 # ------------------------------------------------------------------------------
 # Saving
 # ------------------------------------------------------------------------------
-cfg.simLabel = 'v1_tune1_published'
+cfg.simLabel = 'v1_tune3_published'
 cfg.saveFolder = '../data/v1_manualTune'
 cfg.savePickle = True
 cfg.saveJson = True
@@ -210,7 +210,7 @@ cfg.addSubConn = True
 # Long range inputs
 # ------------------------------------------------------------------------------
 cfg.addLongConn = 1
-cfg.numCellsLong = int(1000 * cfg.scaleDensity)  # num of cells per population
+cfg.numCellsLong = 1000  # num of cells per population
 cfg.noiseLong = 1.0  # firing rate random noise
 cfg.delayLong = 5.0  # (ms)
 factor = 1
