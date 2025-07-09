@@ -142,7 +142,6 @@ if 'PT5B_full' not in loadCellParams:
                 result[key] = value
         return result
 
-
     ###
     # Load CSV with Mutant Params
     if cfg.loadmutantParams == True:

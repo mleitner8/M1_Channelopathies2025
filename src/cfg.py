@@ -225,7 +225,7 @@ cfg.L5BrecurrentFactor = 1.0
 cfg.ITinterFactor = 1.0
 cfg.strengthFactor = 1.0
 
-cfg.EEGain = 1.0
+cfg.EEGain = 0.5
 cfg.EIGain = 1.0
 cfg.IEGain = 1.0
 cfg.IIGain = 1.0
@@ -254,8 +254,8 @@ cfg.SOMSOMGain = None  # 0.75
 
 # ------------------------------------------------------------------------------
 ## I->E/I layer weights (L2/3+4, L5, L6)
-cfg.IEweights = [1.0, 1.0, 1.0]
-cfg.IIweights = [1.0, 1.0, 1.0]
+cfg.IEweights = [0.8, 0.8, 1.0]
+cfg.IIweights = [1.2, 1.0, 1.0]
 
 cfg.IPTGain = 1.0
 cfg.IFullGain = 1.0  # deprecated
@@ -269,12 +269,12 @@ cfg.addSubConn = True
 # Long range inputs
 # ------------------------------------------------------------------------------
 cfg.addLongConn = 1
-cfg.numCellsLong = int(1000 * cfg.scaleDensity)  # num of cells per population
+cfg.numCellsLong = 1000  # num of cells per population
 cfg.noiseLong = 1.0  # firing rate random noise
 cfg.delayLong = 5.0  # (ms)
 factor = 1
-cfg.weightLong = {'TPO': 0.5 * factor, 'TVL': 0.5 * factor, 'S1': 0.5 * factor, 'S2': 0.5 * factor, 'cM1': 0.5 * factor,
-                  'M2': 0.5 * factor, 'OC': 0.5 * factor}  # corresponds to unitary connection somatic EPSP (mV)
+cfg.weightLong = {'TPO': 0.5, 'TVL': 0.5, 'S1': 0.5 , 'S2': 0.5, 'cM1': 0.5,
+                  'M2': 0.5, 'OC': 0.5}  # corresponds to unitary connection somatic EPSP (mV)
 cfg.startLong = 0  # start at 0 ms
 cfg.ratesLong = {'TPO': [0, 5], 'TVL': [0, 2.5], 'S1': [0, 5], 'S2': [0, 5], 'cM1': [0, 5], 'M2': [0, 5], 'OC': [0, 5]}
 
@@ -301,3 +301,20 @@ cfg.addNetStim = 0
 cfg.NetStim1 = {'pop': 'IT2', 'ynorm': [0, 1], 'sec': 'soma', 'loc': 0.5, 'synMech': ['AMPA'],
                 'synMechWeightFactor': [1.0],
                 'start': 500, 'interval': 1000.0 / 60.0, 'noise': 0.0, 'number': 60.0, 'weight': 30.0, 'delay': 0}
+
+# ------------------------------------------------------------------------------
+# Load mutant params from csv
+# ------------------------------------------------------------------------------
+cfg.dendNa = 0.1
+cfg.loadmutantParams = False
+cfg.variant = 'WT'  # L1666F, E1211K, D195G, R853Q, K1422E, M1879T, WT
+
+# ------------------------------------------------------------------------------
+# Drug Effects
+# ------------------------------------------------------------------------------
+cfg.treatment = False
+cfg.sodiumMechs = ['na12', 'na12mut', 'Nafx', 'nax', 'na16mut', 'Nafcr', 'ch_Navngf', 'na16', 'na16mut',
+                   'nap']  # Look at the suffix in the modfiles
+cfg.LVACaMechs = ['Ca_LVAst', 'cat', 'catt', 'catcb']
+cfg.variables = ['gbar', 'gnafbar', 'gmax']  # Name of the variable/s to modify
+cfg.drugEffect = 0.5  # Multiplicative factor

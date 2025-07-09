@@ -45,8 +45,8 @@ results = search(job_type = 'slurm', # or 'sh'
        mode = 'min',
        algorithm = "optuna",
        max_concurrent = 1,
-       remote_dir='/home/mollyleitner/M1_Channelopathies2025/src',
-       host='expanse0',
+       remote_dir='/home/mleitner/M1_Channelopathies2025/src',
+       host='login.expanse.sdsc.edu',
        key='',
        num_samples=500,
        )
