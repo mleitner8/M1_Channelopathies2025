@@ -18,9 +18,8 @@ params = {'weightLong.TPO': [0.4, 0.8],
 # EXPANSE CONFIG   -- need to change conda environment and add source
 setup = """
 source ~/.bashrc
-source ~/default.sh
-conda activate M1_batchTools 
-export LD_LIBRARY_PATH="/home/mollyleitner/miniconda3/envs/py312/lib/python3.12/site-packages/mpi4py_mpich.libs/"
+conda activate M1_batchTools
+export LD_LIBRARY_PATH="/home/tfenton/miniconda3/envs/M1_batchTools/lib/python3.10/site-packages/mpi4py_mpich.libs/"
 """
 slurm_config = {
     'allocation': 'TG-MED240058', #change with project information
@@ -29,24 +28,24 @@ slurm_config = {
     'coresPerNode': 96,
     'mem': '128G',
     'partition': 'compute',
-    'email': 'molly.leitner@downstate.edu',
+    'email': 'tafenton@health.ucdavis.edu',
     'custom': setup,
     'command':'time mpirun -n 96 nrniv -python -mpi init_batch.py'
 }
 
 results = search(job_type = 'slurm', # or 'sh'
        comm_type = 'ssh', # if a metric and mode is specified, some method of communicating with the host needs to be defined
-       label = 'optuna',
+       label = 'optuna',# 'grid',
        params = params,
-       output_path = '../batchDataMolly/optuna',
-       checkpoint_path = '../batchDataMolly/ray',
+       output_path = '../batchDataTim/optuna',
+       checkpoint_path = '../batchDataTim/ray',
        run_config = slurm_config,
        metric = 'loss', # if a metric and mode is specified, the search will collect metric data and report on the optimal configuration
        mode = 'min',
        algorithm = "optuna",
        max_concurrent = 1,
-       remote_dir='/home/mleitner/M1_Channelopathies2025/src',
-       host='login.expanse.sdsc.edu',
-       key='',
+       remote_dir='/home/tfenton/M1_Channelopathies2025/src',
+       host='expanse0',
+       key='', #hide before pushing
        num_samples=500,
        )
