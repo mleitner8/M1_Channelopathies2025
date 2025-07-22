@@ -351,10 +351,10 @@ if 'PT5B_full' not in loadCellParams:
                     mech['gIhbar'] *= cfg.ihGbarBasal  # modify ih conductance in soma+basal dendrites
 
     # Decrease dendritic Na
-    for secName in cellRule['secs']:
+    for secName in netParams.cellParams['PT5B_full']['secs']:
         if secName.startswith('apic'):
-            cellRule['secs'][secName]['mechs']['na12']['gbar'] *= cfg.dendNa
-            cellRule['secs'][secName]['mechs']['na12mut']['gbar'] *= cfg.dendNa
+            netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12']['gbar'] *= cfg.dendNa
+            netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12mut']['gbar'] *= cfg.dendNa
 
     # set weight normalization
     netParams.addCellParamsWeightNorm('PT5B_full', '../conn/PT5B_full_weightNorm.pkl',
