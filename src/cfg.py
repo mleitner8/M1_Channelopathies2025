@@ -21,7 +21,7 @@ cfg = specs.SimConfig()
 # ------------------------------------------------------------------------------
 # Run parameters
 # ------------------------------------------------------------------------------
-cfg.duration = 1000
+cfg.duration = 1500
 cfg.dt = 0.025
 cfg.seeds = {'conn': 4321, 'stim': 1234, 'loc': 4321}
 cfg.hParams = {'celsius': 34, 'v_init': -80}
@@ -50,7 +50,7 @@ cfg.intervalFolder = 'interval_saving'
 allpops = ['IT2', 'PV2', 'SOM2', 'IT4', 'IT5A', 'PV5A', 'SOM5A', 'IT5B', 'PT5B', 'PV5B', 'SOM5B', 'IT6', 'CT6', 'PV6',
            'SOM6']
 
-cfg.cellsrec = 0
+cfg.cellsrec = 4
 if cfg.cellsrec == 0:
     cfg.recordCells = ['all']  # record all cells
 elif cfg.cellsrec == 1:
@@ -61,14 +61,21 @@ elif cfg.cellsrec == 3:
     cfg.recordCells = [(pop, 50) for pop in ['IT5A', 'PT5B']] + [('PT5B', x) for x in [393, 579, 19,
                                                                                        104]]  # ,214,1138,799]] # record selected cells # record selected cells
 elif cfg.cellsrec == 4:
-    cfg.recordCells = [(pop, 50) for pop in ['IT2', 'IT4', 'IT5A', 'PT5B']] \
-                      + [('IT5A', x) for x in [393, 447, 579, 19, 104]] \
+    cfg.recordCells = [(pop, 50) for pop in 'PT5B'] \
                       + [('PT5B', x) for x in [393, 447, 579, 19, 104, 214, 1138, 979, 799]]  # record selected cells
 
-# cfg.recordTraces = {'V_soma': {'sec':'soma', 'loc':0.5, 'var':'v'}}
-
 cfg.recordTraces = {'V_soma': {'sec': 'soma', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}},
-                    'V_axon_0': {'sec': 'axon_0', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}}}
+                    'apic_0': {'sec': 'apic_0', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}},
+                    'apic_1': {'sec': 'apic_1', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}},
+                    'apic_2': {'sec': 'apic_2', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}},
+                    'apic_3': {'sec': 'apic_3', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}},
+                    'apic_4': {'sec': 'apic_4', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}},
+                    'apic_5': {'sec': 'apic_5', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}},
+                    'apic_6': {'sec': 'apic_6', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}},
+                    'apic_7': {'sec': 'apic_7', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}},
+                    'apic_8': {'sec': 'apic_8', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}},
+                    'apic_9': {'sec': 'apic_9', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}},
+                    'apic_10': {'sec': 'apic_10', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}}}
 
 cfg.recordStim = False
 cfg.recordTime = False
@@ -77,8 +84,8 @@ cfg.recordStep = 0.1
 # ------------------------------------------------------------------------------
 # Saving
 # ------------------------------------------------------------------------------
-cfg.simLabel = 'v1_tune3_published'
-cfg.saveFolder = '../data/v1_manualTune'
+cfg.simLabel = 'v56_mut'
+cfg.saveFolder = '../data/v56_mut4_4'
 cfg.savePickle = True
 cfg.saveJson = True
 cfg.saveDataInclude = ['simData', 'simConfig', 'netParams']  # , 'net']
@@ -93,13 +100,15 @@ cfg.compactConnFormat = 0
 # ------------------------------------------------------------------------------
 with open('../cells/popColors.pkl', 'rb') as fileObj: popColors = pickle.load(fileObj)['popColors']
 
-cfg.analysis['plotRaster'] = {'include': allpops, 'orderBy': ['pop', 'y'], 'timeRange': [0, cfg.duration],
+cfg.analysis['plotRaster'] = {'include': allpops, 'orderBy': ['pop', 'y'], 'timeRange': [500, cfg.duration],
                               'saveFig': True, 'showFig': False, 'popRates': True, 'orderInverse': True,
                               'popColors': popColors, 'figSize': (12, 10), 'lw': 0.3, 'markerSize': 3, 'marker': '.',
                               'dpi': 300}
 
 cfg.analysis['plotTraces'] = {'include': cfg.recordCells, 'timeRange': [0, cfg.duration], 'overlay': True,
-                              'oneFigPer': 'trace', 'figSize': (10, 4), 'saveFig': True, 'showFig': False}
+                              'oneFigPer': 'cell', 'figSize': (10, 4), 'saveFig': True, 'showFig': False}
+
+
 
 # ------------------------------------------------------------------------------
 # Cells
@@ -169,7 +178,7 @@ cfg.L5BrecurrentFactor = 1.0
 cfg.ITinterFactor = 1.0
 cfg.strengthFactor = 1.0
 
-cfg.EEGain = 0.5
+cfg.EEGain = 0.65
 cfg.EIGain = 1.0
 cfg.IEGain = 1.0
 cfg.IIGain = 1.0
@@ -195,8 +204,8 @@ cfg.SOMSOMGain = None  # 0.75
 
 # ------------------------------------------------------------------------------
 ## I->E/I layer weights (L2/3+4, L5, L6)
-cfg.IEweights = [0.8, 0.8, 1.0]
-cfg.IIweights = [1.2, 1.0, 1.0]
+cfg.IEweights = [0.6, 0.8, 1.1]
+cfg.IIweights = [1.3, 0.7, 1.0]
 
 cfg.IPTGain = 1.0
 cfg.IFullGain = 1.0
@@ -214,7 +223,7 @@ cfg.numCellsLong = 1000  # num of cells per population
 cfg.noiseLong = 1.0  # firing rate random noise
 cfg.delayLong = 5.0  # (ms)
 factor = 1
-cfg.weightLong = {'TPO': 0.5, 'TVL': 0.5, 'S1': 0.5, 'S2': 0.5, 'cM1': 0.5, 'M2': 0.5, 'OC': 0.5}
+cfg.weightLong = {'TPO': 0.4, 'TVL': 0.4, 'S1': 0.4, 'S2': 0.4, 'cM1': 0.4, 'M2': 0.4, 'OC': 0.4}
 # {'TPO': 0.5*factor, 'TVL': 0.5*factor, 'S1': 0.5*factor, 'S2': 0.5*factor,
 # 'cM1': 0.5*factor, 'M2': 0.5*factor, 'OC': 0.5*factor}  # corresponds to unitary connection somatic EPSP (mV)
 cfg.startLong = 0  # start at 0 ms
@@ -246,7 +255,7 @@ cfg.NetStim1 = {'pop': 'IT5B', 'sec': 'soma', 'loc': 0.5, 'synMech': ['AMPA', 'N
 # ------------------------------------------------------------------------------
 # Load mutant params from csv
 # ------------------------------------------------------------------------------
-cfg.dendNa = 0.1
+cfg.dendNa = 1.0
 cfg.loadmutantParams = False
 cfg.variant = 'WT'  # L1666F, E1211K, D195G, R853Q, K1422E, M1879T, WT
 
@@ -259,4 +268,3 @@ cfg.sodiumMechs = ['na12', 'na12mut', 'Nafx', 'nax', 'na16mut', 'Nafcr', 'ch_Nav
 cfg.LVACaMechs = ['Ca_LVAst', 'cat', 'catt', 'catcb']
 cfg.variables = ['gbar', 'gnafbar', 'gmax']  # Name of the variable/s to modify
 cfg.drugEffect = 0.5  # Multiplicative factor
-
