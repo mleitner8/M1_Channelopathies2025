@@ -15,28 +15,29 @@ params = {'weightLong.TPO': [0.25, 0.75],
           'IIweights.2': [0.5, 1.5],
           }
 """
-# SGE GPU CONFIG
+# use batch_sge_config if running on a
 sge_config = {
-    'queue': 'gpu.q',
-    'cores': 19,
-    'vmem': '90G', #90G
+    'queue': 'cpu.q',
+    'cores': 64,
+    'vmem': '120G',
     'realtime': '15:00:00',
-    'command': 'mpiexec -n $NSLOTS -hosts $(hostname) ./x86_64/special -python -mpi init.py'}
+    'command': 'mpiexec -n $NSLOTS -hosts $(hostname) nrniv -python -mpi init_batch.py'}
+
 
 run_config = sge_config
 
-search(job_type = 'sge', # or sh
+search(job_type = 'sge', # or 'sh'
        comm_type = 'socket',
-       label = 'optuna',
+       label = 'ihGbar',
        params = params,
-       output_path = '../batchData/optuna_batch',
-       checkpoint_path = '../batchData/ray',
+       output_path = '../grid_batch',
+       checkpoint_path = '../ray',
        run_config = run_config,
        num_samples = 1,
        metric = 'loss',
        mode = 'min',
-       algorithm = 'optuna',
-       max_concurrent = 1)
+       algorithm = "variant_generator",
+       max_concurrent = 9)
 """
 
 # EXPANSE CONFIG   -- need to change conda environment and add source
@@ -55,7 +56,7 @@ slurm_config = {
     'partition': 'compute',
     'email': 'molly.leitner@downstate.edu',
     'custom': setup,
-    'command': 'time mpirun -n 96 nrniv -python -mpi init.py'
+    'command': 'time mpirun -n 96 nrniv -python -mpi init_batch.py'
 }
 
 results = search(job_type = 'ssh_slurm', # or 'sh'
@@ -69,8 +70,8 @@ results = search(job_type = 'ssh_slurm', # or 'sh'
        mode = 'min',
        algorithm = "grid",
        max_concurrent = 1,
-       remote_dir='/home/mleitner/M1_Channelopathies2025/src',
-       host='expanse0',
+       remote_dir='/home/mleitner/expanse/M1_Channelopathies2025/src',
+       host= 'login.expanse.sdsc.edu',
        key='',
        num_samples=2,
        )
