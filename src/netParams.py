@@ -176,7 +176,7 @@ if 'PT5B_full' not in loadCellParams:
     with open('../cells/Neuron_Model_12HH16HH/params/na12annaTFHH2mut.txt', 'w') as f:
         json.dump(sorted_variant, f)
     ###
-    netParams.importCellParams(label='PT5B_full', fileName='../cells/Neuron_Model_12HH16HH/Na12HH16HHModel_TF.py',
+    netParams.importCellParams(label='PT5B_full', fileName='../cells/Neuron_Model_12HH16HH/Na12HH_Model_TF.py',
                                cellName='Na12Model_TF')
 
     # rename soma to conform to netpyne standard
