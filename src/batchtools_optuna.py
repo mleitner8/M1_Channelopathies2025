@@ -9,12 +9,12 @@ params = {'weightLong.TPO': [0.2, 0.3],
           'weightLong.M2': [0.2, 0.3],
           'weightLong.OC': [0.2, 0.3],
           'EEGain': [0.2, 0.5],
-          'IEweights.0': [],    ## L2/3+4
-          'IEweights.1': [],    ## L5
-          'IEweights.2': [],    ## L6
-          'IIweights.0': [],    ## L2/3+4
-          'IIweights.1': [],    ## L5
-          'IIweights.2': [],    ## L6
+          'IEweights.0': [0.4, 0.6],  ## L2/3+4
+          'IEweights.1': [0.4, 0.6],  ## L5
+          'IEweights.2': [0.4, 0.6],  ## L6
+          'IIweights.0': [1.5, 2.0],  ## L2/3+4
+          'IIweights.1': [1.5, 2.0],  ## L5
+          'IIweights.2': [1.5, 2.0],  ## L6
           }
 
 sge_config = {
