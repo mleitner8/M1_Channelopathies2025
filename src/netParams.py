@@ -176,7 +176,7 @@ if 'PT5B_full' not in loadCellParams:
     with open('../cells/Neuron_Model_12HH16HH/params/na12annaTFHH2mut.txt', 'w') as f:
         json.dump(sorted_variant, f)
     ###
-    netParams.importCellParams(label='PT5B_full', fileName='../cells/Neuron_Model_12HH16HH/Na12HH_Model_TF.py',
+    netParams.importCellParams(label='PT5B_full', fileName='../cells/Neuron_Model_12HH16HH/Na12HH16HHModel_TF.py',
                                cellName='Na12Model_TF')
 
     # rename soma to conform to netpyne standard
@@ -368,6 +368,12 @@ if 'PT5B_full' not in loadCellParams:
             netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12']['gbar'] *= cfg.dendNa
             netParams.cellParams['PT5B_full']['secs'][secName]['mechs']['na12mut']['gbar'] *= cfg.dendNa
 
+    # Remove Na
+    if cfg.removeNa:
+        for secName in cellRule['secs']: cellRule['secs'][secName]['mechs']['na12mut'][
+            'gbar'] = 0.0  # na12mut only for het
+        for secName in cellRule['secs']: cellRule['secs'][secName]['mechs']['na12']['gbar'] = 0.0  # both for KO
+
     # set weight normalization
     netParams.addCellParamsWeightNorm('PT5B_full', '../conn/PT5B_full_weightNorm.pkl',
                                       threshold=cfg.weightNormThreshold)
@@ -379,7 +385,7 @@ if 'PT5B_full' not in loadCellParams:
     # quit()
 
     # save to json with all the above modifications so easier/faster to load
-    if saveCellParams: netParams.saveCellParamsRule(label='PT5B_full', fileName='../cells/Na12HH16HH_TF.json')
+    if saveCellParams: netParams.saveCellParamsRule(label='PT5B_full', fileName='../cells/Na12HH16HH_TF_het.json')
 
 else:
     # load existing params
