@@ -11,7 +11,7 @@ search_space = {
           'IEweights.2': [0.5, 1.5],
           'IIweights.0': [0.5, 1.5],
           'IIweights.1': [0.5, 1.5],
-          'IIweights.2': [0.5, 1.5],
+          'IIweights.2': [0.5, 1.5]
           }
 
 param_space_samplers = [ 'float' for _ in search_space]
@@ -43,6 +43,8 @@ run_config = {
         'coresPerNode': 96,
         'mem': '128G',
         'email': 'molly.leitner@downstate.edu',
+    'partition': 'shared',
+    'custom': '',
         'command': f"""
         {CONFIG_EXPANSE_CPU}
         mpirun -n $SLURM_NTASKS nrniv -python -mpi init_batch.py
@@ -62,6 +64,6 @@ results = optuna_search(
     submit_kwargs=run_config,
     interval=10,
     project_path='/home/mleitner/M1_Channelopathies2025',
-    output_path=expand_path('../batchData/grid_batch/optuna', create_dirs=True)
+    output_path=expand_path('../batchData/optuna', create_dirs=True)
 )
 
