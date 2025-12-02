@@ -21,7 +21,7 @@ cfg = specs.SimConfig()
 # ------------------------------------------------------------------------------
 # Run parameters
 # ------------------------------------------------------------------------------
-cfg.duration = 1500
+cfg.duration = 5000
 cfg.dt = 0.025
 cfg.seeds = {'conn': 4321, 'stim': 1234, 'loc': 4321}
 cfg.hParams = {'celsius': 34, 'v_init': -80}
@@ -65,17 +65,8 @@ elif cfg.cellsrec == 4:
                       + [('PT5B', x) for x in [393, 447, 579, 19, 104, 214, 1138, 979, 799]]  # record selected cells
 
 cfg.recordTraces = {'V_soma': {'sec': 'soma', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}},
-                    'apic_0': {'sec': 'apic_0', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}},
-                    'apic_1': {'sec': 'apic_1', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}},
-                    'apic_2': {'sec': 'apic_2', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}},
-                    'apic_3': {'sec': 'apic_3', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}},
-                    'apic_4': {'sec': 'apic_4', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}},
-                    'apic_5': {'sec': 'apic_5', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}},
-                    'apic_6': {'sec': 'apic_6', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}},
-                    'apic_7': {'sec': 'apic_7', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}},
-                    'apic_8': {'sec': 'apic_8', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}},
-                    'apic_9': {'sec': 'apic_9', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}},
-                    'apic_10': {'sec': 'apic_10', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}}}
+                    'apic_0': {'sec': 'apic_0', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}}
+                    }
 
 cfg.recordStim = False
 cfg.recordTime = False
@@ -84,8 +75,8 @@ cfg.recordStep = 0.1
 # ------------------------------------------------------------------------------
 # Saving
 # ------------------------------------------------------------------------------
-cfg.simLabel = 'v56_mut'
-cfg.saveFolder = '../data/v56_mut4_4'
+cfg.simLabel = 'v56_Optuna6_74aee313'
+cfg.saveFolder = '../data/v56'
 cfg.savePickle = True
 cfg.saveJson = True
 cfg.saveDataInclude = ['simData', 'simConfig', 'netParams']  # , 'net']
@@ -122,7 +113,7 @@ cfg.cellmod = {'IT2': 'HH_reduced',
                'CT6': 'HH_reduced'}
 
 cfg.ihModel = 'migliore'  # ih model
-cfg.ihGbar = 1.0  # multiplicative factor for ih gbar in PT cells
+cfg.ihGbar = 0.5  # multiplicative factor for ih gbar in PT cells
 cfg.ihGbarZD = None  # multiplicative factor for ih gbar in PT cells
 cfg.ihGbarBasal = 1.0  # 0.1 # multiplicative factor for ih gbar in PT cells
 cfg.ihlkc = 0.2  # ih leak param (used in Migliore)
@@ -178,7 +169,7 @@ cfg.L5BrecurrentFactor = 1.0
 cfg.ITinterFactor = 1.0
 cfg.strengthFactor = 1.0
 
-cfg.EEGain = 0.65
+cfg.EEGain = 0.43734202192963034
 cfg.EIGain = 1.0
 cfg.IEGain = 1.0
 cfg.IIGain = 1.0
@@ -204,8 +195,9 @@ cfg.SOMSOMGain = None  # 0.75
 
 # ------------------------------------------------------------------------------
 ## I->E/I layer weights (L2/3+4, L5, L6)
-cfg.IEweights = [0.6, 0.8, 1.1]
-cfg.IIweights = [1.3, 0.7, 1.0]
+cfg.IEweights = [0.506615539937243, 0.5576623633179052, 0.6537269530717656]
+cfg.IIweights = [1.889224464203628, 1.5420282249188069, 1.7044107571688512]
+
 
 cfg.IPTGain = 1.0
 cfg.IFullGain = 1.0
@@ -223,11 +215,14 @@ cfg.numCellsLong = 1000  # num of cells per population
 cfg.noiseLong = 1.0  # firing rate random noise
 cfg.delayLong = 5.0  # (ms)
 factor = 1
-cfg.weightLong = {'TPO': 0.4, 'TVL': 0.4, 'S1': 0.4, 'S2': 0.4, 'cM1': 0.4, 'M2': 0.4, 'OC': 0.4}
+
+cfg.weightLong = {'TPO': 0.2119788367418165, 'TVL': 0.2602887716029382,
+                  'S1': 0.28963920902386153, 'S2': 0.271874800020103,
+                    'cM1': 0.29904265459520096, 'M2': 0.20426251316489072, 'OC': 0.2109305906957772}
 # {'TPO': 0.5*factor, 'TVL': 0.5*factor, 'S1': 0.5*factor, 'S2': 0.5*factor,
 # 'cM1': 0.5*factor, 'M2': 0.5*factor, 'OC': 0.5*factor}  # corresponds to unitary connection somatic EPSP (mV)
 cfg.startLong = 0  # start at 0 ms
-cfg.ratesLong = {'TPO': [0, 5], 'TVL': [0, 2.5], 'S1': [0, 5], 'S2': [0, 5], 'cM1': [0, 2.5], 'M2': [0, 2.5],
+cfg.ratesLong = {'TPO': [0, 2.5], 'TVL': [0, 2.5], 'S1': [0, 2.5], 'S2': [0, 2.5], 'cM1': [0, 2.5], 'M2': [0, 2.5],
                  'OC': [0, 5]}
 
 ## input pulses
@@ -255,7 +250,7 @@ cfg.NetStim1 = {'pop': 'IT5B', 'sec': 'soma', 'loc': 0.5, 'synMech': ['AMPA', 'N
 # ------------------------------------------------------------------------------
 # Load mutant params from csv
 # ------------------------------------------------------------------------------
-cfg.dendNa = 1.0
+cfg.dendNa = 0.5
 cfg.loadmutantParams = False
 cfg.variant = 'WT'  # L1666F, E1211K, D195G, R853Q, K1422E, M1879T, WT
 
