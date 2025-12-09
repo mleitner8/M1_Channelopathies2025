@@ -21,7 +21,7 @@ cfg = specs.SimConfig()
 # ------------------------------------------------------------------------------
 # Run parameters
 # ------------------------------------------------------------------------------
-cfg.duration = 5000
+cfg.duration = 10
 cfg.dt = 0.025
 cfg.seeds = {'conn': 4321, 'stim': 1234, 'loc': 4321}
 cfg.hParams = {'celsius': 34, 'v_init': -80}
@@ -49,20 +49,8 @@ cfg.intervalFolder = 'interval_saving'
 # ------------------------------------------------------------------------------
 allpops = ['IT2', 'PV2', 'SOM2', 'IT4', 'IT5A', 'PV5A', 'SOM5A', 'IT5B', 'PT5B', 'PV5B', 'SOM5B', 'IT6', 'CT6', 'PV6',
            'SOM6']
-
-cfg.cellsrec = 4
-if cfg.cellsrec == 0:
-    cfg.recordCells = ['all']  # record all cells
-elif cfg.cellsrec == 1:
-    cfg.recordCells = [(pop, s) for pop in allpops for s in [0, 10, 20, 30, 40]]  # record one cell of each pop
-elif cfg.cellsrec == 2:
-    cfg.recordCells = [('IT2', 10), ('IT5A', 10), ('PT5B', 10), ('PV5B', 10), ('SOM5B', 10)]  # record selected cells
-elif cfg.cellsrec == 3:
-    cfg.recordCells = [(pop, 50) for pop in ['IT5A', 'PT5B']] + [('PT5B', x) for x in [393, 579, 19,
-                                                                                       104]]  # ,214,1138,799]] # record selected cells # record selected cells
-elif cfg.cellsrec == 4:
-    cfg.recordCells = [(pop, 50) for pop in 'PT5B'] \
-                      + [('PT5B', x) for x in [393, 447, 579, 19, 104, 214, 1138, 979, 799]]  # record selected cells
+# https://github.com/jchen6727/M1_Channelopathies2025/commit/d150ae3e46a58cba380e9eb61ae602be9bf738b1#diff-ebf0d34e44de2ce8476191299f8f5bfb59cbd72048189f2e890885ee2dd8709b
+# problematic use of config.
 
 cfg.recordTraces = {'V_soma': {'sec': 'soma', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}},
                     'apic_0': {'sec': 'apic_0', 'loc': 0.5, 'var': 'v', 'conds': {'pop': 'PT5B'}}
@@ -75,8 +63,8 @@ cfg.recordStep = 0.1
 # ------------------------------------------------------------------------------
 # Saving
 # ------------------------------------------------------------------------------
-cfg.simLabel = 'v56_Optuna6_74aee313'
-cfg.saveFolder = '../data/v56'
+cfg.simLabel = 'mre_sim'
+cfg.saveFolder = '../data'
 cfg.savePickle = True
 cfg.saveJson = True
 cfg.saveDataInclude = ['simData', 'simConfig', 'netParams']  # , 'net']
@@ -263,3 +251,4 @@ cfg.sodiumMechs = ['na12', 'na12mut', 'Nafx', 'nax', 'na16mut', 'Nafcr', 'ch_Nav
 cfg.LVACaMechs = ['Ca_LVAst', 'cat', 'catt', 'catcb']
 cfg.variables = ['gbar', 'gnafbar', 'gmax']  # Name of the variable/s to modify
 cfg.drugEffect = 0.5  # Multiplicative factor
+
