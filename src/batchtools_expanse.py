@@ -37,7 +37,7 @@ conda activate M1c
 """
 
 run_config = {
-        'allocation': 'TG-MED240058',
+        'allocation': '',
         'realtime': '10:30:00',
         'nodes': 1,
         'coresPerNode': 96,
