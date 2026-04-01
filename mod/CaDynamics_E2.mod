@@ -18,7 +18,7 @@ UNITS	{
 
 PARAMETER	{
 	gamma = 0.05 : percent of free calcium (not buffered)
-	decay = 80 (ms) : rate of removal of calcium
+	decay = 80 (ms) : rate of removal of calcium (smaller= faster removal)
 	depth = 0.1 (um) : depth of shell
 	minCai = 1e-4 (mM)
 }
